@@ -3,10 +3,10 @@
 //
 
 #include <sst/core/sst_config.h>
-#include "basicComponent.h"
+#include "eventConverter.h"
 
 using namespace SST;
-using namespace SST::basicComponent;
+using namespace SST::eventConverter;
 
 // basicClock constructor
 // - Read the parameters
