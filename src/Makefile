@@ -13,24 +13,24 @@ LDFLAGS=$(shell sst-config --ELEMENT_LDFLAGS)
 CPPFLAGS=-I./
 OPTIMIZE_FLAGS=-O2
 
-COMPONENT_LIB=libbasicComponent.so
+COMPONENT_LIB=libeventConverter.so
 
-BASICCOMPONENT_SOURCES := $(wildcard *.cc)
+EVENTCONVERTER_SOURCES := $(wildcard *.cc)
 
-BASICCOMPONENT_HEADERS := $(wildcard *.h)
+EVENTCONVERTER_HEADERS := $(wildcard *.h)
 
-BASICCOMPONENT_OBJS := $(patsubst %.cc,%.o,$(wildcard *.cc))
+EVENTCONVERTER_OBJS := $(patsubst %.cc,%.o,$(wildcard *.cc))
 
 all: $(COMPONENT_LIB)
 
 debug: CXXFLAGS += -DDEBUG -g
 debug: $(COMPONENT_LIB)
 
-$(COMPONENT_LIB): $(BASICCOMPONENT_OBJS)
+$(COMPONENT_LIB): $(EVENTCONVERTER_OBJS)
 	$(CXX) $(OPTIMIZE_FLAGS) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o $@ *.o
 %.o:%.cc $(SIMPLEEXAMPLE_HEADERS)
 	$(CXX) $(OPTIMIZE_FLAGS) $(CXXFLAGS) $(CPPFLAGS) -c $<
 install: $(COMPONENT_LIB)
-	sst-register basicComponent basicComponent_LIBDIR=$(CURDIR)
+	sst-register eventConverter eventConverter_LIBDIR=$(CURDIR)
 clean:
 	rm -Rf *.o $(COMPONENT_LIB)

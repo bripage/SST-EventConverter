@@ -1,64 +1,76 @@
 //
-// _basicComponent_h_
+// _eventConverter_h_
 //
 
 #ifndef _EVENT_CONVERTER_H_
 #define _EVENT_CONVERTER_H_
 
+#include <sst/core/sst_config.h>
 #include <sst/core/component.h>
+#include <sst/core/subcomponent.h>
+#include <sst/core/event.h>
+#include <sst/dbg/SSTDebug.h>
 
 namespace SST {
-    namespace eventConverter {
+    namespace BasicEventConverter {
+
+        class baseSubComponent : public SST::SubComponent {
+        public:
+            SST_ELI_REGISTER_SUBCOMPONENT_API(SST::BasicEventConverter::baseSubComponent)
+
+            baseSubComponent(SST::ComponentID_t id, SST::Params& params)
+                    : SubComponent(id) { }
+
+            virtual ~baseSubComponent() { }
+
+            virtual void send(SST::Event) = 0;
+        };
 
         class eventConverter : public SST::Component {
-        public:
-            // Register the component with the SST element library
-            SST_ELI_REGISTER_COMPONENT(
-                    eventConverter, // Component class
-                    "eventConverter", // Component library
-                    "eventConverter", // Component name
-                    SST_ELI_ELEMENT_VERSION(1,0,0), // Version of the component
-                    "eventConverter: Converts different one event type to another based on the subcomponents in use", // Description of the component
-                    COMPONENT_CATEGORY_UNCATEGORIZED // Component category
-            )
+            public:
+                // Register the component with the SST element library
+                SST_ELI_REGISTER_COMPONENT(
+                        eventConverter, // Component class
+                        "BasicEventConverter", // Component library
+                        "eventConverter", // Component name
+                        SST_ELI_ELEMENT_VERSION(1,0,0), // Version of the component
+                        "eventConverter: Converts different one event type to another based on subcomponents in use", // Description of the component
+                        COMPONENT_CATEGORY_UNCATEGORIZED // Component category
+                )
 
-            // Create a new SST output object
-            out = new Output("", 1, 0, Output::STDOUT);
+                SST_ELI_DOCUMENT_PARAMS()
+                SST_ELI_DOCUMENT_PORTS()
+                SST_ELI_DOCUMENT_STATISTICS()
 
-            // Document the parameters that this component accepts
-            // { "parameter_name", "description", "default value or NULL if required" }
-            SST_ELI_DOCUMENT_PARAMS( )
-            // [Optional] Document the ports: we do not define any
-            SST_ELI_DOCUMENT_PORTS()
-            // [Optional] Document the statisitcs: we do not define any
-            SST_ELI_DOCUMENT_STATISTICS()
-            // [Optional] Document the subcomponents: we do not define any
-            SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS(
-                    {"memory", "Handles memory event traffic", "SST::eventConverter::memConv"},
-                    {"router", "Handles router event traffic", "SST::eventConverter::rtrConv"}
-            )
-          // Class members
+                SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS(
+                        {"memory", "Handles memory event traffic",
+                         "SST::eventConverter::memToRtr"},
+                        {"router", "Handles router event traffic",
+                         "SST::eventConverter::rtrToMem"}
+                )
+                // Class members
 
-          // Constructor: Components receive a unique ID and the set of parameters
-          //              that were assigned in the simulation configuration script
-          eventConverter(SST::ComponentId_t id, SST::Params& params);
+                // Constructor: Components receive a unique ID and the set of parameters
+                //              that were assigned in the simulation configuration script
+                eventConverter(SST::ComponentId_t id, SST::Params& params);
 
-          // Destructor
-          ~eventConverter();
+                // Destructor
+                ~eventConverter();
 
-        private:
+            private:
+                // Params
+                SST::Output* out;       // SST Output object for printing, messaging, etc
 
-          // Clock handler
-          bool clock(SST::Cycle_t cycle);
+                // Subcomponents
+                baseSubComponent *memory; // baseSubComponent
+                baseSubComponent *router; // baseSubComponent
 
-          // Params
-          SST::Output* out;       // SST Output object for printing, messaging, etc
-          std::string clockFreq;  // Clock frequency
-          Cycle_t cycleCount;     // Cycle counter
-          Cycle_t printInterval;  // Interval at which to print to the console
-
-        };  // class basicClocks
-    }   // namespace basicComponent
+            // Debug
+            #ifdef ENABLE_SSTDBG
+                SSTDebug *Dbg;
+            #endif
+        };  // class eventConverter
+    }   // namespace BasicEventConverter
 }   // namespace SST
 
 #endif
