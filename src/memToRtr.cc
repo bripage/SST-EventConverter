@@ -26,7 +26,7 @@ memToRtr::~memToRtr(){
 }
 
 // receive memory event from router side
-void memToRtr::send(SST::Event* ev, SST::Interfaces::SimpleNetwork::Request* netReq){
+virtual void send(SST::Interfaces::SimpleNetwork::Request* req, SST::Event*){
     SST::memHierarchy::MemEventBase* mev = dynamic_cast<SST::memHierarchy::MemEventBase*>(ev);
     iFace->send(mev);
     delete ev;
