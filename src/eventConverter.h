@@ -25,15 +25,15 @@ namespace SST {
             virtual void send(SST::Event) = 0;
         };
 
-        class eventConverter : public SST::Component {
+        class memRtrConverter : public SST::Component {
             public:
                 // Register the component with the SST element library
                 SST_ELI_REGISTER_COMPONENT(
-                        eventConverter, // Component class
+                        memRtrConverter, // Component class
                         "eventConverter", // Component library
-                        "eventConverter", // Component name
+                        "memRtrConverter", // Component name
                         SST_ELI_ELEMENT_VERSION(1,0,0), // Version of the component
-                        "eventConverter: Converts different one event type to another based on subcomponents in use", // Description of the component
+                        "memRtrConverter: Converts different one event type to another based on subcomponents in use", // Description of the component
                         COMPONENT_CATEGORY_UNCATEGORIZED // Component category
                 )
 
@@ -51,10 +51,10 @@ namespace SST {
 
                 // Constructor: Components receive a unique ID and the set of parameters
                 //              that were assigned in the simulation configuration script
-                eventConverter(SST::ComponentId_t id, SST::Params& params);
+                memRtrConverter(SST::ComponentId_t id, SST::Params& params);
 
                 // Destructor
-                ~eventConverter();
+                ~memRtrConverter();
 
             private:
                 // Params

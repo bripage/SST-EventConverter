@@ -21,7 +21,7 @@ class rtrToMem : public baseSubComponent {
             "router",
             SST_ELI_ELEMENT_VERSION(1,0,0),
             "router : simple message handler subcomponent",
-            SST::BasicEventConverter::baseSubComponent
+            SST::eventConverter::baseSubComponent
         )
 
         SST_ELI_DOCUMENT_PARAMS()
