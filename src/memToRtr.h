@@ -8,8 +8,8 @@
 #include "eventConverter.h"
 #include <sst/core/event.h>
 #include <sst/core/link.h>
-#include "/scratch/shared/sst/13.0.0/elements/include/sst/elements/memHierarchy/memEvent.h"
-#include "/scratch/shared/sst/13.0.0/elements/include/sst/elements/memHierarchy/memEventBase.h"
+#include "/scratch/shared/apps/sst/13.0.0/elements/include/sst/elements/memHierarchy/memEvent.h"
+#include "/scratch/shared/apps/sst/13.0.0/elements/include/sst/elements/memHierarchy/memEventBase.h"
 
 
 using namespace SST;
