@@ -8,7 +8,7 @@
 #include "eventConverter.h"
 #include <sst/core/event.h>
 #include <sst/core/link.h>
-#include <merlin/router.h>
+#include "/scratch/shared/sst/13.0.0/elements/include/sst/elements/merlin/router.h"
 
 using namespace SST;
 using namespace SST::eventConverter;
