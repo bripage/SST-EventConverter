@@ -17,7 +17,7 @@ namespace SST {
         public:
             SST_ELI_REGISTER_SUBCOMPONENT_API(SST::eventConverter::baseSubComponent)
 
-            baseSubComponent(SST::ComponentID_t id, SST::Params& params)
+            baseSubComponent(SST::ComponentId_t id, SST::Params& params)
                     : SubComponent(id) { }
 
             virtual ~baseSubComponent() { }
