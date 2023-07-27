@@ -37,7 +37,7 @@ memToRtr::~memToRtr(){
 // receive memory event from router side
 void memToRtr::send(SST::Event* ev){
     SST::memHierarchy::MemEventBase* mev = dynamic_cast<SST::memHierarchy::MemEventBase*>(ev);
-    linkhandler->send(mev);
+    linkHandler->send(mev);
     delete ev;
     delete mev;
 }

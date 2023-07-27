@@ -30,7 +30,7 @@ void rtrToMem::send(std::string& src, std::string& dest, size_t size_in_bits, SS
     SST::Interfaces::SimpleNetwork::Request req = SST::Interfaces::SimpleNetwork::Request(dest, src, size_in_bits, 0, 0, ev);
     SST::Merlin::RtrEvent* rev = SST::Merlin::RtrEvent(req, src, 0);
 
-    linkhandler->send(rev);
+    linkHandler->send(rev);
 
     delete ev;
     delete rev;

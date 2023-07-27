@@ -16,11 +16,11 @@ using namespace SST::eventConverter;
 class rtrToMem : public baseSubComponent {
     public:
         SST_ELI_REGISTER_SUBCOMPONENT(
-                router,
+            rtrToMem,
             "eventConverter",
-            "router",
+            "rtrToMem",
             SST_ELI_ELEMENT_VERSION(1,0,0),
-            "router : simple message handler subcomponent",
+            "rtrToMem : simple message handler subcomponent",
             SST::eventConverter::baseSubComponent
         )
 

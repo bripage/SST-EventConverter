@@ -18,11 +18,11 @@ using namespace SST::eventConverter;
 class memToRtr : public baseSubComponent {
     public:
         SST_ELI_REGISTER_SUBCOMPONENT(
-                memory,
+            memToRtr,
             "eventConverter",
-            "memory",
+            "memToRtr",
             SST_ELI_ELEMENT_VERSION(1,0,0),
-            "memory : simple message handler subcomponent",
+            "memToRtr : simple message handler subcomponent",
             SST::eventConverter::baseSubComponent
         )
 
