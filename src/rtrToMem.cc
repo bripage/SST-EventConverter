@@ -17,7 +17,7 @@ rtrToMem::rtrToMem(ComponentId_t id, Params& params)
     out = new Output("", 1, 0, Output::STDOUT);
 
     // Configure the links
-    linkHandler = configureLink("memPort", new Event::Handler<memToRtr>(this, &SST::Merlin::RtrEvent));
+    linkHandler = configureLink("rtrPort", new Event::Handler<rtrToMem>(this, &SST::Merlin::RtrEvent));
 }
 
 // memToRtr destructor
