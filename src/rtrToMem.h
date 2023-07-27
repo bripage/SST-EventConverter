@@ -2,8 +2,8 @@
 // Created by tokth on 7/11/23.
 //
 
-#ifndef EVENTCONVERTER_MEMCONV_H
-#define EVENTCONVERTER_MEMCONV_H
+#ifndef EVENTCONVERTER_RTRCONV_H
+#define EVENTCONVERTER_RTRCONV_H
 
 #include "eventConverter.h"
 #include <sst/core/event.h>
@@ -17,7 +17,7 @@ class rtrToMem : public baseSubComponent {
     public:
         SST_ELI_REGISTER_SUBCOMPONENT(
                 router,
-            "eventConverter”,
+            "eventConverter",
             "router",
             SST_ELI_ELEMENT_VERSION(1,0,0),
             "router : simple message handler subcomponent",
@@ -30,7 +30,7 @@ class rtrToMem : public baseSubComponent {
             {"rtrPort", "Link to another component which uses SST::Interfaces::SimpleNetwork.", {"merlin.RtrEvent"} }
         )
 
-        memConv(ComponentId_t id, Params& params);
+        rtrToMem(ComponentId_t id, Params& params);
         virtual ~rtrToMem();
         virtual void send(std::string& src, std::string& dest, size_t size_in_bits, SST::Event* ev);
 

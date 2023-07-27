@@ -18,7 +18,7 @@ class memToRtr : public baseSubComponent {
     public:
         SST_ELI_REGISTER_SUBCOMPONENT(
                 memory,
-            "eventConverter”,
+            "eventConverter",
             "memory",
             SST_ELI_ELEMENT_VERSION(1,0,0),
             "memory : simple message handler subcomponent",
@@ -30,7 +30,7 @@ class memToRtr : public baseSubComponent {
         SST_ELI_DOCUMENT_PORTS(
             {"memPort", "Link to another component which uses SST::StdMem.", {"memHierarchy.MemEventBase"} }
         )
-        memConv(ComponentId_t id, Params& params);
+    memToRtr(ComponentId_t id, Params& params);
         virtual ~memToRtr();
         virtual void send(SST::Event);
 
