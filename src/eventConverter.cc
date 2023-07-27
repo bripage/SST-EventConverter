@@ -15,6 +15,9 @@ memRtrConverter::memRtrConverter(ComponentId_t id, SST::Params& params)
     // Load the subcomponent
     memSubComp = loadUserSubComponent<baseSubComponent>("memory");
     rtrSubComp = loadUserSubComponent<baseSubComponent>("router");
+
+    memSubComp->setAdjacentSubComp(rtrSubComp);
+    rtrSubComp->setAdjacentSubComp(memSubComp);
 }
 
 memRtrConverter::~memRtrConverter(){

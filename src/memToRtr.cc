@@ -44,7 +44,7 @@ bool memToRtr::handleEvent(int vn){
         SST::Interfaces::SimpleNetwork::nid_t dest = mev->getDest();
         size_t size_in_bits = mev->getEventSize();
 
-        rtrSubComp->send(src, dest, size_in_bits, mev, memReq); // use memSubComponent's send method to hand off the memory event
+        adjacentSubComp->send(src, dest, size_in_bits, mev, memReq); // use memSubComponent's send method to hand off the memory event
     }
     return true;
 }

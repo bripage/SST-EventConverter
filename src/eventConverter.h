@@ -21,8 +21,10 @@ namespace SST {
                     : SubComponent(id) { }
 
             virtual ~baseSubComponent() { }
-
             virtual void send(SST::Event) = 0;
+            void setAdjacentSubComp(baseSubComponent* comp){adjacentSubComp = comp;}
+
+            baseSubComponent* adjacentSubComp;
         };
 
         class memRtrConverter : public SST::Component {
