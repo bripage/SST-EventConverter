@@ -24,8 +24,5 @@ eventConverter::eventConverter(ComponentId_t id, SST::Params& params)
 
 eventConverter::~eventConverter(){
     delete out;
-    #ifdef ENABLE_SSTDBG
-        delete Dbg;
-    #endif
 }
 

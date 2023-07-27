@@ -9,7 +9,6 @@
 #include <sst/core/component.h>
 #include <sst/core/subcomponent.h>
 #include <sst/core/event.h>
-#include <sst/dbg/SSTDebug.h>
 
 namespace SST {
     namespace eventConverter {
@@ -65,10 +64,6 @@ namespace SST {
                 baseSubComponent *memSubComp; // baseSubComponent
                 baseSubComponent *rtrSubComp; // baseSubComponent
 
-            // Debug
-            #ifdef ENABLE_SSTDBG
-                SSTDebug *Dbg;
-            #endif
         };  // class eventConverter
     }   // namespace BasicEventConverter
 }   // namespace SST
