@@ -18,7 +18,7 @@ class memToRtr : public baseSubComponent {
     public:
         SST_ELI_REGISTER_SUBCOMPONENT(
                 memory,
-            "BasicEventConverter”,
+            "eventConverter”,
             "memory",
             SST_ELI_ELEMENT_VERSION(1,0,0),
             "memory : simple message handler subcomponent",

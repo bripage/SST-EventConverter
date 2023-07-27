@@ -15,7 +15,7 @@ namespace SST {
 
         class baseSubComponent : public SST::SubComponent {
         public:
-            SST_ELI_REGISTER_SUBCOMPONENT_API(SST::BasicEventConverter::baseSubComponent)
+            SST_ELI_REGISTER_SUBCOMPONENT_API(SST::eventConverter::baseSubComponent)
 
             baseSubComponent(SST::ComponentID_t id, SST::Params& params)
                     : SubComponent(id) { }
@@ -30,7 +30,7 @@ namespace SST {
                 // Register the component with the SST element library
                 SST_ELI_REGISTER_COMPONENT(
                         eventConverter, // Component class
-                        "BasicEventConverter", // Component library
+                        "eventConverter", // Component library
                         "eventConverter", // Component name
                         SST_ELI_ELEMENT_VERSION(1,0,0), // Version of the component
                         "eventConverter: Converts different one event type to another based on subcomponents in use", // Description of the component

@@ -17,7 +17,7 @@ class rtrToMem : public baseSubComponent {
     public:
         SST_ELI_REGISTER_SUBCOMPONENT(
                 router,
-            "BasicEventConverter”,
+            "eventConverter”,
             "router",
             SST_ELI_ELEMENT_VERSION(1,0,0),
             "router : simple message handler subcomponent",
