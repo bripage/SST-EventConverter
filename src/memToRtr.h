@@ -8,8 +8,8 @@
 #include "eventConverter.h"
 #include <sst/core/event.h>
 #include <sst/core/link.h>
-#include <sst/elements/memHierarchy/memEvent.h>
-#include <sst/elements/memHierarchy/memEventBase.h>
+#include <memHierarchy/memEvent.h>
+#include <memHierarchy/memEventBase.h>
 
 using namespace SST;
 using namespace SST::eventConverter;
