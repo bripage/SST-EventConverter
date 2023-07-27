@@ -29,33 +29,26 @@ rtrToMem::~rtrToMem(){
     delete out;
 }
 
-// receive memory event data to make a RtrEvent from the memory side
-void rtrToMem::send(std::string& src, std::string& dest, size_t size_in_bits, SST::Event* ev){
+// receive memory event data to make a RtrEvent
+void rtrToMem::send(std::string& dest, nid_t size_in_bits, SST::Event* ev){
     SST::Interfaces::SimpleNetwork::Request req = SST::Interfaces::SimpleNetwork::Request(dest, src, size_in_bits, 0, 0, ev);
     SST::Merlin::RtrEvent* rev = SST::Merlin::RtrEvent(req, src, 0);
 
-    linkHandler->send(rev);
+    iFace->send(rev);
 
     delete ev;
     delete rev;
 }
 
 // memToRtr event handler
-void rtrToMem::handleEvent(SST::Event *ev){
-    SST::Merlin::RtrEvent* rev = dynamic_cast<SST::Merlin::RtrEvent*>(ev);
-    delete ev;
-
-    if( rev ){
-        SST::Interfaces::SimpleNetwork::Request* req = rev->takeRequest();
+bool rtrToMem::handleEvent(){
+    SST::Interfaces::SimpleNetwork::Request* req = iFace->recv(0);
+    if( req != nullptr ){
         SST::Event* mev = dynamic_cast<SST::Event*>(req->takePayload());
-
-        memSubComp->send(mev);
-
-        delete rev;
-        delete mev;
-    }else{
-        out->fatal(CALL_INFO, -1, "Error: Bad event type received!\n" );
+        memSubComp->send(mev); // use memSubComponent's send method to hand off the memory event
+        delete req;
     }
+    return true;
 }
 
 

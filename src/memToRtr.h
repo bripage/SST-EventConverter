@@ -39,13 +39,12 @@ class memToRtr : public baseSubComponent {
 
         memToRtr(ComponentId_t id, Params& params);
         virtual ~memToRtr();
-        virtual void send(SST::Event);
+        virtual void send(SST::Event*);
+        bool handleEvent();
 
     private:
         // Params
         SST::Output* out;           // SST Output object for printing, messaging, etc
-        SST::Link *linkHandler;     // Link handler object
-        SST::Interfaces::SimpleNetwork * iFace; // SST network interface
-
+        SST::Interfaces::StandardMem * iFace; // SST network interface
 };
 

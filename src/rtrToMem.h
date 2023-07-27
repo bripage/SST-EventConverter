@@ -38,11 +38,11 @@ class rtrToMem : public baseSubComponent {
         rtrToMem(ComponentId_t id, Params& params);
         virtual ~rtrToMem();
         virtual void send(std::string& src, std::string& dest, size_t size_in_bits, SST::Event* ev);
+        bool handleEvent();
 
     private:
         // Params
         SST::Output* out;           // SST Output object for printing, messaging, etc
-        SST::Link *linkHandler;     // Link handler object
         SST::Interfaces::SimpleNetwork * iFace; // SST network interface
 };
 
