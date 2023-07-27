@@ -35,7 +35,7 @@ void memToRtr::send(SST::Event* ev, SST::Interfaces::SimpleNetwork::Request* net
 }
 
 // memToRtr event handler
-bool memToRtr::handleEvent(){
+bool memToRtr::handleEvent(int vn){
     SST::Interfaces::StandardMem::Request* memReq = iFace->recv(0);
     if( memReq != nullptr ){
         SST::memHierarchy::MemEventBase* mev = dynamic_cast<SST::memHierarchy::MemEventBase*>(memReq->takePayload());

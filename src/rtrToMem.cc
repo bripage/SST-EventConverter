@@ -26,9 +26,9 @@ rtrToMem::~rtrToMem(){
 
 // receive memory event data to make a RtrEvent
 void rtrToMem::send(SST::Interfaces::SimpleNetwork::nid_t src, SST::Interfaces::SimpleNetwork::nid_t dest, size_t size_in_bits, SST::Event* mev, SST::Interfaces::StandardMem::Request* memReq){
-    SST::Interfaces::SimpleNetwork::Request netReq = SST::Interfaces::SimpleNetwork::Request(dest, src, size_in_bits, 0, 0, mev);
+    SST::Interfaces::SimpleNetwork::Request* netReq = SST::Interfaces::SimpleNetwork::Request(dest, src, size_in_bits, 0, 0, mev);
 
-    iFace->send(netReq);
+    iFace->send(netReq, 0);
 
     delete netReq;
     delete memReq;
@@ -36,7 +36,7 @@ void rtrToMem::send(SST::Interfaces::SimpleNetwork::nid_t src, SST::Interfaces::
 }
 
 // memToRtr event handler
-bool rtrToMem::handleEvent(){
+bool rtrToMem::handleEvent(int vn){
     SST::Interfaces::SimpleNetwork::Request* netReq = iFace->recv(0);
     if( netReq != nullptr ){
         SST::Event* mev = dynamic_cast<SST::Event*>(netReq->takePayload());
