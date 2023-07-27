@@ -13,13 +13,8 @@ using namespace SST::eventConverter;
 rtrToMem::rtrToMem(ComponentId_t id, Params& params)
   : baseSubComponent(id, params) {
 
-    // Create a new SST output object
     out = new Output("", 1, 0, Output::STDOUT);
 
-    // Configure the links
-    //linkHandler = configureLink("rtrPort", new Event::Handler<rtrToMem>(this, &SST::Merlin::RtrEvent));
-
-    // load the SimpleNetwork interfaces
     iFace = loadUserSubComponent<SST::Interfaces::SimpleNetwork>("iface", ComponentInfo::SHARE_NONE, 1);
     iFace->setNotifyOnReceive(new SST::Interfaces::SimpleNetwork::Handler<rtrToMem>(this, &rtrToMem::handleEvent));
 }
@@ -30,23 +25,22 @@ rtrToMem::~rtrToMem(){
 }
 
 // receive memory event data to make a RtrEvent
-void rtrToMem::send(nid_t dest, size_t size_in_bits, SST::Event* ev){
-    SST::Interfaces::SimpleNetwork::Request req = SST::Interfaces::SimpleNetwork::Request(dest, src, size_in_bits, 0, 0, ev);
-    SST::Merlin::RtrEvent* rev = SST::Merlin::RtrEvent(req, src, 0);
+void rtrToMem::send(nid_t src, nid_t dest, size_t size_in_bits, SST::Event* mev, SST::Interfaces::StandardMem::Request* memReq){
+    SST::Interfaces::SimpleNetwork::Request* netReq = SST::Interfaces::SimpleNetwork::Request(dest, src, size_in_bits, 0, 0, mev);
 
-    iFace->send(rev);
+    iFace->send(netReq);
 
-    delete ev;
-    delete rev;
+    delete netReq;
+    delete memReq;
+    delete mev;
 }
 
 // memToRtr event handler
 bool rtrToMem::handleEvent(){
-    SST::Interfaces::SimpleNetwork::Request* req = iFace->recv(0);
-    if( req != nullptr ){
-        SST::Event* mev = dynamic_cast<SST::Event*>(req->takePayload());
-        memSubComp->send(mev); // use memSubComponent's send method to hand off the memory event
-        delete req;
+    SST::Interfaces::SimpleNetwork::Request* netReq = iFace->recv(0);
+    if( netReq != nullptr ){
+        SST::Event* mev = dynamic_cast<SST::Event*>(netReq->takePayload());
+        memSubComp->send(netReq, mev); // use memSubComponent's send method to hand off the memory event
     }
     return true;
 }

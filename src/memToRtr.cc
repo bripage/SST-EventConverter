@@ -14,10 +14,8 @@ using namespace SST::eventConverter;
 memToRtr::memToRtr(ComponentId_t id, Params& params)
   : baseSubComponent(id, params) {
 
-    // Create a new SST output object
     out = new Output("", 1, 0, Output::STDOUT);
 
-    // load the SimpleNetwork interfaces
     iFace = loadUserSubComponent<SST::Interfaces::StandardMem>("iface", ComponentInfo::SHARE_NONE, 1);
     iFace->setNotifyOnReceive(new SST::Interfaces::StandardMem::Handler<memToRtr>(this, &memToRtr::handleEvent));
 }
@@ -28,24 +26,25 @@ memToRtr::~memToRtr(){
 }
 
 // receive memory event from router side
-void memToRtr::send(SST::Event* ev){
+void memToRtr::send(SST::Event* ev, SST::Interfaces::SimpleNetwork::Request* netReq){
     SST::memHierarchy::MemEventBase* mev = dynamic_cast<SST::memHierarchy::MemEventBase*>(ev);
     iFace->send(mev);
     delete ev;
     delete mev;
+    delete netReq;
 }
 
 // memToRtr event handler
 bool memToRtr::handleEvent(){
-    SST::Interfaces::SimpleNetwork::Request* req = iFace->recv(0);
-    if( req != nullptr ){
-        SST::memHierarchy::MemEventBase* mev = dynamic_cast<SST::memHierarchy::MemEventBase*>(req->takePayload());
+    SST::Interfaces::StandardMem::Request* memReq = iFace->recv(0);
+    if( memReq != nullptr ){
+        SST::memHierarchy::MemEventBase* mev = dynamic_cast<SST::memHierarchy::MemEventBase*>(memReq->takePayload());
 
+        nid_t src = memReq->src = iFace->getEndpointID();
         nid_t dest = mev->getDest();
         size_t size_in_bits = mev->getEventSize();
 
-        rtrSubComp->send(dest, size_in_bits, mev); // use memSubComponent's send method to hand off the memory event
-        delete req;
+        rtrSubComp->send(src, dest, size_in_bits, mev, memReq); // use memSubComponent's send method to hand off the memory event
     }
     return true;
 }
