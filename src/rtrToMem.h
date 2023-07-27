@@ -2,8 +2,8 @@
 // Created by tokth on 7/11/23.
 //
 
-#ifndef EVENTCONVERTER_RTRCONV_H
-#define EVENTCONVERTER_RTRCONV_H
+#ifndef _RTREVENT_CONVERTER_H_
+#define _RTREVENT_CONVERTER_H_
 
 #include "eventConverter.h"
 #include <sst/core/event.h>

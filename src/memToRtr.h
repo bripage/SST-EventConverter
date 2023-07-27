@@ -2,8 +2,8 @@
 // Created by tokth on 7/11/23.
 //
 
-#ifndef EVENTCONVERTER_MEMCONV_H
-#define EVENTCONVERTER_MEMCONV_H
+#ifndef _MEMEVENT_CONVERTER_H_
+#define _MEMEVENT_CONVERTER_H_
 
 #include "eventConverter.h"
 #include <sst/core/event.h>
@@ -11,7 +11,6 @@
 #include <sst/core/interfaces/stdMem.h>
 #include "/scratch/shared/apps/sst/13.0.0/elements/include/sst/elements/memHierarchy/memEvent.h"
 #include "/scratch/shared/apps/sst/13.0.0/elements/include/sst/elements/memHierarchy/memEventBase.h"
-
 
 using namespace SST;
 using namespace SST::eventConverter;
