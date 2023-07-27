@@ -47,3 +47,4 @@ class rtrToMem : public baseSubComponent {
         SST::Interfaces::SimpleNetwork * iFace; // SST network interface
 };
 
+#endif
