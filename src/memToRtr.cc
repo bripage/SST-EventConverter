@@ -5,11 +5,10 @@
 #include <sst/core/sst_config.h>
 #include <sst/core/subcomponent.h>
 #include <sst/core/event.h>
-#include "eventConverter.h"
 #include "memToRtr.h"
 
 using namespace SST;
-using namespace SST::BasicEventConverter;
+using namespace SST::eventConverter;
 
 memToRtr::memToRtr(ComponentId_t id, Params& params)
   : baseSubComponent(id, params) {
@@ -53,7 +52,7 @@ void memToRtr::handleEvent(SST::Event *ev){
         std::string& dest = mev->getDest();
         size_t size_in_bits = mev->getEventSize();
 
-        rtrToMem->send(src, dest, size_in_bits, mev);
+        rtrSubComp->send(src, dest, size_in_bits, mev);
         delete mev;
     } else {
         out->fatal(CALL_INFO, -1, "Error: Bad event type received!\n" );

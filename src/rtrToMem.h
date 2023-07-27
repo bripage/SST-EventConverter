@@ -10,11 +10,8 @@
 #include <sst/core/link.h>
 #include <sst/elements/merlin/router.h>
 
-#include <vector>
-#include <queue>
-
 using namespace SST;
-using namespace SST::BasicEventConverter;
+using namespace SST::eventConverter;
 
 class rtrToMem : public baseSubComponent {
     public:

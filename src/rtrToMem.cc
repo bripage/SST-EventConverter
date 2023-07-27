@@ -5,11 +5,10 @@
 #include <sst/core/sst_config.h>
 #include <sst/core/subcomponent.h>
 #include <sst/core/event.h>
-#include "eventConverter.h"
 #include "rtrToMem.h"
 
 using namespace SST;
-using namespace SST::BasicEventConverter;
+using namespace SST::eventConverter;
 
 rtrToMem::rtrToMem(ComponentId_t id, Params& params)
   : baseSubComponent(id, params) {
@@ -46,7 +45,7 @@ void rtrToMem::handleEvent(SST::Event *ev){
         SST::Interfaces::SimpleNetwork::Request* req = rev->takeRequest();
         SST::Event* mev = dynamic_cast<SST::Event*>(req->takePayload());
 
-        memToRtr->send(mev);
+        memSubComp->send(mev);
 
         delete rev;
         delete mev;

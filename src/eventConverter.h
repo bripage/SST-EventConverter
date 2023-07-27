@@ -12,7 +12,7 @@
 #include <sst/dbg/SSTDebug.h>
 
 namespace SST {
-    namespace BasicEventConverter {
+    namespace eventConverter {
 
         class baseSubComponent : public SST::SubComponent {
         public:
@@ -62,8 +62,8 @@ namespace SST {
                 SST::Output* out;       // SST Output object for printing, messaging, etc
 
                 // Subcomponents
-                baseSubComponent *memory; // baseSubComponent
-                baseSubComponent *router; // baseSubComponent
+                baseSubComponent *memSubComp; // baseSubComponent
+                baseSubComponent *rtrSubComp; // baseSubComponent
 
             // Debug
             #ifdef ENABLE_SSTDBG

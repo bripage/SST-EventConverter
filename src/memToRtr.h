@@ -12,7 +12,7 @@
 #include <sst/elements/memHierarchy/memEventBase.h>
 
 using namespace SST;
-using namespace SST::BasicEventConverter;
+using namespace SST::eventConverter;
 
 class memToRtr : public baseSubComponent {
     public:
@@ -25,10 +25,7 @@ class memToRtr : public baseSubComponent {
             SST::BasicEventConverter::baseSubComponent
         )
 
-        SST_ELI_DOCUMENT_PARAMS(
-            { "clockFreq",  "Frequency of period (with units) of the clock", "1GHz" },
-            { "count", "Wait for 'count' integers before flushing a message", "5"}
-        )
+        SST_ELI_DOCUMENT_PARAMS()
 
         SST_ELI_DOCUMENT_PORTS(
             {"memPort", "Link to another component which uses SST::StdMem.", {"memHierarchy.MemEventBase"} }
