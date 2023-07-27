@@ -6,6 +6,7 @@
 #include <sst/core/subcomponent.h>
 #include <sst/core/event.h>
 #include "memToRtr.h"
+#include <sst/core/sst_types.h>
 
 using namespace SST;
 using namespace SST::eventConverter;
@@ -40,7 +41,7 @@ bool memToRtr::handleEvent(){
     if( req != nullptr ){
         SST::memHierarchy::MemEventBase* mev = dynamic_cast<SST::memHierarchy::MemEventBase*>(req->takePayload());
 
-        std::string& dest = mev->getDest();
+        nid_t dest = mev->getDest();
         size_t size_in_bits = mev->getEventSize();
 
         rtrSubComp->send(dest, size_in_bits, mev); // use memSubComponent's send method to hand off the memory event

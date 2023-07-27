@@ -30,7 +30,7 @@ rtrToMem::~rtrToMem(){
 }
 
 // receive memory event data to make a RtrEvent
-void rtrToMem::send(std::string& dest, nid_t size_in_bits, SST::Event* ev){
+void rtrToMem::send(nid_t dest, size_t size_in_bits, SST::Event* ev){
     SST::Interfaces::SimpleNetwork::Request req = SST::Interfaces::SimpleNetwork::Request(dest, src, size_in_bits, 0, 0, ev);
     SST::Merlin::RtrEvent* rev = SST::Merlin::RtrEvent(req, src, 0);
 
