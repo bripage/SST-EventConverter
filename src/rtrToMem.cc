@@ -17,7 +17,11 @@ rtrToMem::rtrToMem(ComponentId_t id, Params& params)
     out = new Output("", 1, 0, Output::STDOUT);
 
     // Configure the links
-    linkHandler = configureLink("rtrPort", new Event::Handler<rtrToMem>(this, &SST::Merlin::RtrEvent));
+    //linkHandler = configureLink("rtrPort", new Event::Handler<rtrToMem>(this, &SST::Merlin::RtrEvent));
+
+    // load the SimpleNetwork interfaces
+    iFace = loadUserSubComponent<SST::Interfaces::SimpleNetwork>("iface", ComponentInfo::SHARE_NONE, 1);
+    iFace->setNotifyOnReceive(new SST::Interfaces::SimpleNetwork::Handler<rtrToMem>(this, &rtrToMem::handleEvent));
 }
 
 // memToRtr destructor

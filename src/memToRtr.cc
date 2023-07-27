@@ -25,8 +25,11 @@ memToRtr::memToRtr(ComponentId_t id, Params& params)
     out->output("Registering subcomponent clock with frequency=%s\n", clockFreq.c_str());
 
     // Configure the links
-    linkHandler = configureLink("memPort", new Event::Handler<memToRtr>(this, &memToRtr::handleEvent));
+    //linkHandler = configureLink("memPort", new Event::Handler<memToRtr>(this, &memToRtr::handleEvent));
 
+    // load the SimpleNetwork interfaces
+    iFace = loadUserSubComponent<SST::Interfaces::SimpleNetwork>("iface", ComponentInfo::SHARE_NONE, 1);
+    iFace->setNotifyOnReceive(new SST::Interfaces::SimpleNetwork::Handler<memToRtr>(this, &memToRtr::handleEvent));
 }
 
 // memToRtr destructor
