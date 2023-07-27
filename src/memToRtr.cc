@@ -40,8 +40,8 @@ bool memToRtr::handleEvent(){
     if( memReq != nullptr ){
         SST::memHierarchy::MemEventBase* mev = dynamic_cast<SST::memHierarchy::MemEventBase*>(memReq->takePayload());
 
-        nid_t src = memReq->src = iFace->getEndpointID();
-        nid_t dest = mev->getDest();
+        SST::Interfaces::SimpleNetwork::nid_t src = memReq->src = iFace->getEndpointID();
+        SST::Interfaces::SimpleNetwork::nid_t dest = mev->getDest();
         size_t size_in_bits = mev->getEventSize();
 
         rtrSubComp->send(src, dest, size_in_bits, mev, memReq); // use memSubComponent's send method to hand off the memory event

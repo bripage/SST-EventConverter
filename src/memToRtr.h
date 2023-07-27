@@ -9,6 +9,7 @@
 #include <sst/core/event.h>
 #include <sst/core/link.h>
 #include <sst/core/interfaces/stdMem.h>
+#include <sst/core/interfaces/simpleNetwork.h>
 #include "/scratch/shared/apps/sst/13.0.0/elements/include/sst/elements/memHierarchy/memEvent.h"
 #include "/scratch/shared/apps/sst/13.0.0/elements/include/sst/elements/memHierarchy/memEventBase.h"
 

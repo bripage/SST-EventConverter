@@ -10,7 +10,6 @@
 #include <sst/core/link.h>
 #include <sst/core/interfaces/simpleNetwork.h>
 #include "/scratch/shared/apps/sst/13.0.0/elements/include/sst/elements/merlin/router.h"
-#include <sst/core/sst_types.h>
 
 using namespace SST;
 using namespace SST::eventConverter;
@@ -38,7 +37,7 @@ class rtrToMem : public baseSubComponent {
 
         rtrToMem(ComponentId_t id, Params& params);
         virtual ~rtrToMem();
-        virtual void send(nid_t dest, size_t size_in_bits, SST::Event* ev);
+        virtual void send(SST::Interfaces::SimpleNetwork::nid_t, SST::Interfaces::SimpleNetwork::nid_t, size_t, SST::Event*, SST::Interfaces::StandardMem::Request*);
         bool handleEvent();
 
     private:
