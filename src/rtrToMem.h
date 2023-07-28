@@ -11,6 +11,7 @@
 #include <sst/core/interfaces/simpleNetwork.h>
 #include <sst/core/interfaces/stdMem.h>
 #include "/scratch/shared/apps/sst/13.0.0/elements/include/sst/elements/merlin/router.h"
+#include "memToRtr.h"
 
 using namespace SST;
 using namespace SST::eventConverter;
