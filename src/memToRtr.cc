@@ -16,8 +16,11 @@ memToRtr::memToRtr(ComponentId_t id, Params& params)
 
     out = new Output("", 1, 0, Output::STDOUT);
 
-    iFace = loadUserSubComponent<SST::Interfaces::StandardMem>("iface", ComponentInfo::SHARE_NONE, 1);
-    iFace->setNotifyOnReceive(new SST::Interfaces::StandardMem::Handler<memToRtr>(this, &memToRtr::handleEvent));
+    //iFace = loadUserSubComponent<SST::Interfaces::StandardMem>("iface", ComponentInfo::SHARE_NONE, 1);
+    //iFace->setNotifyOnReceive(new SST::Interfaces::StandardMem::Handler<memToRtr>(this, &memToRtr::handleEvent));
+    iFace = loadUserSubComponent<SST::Interfaces::StandardMem>(
+            "iface", ComponentInfo::SHARE_NONE, ,
+            new SST::Interfaces::StandardMem::Handler<memToRtr>(this, &memToRtr::handleEvent));
 }
 
 // memToRtr destructor
@@ -46,7 +49,7 @@ bool memToRtr::handleEvent(int vn){
         SST::Interfaces::SimpleNetwork::nid_t dest = mev->getDest();
         size_t size_in_bits = mev->getEventSize();
 
-        adjacentSubComp->send(src, dest, size_in_bits, mev, memReq); // use rtrToMem's send method to hand off the memory event
+        //adjacentSubComp->send(src, dest, size_in_bits, mev, memReq); // use rtrToMem's send method to hand off the memory event
     }
     return true;
 }
