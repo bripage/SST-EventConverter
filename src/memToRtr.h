@@ -45,7 +45,7 @@ class memToRtr : public baseSubComponent {
     private:
         // Params
         SST::Output* out;           // SST Output object for printing, messaging, etc
-        SST::Interfaces::StandardMem * iFace; // SST network interface
+        SST::Interfaces::StandardMem* iFace; // SST network interface
 };
 
 #endif
