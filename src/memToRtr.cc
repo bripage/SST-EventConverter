@@ -2,11 +2,7 @@
 // _basicComponent_cc_
 //
 
-#include <sst/core/sst_config.h>
-#include <sst/core/subcomponent.h>
-#include <sst/core/event.h>
 #include "memToRtr.h"
-#include <sst/core/sst_types.h>
 
 using namespace SST;
 using namespace SST::eventConverter;
@@ -23,10 +19,10 @@ memToRtr::~memToRtr(){
 }
 
 // receive memory event from router side
-void send(SST::Interfaces::SimpleNetwork::Request* req, SST::Event* ev){
+void send(SST::Event* ev){
     SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
 
-    memLink->send(mev);
+    memLink->send(mev->clone());
 
     delete ev;
     delete mev;

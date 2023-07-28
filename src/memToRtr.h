@@ -6,10 +6,9 @@
 #define _MEMEVENT_CONVERTER_H_
 
 #include "eventConverter.h"
+
 #include <sst/core/event.h>
 #include <sst/core/link.h>
-#include <sst/core/interfaces/stdMem.h>
-#include <sst/core/interfaces/simpleNetwork.h>
 #include <sst/elements/memHierarchy/memEvent.h>
 #include <sst/elements/memHierarchy/memEventBase.h>
 
@@ -37,14 +36,13 @@ class memToRtr : public baseSubComponent {
 
         memToRtr(ComponentId_t id, Params& params);
         ~memToRtr();
-        void send(SST::Interfaces::SimpleNetwork::Request*, SST::Event*);
+        void send(SST::Event*);
         bool handleEvent(SST::Event*);
 
     private:
         // Params
         SST::Output* out;           // SST Output object for printing, messaging, etc
         SST::Link* memLink;
-
 };
 
 #endif
