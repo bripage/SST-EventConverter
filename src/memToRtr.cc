@@ -24,14 +24,14 @@ void memToRtr::send(SST::Event* ev){
 
     memLink->send(mev->clone());
 
-    delete ev;
     delete mev;
-    delete req;
+    delete ev;
 }
 
 // memToRtr event handler
 bool memToRtr::handleEvent(SST::Event* ev){
-    adjacentSubComp->send(ev); // use rtrToMem's send method to hand off the memory event
+    SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
+    adjacentSubComp->send(mev->clone()); // use rtrToMem's send method to hand off the memory event
     return true;
 }
 
