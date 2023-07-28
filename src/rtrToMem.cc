@@ -29,7 +29,7 @@ void rtrToMem::send(SST::Event* ev){
     SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
 
     SST::Interfaces::SimpleNetwork::nid_t src = iFace->getEndpointID();
-    SST::Interfaces::SimpleNetwork::nid_t dest = mev->getDst();
+    SST::Interfaces::SimpleNetwork::nid_t dest = 1337;  // this needs to be learned during router network initialization
     size_t size_in_bits = mev->getEventSize();
 
     SST::Interfaces::SimpleNetwork::Request netReq = SST::Interfaces::SimpleNetwork::Request(dest, src, size_in_bits, 0, 0, mev);
