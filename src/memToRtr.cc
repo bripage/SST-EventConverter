@@ -27,7 +27,7 @@ memToRtr::~memToRtr(){
 
 // receive memory event from router side
 void send(SST::Interfaces::SimpleNetwork::Request*& req, SST::Event*& ev){
-    SST::memHierarchy::MemEventBase* mev = dynamic_cast<SST::memHierarchy::MemEventBase*>(ev);
+    SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
 
     iFace->send(mev);
 
@@ -40,7 +40,7 @@ void send(SST::Interfaces::SimpleNetwork::Request*& req, SST::Event*& ev){
 bool memToRtr::handleEvent(int vn){
     SST::Interfaces::StandardMem::Request* memReq = iFace->recv(0);
     if( memReq != nullptr ){
-        SST::memHierarchy::MemEventBase* mev = dynamic_cast<SST::memHierarchy::MemEventBase*>(memReq->takePayload());
+        SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(memReq->takePayload());
 
         SST::Interfaces::SimpleNetwork::nid_t src = memReq->src = iFace->getEndpointID();
         SST::Interfaces::SimpleNetwork::nid_t dest = mev->getDest();
