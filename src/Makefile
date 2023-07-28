@@ -10,7 +10,7 @@ endif
 CXX=$(shell sst-config --CXX)
 CXXFLAGS=$(shell sst-config --ELEMENT_CXXFLAGS)
 LDFLAGS=$(shell sst-config --ELEMENT_LDFLAGS)
-CPPFLAGS= -I/scratch/shared/sst/13.0.0/elements/include -I./
+CPPFLAGS= -I/scratch/shared/apps/sst/13.0.0/elements/include -I./
 OPTIMIZE_FLAGS=-O2
 
 COMPONENT_LIB=libeventConverter.so
