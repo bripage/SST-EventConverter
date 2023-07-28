@@ -19,7 +19,7 @@ memToRtr::~memToRtr(){
 }
 
 // receive memory event from router side
-void send(SST::Event* ev){
+void memToRtr::send(SST::Event* ev){
     SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
 
     memLink->send(mev->clone());
