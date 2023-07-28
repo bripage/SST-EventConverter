@@ -40,6 +40,7 @@ bool rtrToMem::handleEvent(int vn){
     if( netReq != nullptr ){
         SST::Event* mev = dynamic_cast<SST::Event*>(netReq->takePayload());
         adjacentSubComp->send(netReq, mev); // use memToRtr's send method to hand off the memory event
+
     }
     return true;
 }

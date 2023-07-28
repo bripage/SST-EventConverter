@@ -21,7 +21,7 @@ namespace SST {
                     : SubComponent(id) { }
 
             virtual ~baseSubComponent() { }
-            virtual void send();
+            virtual void send(){ };
             void setAdjacentSubComp(baseSubComponent* comp){adjacentSubComp = comp;}
 
             baseSubComponent* adjacentSubComp;
@@ -63,8 +63,8 @@ namespace SST {
                 SST::Output* out;       // SST Output object for printing, messaging, etc
 
                 // Subcomponents
-                baseSubComponent *memSubComp; // baseSubComponent
-                baseSubComponent *rtrSubComp; // baseSubComponent
+                baseSubComponent* memSubComp; // baseSubComponent
+                baseSubComponent* rtrSubComp; // baseSubComponent
 
         };  // class eventConverter
     }   // namespace BasicEventConverter
