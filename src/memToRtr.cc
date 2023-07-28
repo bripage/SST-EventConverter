@@ -14,7 +14,7 @@ using namespace SST::eventConverter;
 memToRtr::memToRtr(ComponentId_t id, Params& params)
   : baseSubComponent(id, params) {
     out = new Output("", 1, 0, Output::STDOUT);
-    memLink = configureLink(memPort, "50 ps", new Event::Handler<memToRtr>(this, &memToRtr::handleEvent));
+    memLink = configureLink("memPort", "1 ps", new Event::Handler<memToRtr>(this, &memToRtr::handleEvent));
 }
 
 // memToRtr destructor
