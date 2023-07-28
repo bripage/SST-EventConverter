@@ -38,8 +38,8 @@ class memToRtr : public baseSubComponent {
         )
 
         memToRtr(ComponentId_t id, Params& params);
-        virtual ~memToRtr();
-        virtual void send(SST::Interfaces::SimpleNetwork::Request*, SST::Event*);
+        ~memToRtr();
+        void send(SST::Interfaces::SimpleNetwork::Request*, SST::Event*);
         bool handleEvent(int vn);
 
     private:

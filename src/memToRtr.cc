@@ -26,12 +26,14 @@ memToRtr::~memToRtr(){
 }
 
 // receive memory event from router side
-virtual void send(SST::Interfaces::SimpleNetwork::Request* req, SST::Event* ev){
+void send(SST::Interfaces::SimpleNetwork::Request* req, SST::Event* ev){
     SST::memHierarchy::MemEventBase* mev = dynamic_cast<SST::memHierarchy::MemEventBase*>(*ev);
+
     iFace->send(mev);
+
     delete ev;
-    delete *mev;
-    delete *req;
+    delete mev;
+    delete req;
 }
 
 // memToRtr event handler
@@ -44,7 +46,7 @@ bool memToRtr::handleEvent(int vn){
         SST::Interfaces::SimpleNetwork::nid_t dest = mev->getDest();
         size_t size_in_bits = mev->getEventSize();
 
-        adjacentSubComp->send(src, dest, size_in_bits, mev, memReq); // use memSubComponent's send method to hand off the memory event
+        adjacentSubComp->send(src, dest, size_in_bits, mev, memReq); // use rtrToMem's send method to hand off the memory event
     }
     return true;
 }

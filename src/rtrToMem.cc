@@ -30,7 +30,6 @@ void rtrToMem::send(SST::Interfaces::SimpleNetwork::nid_t src, SST::Interfaces::
 
     iFace->send(netReq.clone(), 0);
 
-    //delete netReq;
     delete memReq;
     delete mev;
 }
@@ -40,7 +39,7 @@ bool rtrToMem::handleEvent(int vn){
     SST::Interfaces::SimpleNetwork::Request* netReq = iFace->recv(0);
     if( netReq != nullptr ){
         SST::Event* mev = dynamic_cast<SST::Event*>(netReq->takePayload());
-        adjacentSubComp->send(*netReq, *mev); // use memSubComponent's send method to hand off the memory event
+        adjacentSubComp->send(*netReq, *mev); // use memToRtr's send method to hand off the memory event
     }
     return true;
 }

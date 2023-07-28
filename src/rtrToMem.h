@@ -37,8 +37,8 @@ class rtrToMem : public baseSubComponent {
         )
 
         rtrToMem(ComponentId_t id, Params& params);
-        virtual ~rtrToMem();
-        virtual void send(SST::Interfaces::SimpleNetwork::nid_t, SST::Interfaces::SimpleNetwork::nid_t, size_t, SST::Event*, SST::Interfaces::StandardMem::Request*);
+        ~rtrToMem();
+        void send(SST::Interfaces::SimpleNetwork::nid_t, SST::Interfaces::SimpleNetwork::nid_t, size_t, SST::Event*, SST::Interfaces::StandardMem::Request*);
         bool handleEvent(int vn);
 
     private:
