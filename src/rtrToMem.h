@@ -39,7 +39,7 @@ class rtrToMem : public baseSubComponent {
 
         rtrToMem(ComponentId_t id, Params& params);
         ~rtrToMem();
-        void send(SST::Interfaces::SimpleNetwork::nid_t, SST::Interfaces::SimpleNetwork::nid_t, size_t, SST::Event*, SST::Interfaces::StandardMem::Request*);
+        void send(SSST::Event*);
         bool handleEvent(int vn);
 
     private:
