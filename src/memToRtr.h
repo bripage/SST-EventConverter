@@ -39,7 +39,7 @@ class memToRtr : public baseSubComponent {
 
         memToRtr(ComponentId_t id, Params& params);
         ~memToRtr();
-        void send(SST::Interfaces::SimpleNetwork::Request*, SST::Event*);
+        void send(SST::Interfaces::SimpleNetwork::Request*&, SST::Event*&);
         bool handleEvent(int vn);
 
     private:
