@@ -25,12 +25,18 @@ rtrToMem::~rtrToMem(){
 }
 
 // receive memory event data to make a RtrEvent
-void rtrToMem::send(SST::Interfaces::SimpleNetwork::nid_t src, SST::Interfaces::SimpleNetwork::nid_t dest, size_t size_in_bits, SST::Event* mev, SST::Interfaces::StandardMem::Request* memReq){
+void rtrToMem::send(SST::Event* ev){
+    SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
+
+    SST::Interfaces::SimpleNetwork::nid_t src = iFace->getEndpointID();
+    SST::Interfaces::SimpleNetwork::nid_t dest = mev->getDst();
+    size_t size_in_bits = mev->getEventSize();
+
     SST::Interfaces::SimpleNetwork::Request netReq = SST::Interfaces::SimpleNetwork::Request(dest, src, size_in_bits, 0, 0, mev);
 
     iFace->send(netReq.clone(), 0);
 
-    delete memReq;
+    delete mev;
     delete mev;
 }
 

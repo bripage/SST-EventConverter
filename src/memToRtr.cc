@@ -13,14 +13,8 @@ using namespace SST::eventConverter;
 
 memToRtr::memToRtr(ComponentId_t id, Params& params)
   : baseSubComponent(id, params) {
-
     out = new Output("", 1, 0, Output::STDOUT);
-
-    //iFace = loadUserSubComponent<SST::Interfaces::StandardMem>("iface", ComponentInfo::SHARE_NONE, 1);
-    //iFace->setNotifyOnReceive(new SST::Interfaces::StandardMem::Handler<memToRtr>(this, &memToRtr::handleEvent));
-    iFace = loadUserSubComponent<SST::Interfaces::StandardMem>(
-            "iface", ComponentInfo::SHARE_NONE, ,
-            new SST::Interfaces::StandardMem::Handler<memToRtr>(this, &memToRtr::handleEvent));
+    memLink = configureLink(memPort, "50 ps", new Event::Handler<memToRtr>(this, &memToRtr::handleEvent));
 }
 
 // memToRtr destructor
@@ -29,10 +23,10 @@ memToRtr::~memToRtr(){
 }
 
 // receive memory event from router side
-void send(SST::Interfaces::SimpleNetwork::Request*& req, SST::Event*& ev){
+void send(SST::Interfaces::SimpleNetwork::Request* req, SST::Event* ev){
     SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
 
-    iFace->send(mev);
+    memLink->send(mev);
 
     delete ev;
     delete mev;
@@ -40,17 +34,8 @@ void send(SST::Interfaces::SimpleNetwork::Request*& req, SST::Event*& ev){
 }
 
 // memToRtr event handler
-bool memToRtr::handleEvent(int vn){
-    SST::Interfaces::StandardMem::Request* memReq = iFace->recv(0);
-    if( memReq != nullptr ){
-        SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(memReq->takePayload());
-
-        SST::Interfaces::SimpleNetwork::nid_t src = memReq->src = iFace->getEndpointID();
-        SST::Interfaces::SimpleNetwork::nid_t dest = mev->getDest();
-        size_t size_in_bits = mev->getEventSize();
-
-        //adjacentSubComp->send(src, dest, size_in_bits, mev, memReq); // use rtrToMem's send method to hand off the memory event
-    }
+bool memToRtr::handleEvent(SST::Event* ev){
+    adjacentSubComp->send(ev); // use rtrToMem's send method to hand off the memory event
     return true;
 }
 

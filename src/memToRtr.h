@@ -30,12 +30,10 @@ class memToRtr : public baseSubComponent {
         SST_ELI_DOCUMENT_PARAMS()
 
         SST_ELI_DOCUMENT_PORTS(
-            {"memPort", "Link to another component which uses SST::StdMem.", {"StandardMem.Request"} }
+            {"memPort", "Link to another component which uses memory events.", {"memHierarchy.MemEventBase"} }
         )
 
-        SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS(
-            {"iface", "SimpleNetwork interface to a network", "SST::Interfaces::StandardMem"}
-        )
+        SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS()
 
         memToRtr(ComponentId_t id, Params& params);
         ~memToRtr();
@@ -45,7 +43,8 @@ class memToRtr : public baseSubComponent {
     private:
         // Params
         SST::Output* out;           // SST Output object for printing, messaging, etc
-        SST::Interfaces::StandardMem* iFace; // SST network interface
+        SST::Link* memLink;
+
 };
 
 #endif
