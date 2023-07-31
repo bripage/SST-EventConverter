@@ -134,19 +134,19 @@ cpu_l1_link = sst.Link("cpu_l1_link")
 cpu_l1_link.connect((iface,"port", "10ps"),(l1_cache, "high_network_0", "10ps"))
 
 link_cpu_evConv = sst.Link("link_cpu_evConv")
-link_cpu_evConv.connect((l1_cache, "low_network_0", "0ps"),(cpu_evConv_mem, "memPort", "0ps"))
+link_cpu_evConv.connect((l1_cache, "low_network_0", "1ps"),(cpu_evConv_mem, "memPort", "1ps"))
 
 link_cpuConv_rtr1 = sst.Link("link_cpuConv_rtr1")
-link_cpuConv_rtr1.connect((cpu_evConv_rtr_iFace, "rtr_port", "0ps"),(router1, "port1", "0ps"))
+link_cpuConv_rtr1.connect((cpu_evConv_rtr_iFace, "rtr_port", "1ps"),(router1, "port1", "1ps"))
 
 link_routers = sst.Link("link_routers")
 link_routers.connect((router1, "port0", "100ps"),(router2, "port0", "100ps"))
 
 link_rtr2_bus = sst.Link("link_rtr2_bus")
-link_rtr2_bus.connect((router2, "port1", "0ps"), (bus_evConv_rtr_iFace, "rtr_port", "0ps"),)
+link_rtr2_bus.connect((router2, "port1", "1ps"), (bus_evConv_rtr_iFace, "rtr_port", "1ps"),)
 
 link_bus_evConv = sst.Link("link_bus_evConv")
-link_bus_evConv.connect((bus, "high_network_0", "0ps"),(bus_evConv_mem, "memPort", "0ps"))
+link_bus_evConv.connect((bus, "high_network_0", "1ps"),(bus_evConv_mem, "memPort", "1ps"))
 
 link_bus_memctrl = sst.Link("link_bus_memctrl")
 link_bus_memctrl.connect((bus, "low_network_0", "10ps"),(memctrl, "direct_link", "50ps"))
