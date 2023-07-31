@@ -116,9 +116,9 @@ router1.addParams({
   "input_buf_size" : "512B",
   "output_buf_size" : "512B",
   "link_bw" : "1GB/s",
-  "num_ports" : 3,
+  "num_ports" : 2,
   "mesh.local_ports" : 1,
-  "mesh.shape" : "2x1",
+  "mesh.shape" : "2",
   "mesh.width" : "1"
 })
 
@@ -131,9 +131,9 @@ router2.addParams({
   "input_buf_size" : "512B",
   "output_buf_size" : "512B",
   "link_bw" : "1GB/s",
-  "num_ports" : 3,
+  "num_ports" : 2,
   "mesh.local_ports" : 1,
-  "mesh.shape" : "2x1",
+  "mesh.shape" : "2",
   "mesh.width" : "1"
 })
 
@@ -154,8 +154,6 @@ link_cpuConv_rtr1.connect((cpu_evConv_rtr_iFace, "rtr_port", "1ps"),(router1, "p
 
 link_routers1 = sst.Link("link_routers1")
 link_routers1.connect((router1, "port0", "100ps"),(router2, "port1", "100ps"))
-link_routers2 = sst.Link("link_routers2")
-link_routers2.connect((router2, "port0", "100ps"),(router1, "port1", "100ps"))
 
 link_rtr2_busConv = sst.Link("link_rtr2_busConv")
 link_rtr2_busConv.connect((router2, "port2", "1ps"), (bus_evConv_rtr_iFace, "rtr_port", "1ps"))
