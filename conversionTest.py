@@ -56,7 +56,7 @@ l1_cache.addParams({
 })
 l1_cache.enableAllStatistics({"type":"sst.AccumulatorStatistic"})
 
-bus = sst.Component("bus", "memHiearchy.Bus")
+bus = sst.Component("bus", "memHierarchy.Bus")
 
 memctrl = sst.Component("memory", "memHierarchy.MemController")
 memctrl.addParams({
