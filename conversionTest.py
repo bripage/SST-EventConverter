@@ -117,8 +117,8 @@ router1.addParams({
   "output_buf_size" : "512B",
   "link_bw" : "1GB/s",
   "num_ports" : 2,
-  "mesh.local_ports" : 1,
-  "mesh.shape" : "2x1",
+  #"mesh.local_ports" : 1,
+  "mesh.shape" : "4x1",
   "mesh.width" : "1"
 })
 
@@ -132,8 +132,8 @@ router2.addParams({
   "output_buf_size" : "512B",
   "link_bw" : "1GB/s",
   "num_ports" : 2,
-  "mesh.local_ports" : 1,
-  "mesh.shape" : "2x1",
+  #"mesh.local_ports" : 1,
+  "mesh.shape" : "4x1",
   "mesh.width" : "1"
 })
 
