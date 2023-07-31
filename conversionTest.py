@@ -5,6 +5,7 @@
 import os
 import sst
 from sst.merlin import *
+from sst.memHierarchy import *
 
 DEBUG_L1 = 0
 DEBUG_MEM = 0
