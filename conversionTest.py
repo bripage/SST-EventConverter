@@ -79,14 +79,14 @@ memory.addParams({
 # Create Event Converters
 #
 cpu_evConv = sst.Component("cpu_evConv", "eventConverter.memRtrtConverter")
-cpu_evConv.setSubComponent("memory", "eventConverter.memToRtr")
-cpu_evConv.setSubComponent("router", "eventConverter.rtrToMem")
-cpu_evConv_rtrIFace = cpu_evConv.router.setSubComponent("iface", "merlin.SimpleNetwork")
+cpu_evConv_mem = cpu_evConv.setSubComponent("memory", "eventConverter.memToRtr")
+cpu_evConv_rtr = cpu_evConv.setSubComponent("router", "eventConverter.rtrToMem")
+cpu_evConv_rtr_iFace = cpu_evConv_rtr.setSubComponent("iface", "merlin.SimpleNetwork")
 
 bus_evConv = sst.Component("bus_evConv", "eventConverter.memRtrtConverter")
-bus_evConv.setSubComponent("memory", "eventConverter.memToRtr")
-bus_evConv.setSubComponent("router", "eventConverter.rtrToMem")
-bus_evConv_rtrIFace = bus_evConv.router.setSubComponent("iface", "merlin.SimpleNetwork")
+bus_evConv_mem = bus_evConv.setSubComponent("memory", "eventConverter.memToRtr")
+bus_evConv_rtr = bus_evConv.setSubComponent("router", "eventConverter.rtrToMem")
+bus_evConv_rtr_iFace = bus_evConv_rtr.setSubComponent("iface", "merlin.SimpleNetwork")
 
 #
 # Create  Routers
@@ -134,13 +134,13 @@ link_cpu_evConv = sst.Link("link_cpu_evConv")
 link_cpu_evConv.connect((l1_cache, "low_network_0", "0ps"),(cpu_evConv, "memPort", "0ps"))
 
 link_cpuConv_rtr1 = sst.Link("link_cpuConv_rtr1")
-link_cpuConv_rtr1.connect((cpu_evConv_rtrIFace, "port", "0ps"),(router1, "port1", "0ps"))
+link_cpuConv_rtr1.connect((cpu_evConv_rtr_iFace, "port", "0ps"),(router1, "port1", "0ps"))
 
 link_routers = sst.Link("link_routers")
 link_routers.connect((router1, "port0", "100ps"),(router2, "port0", "100ps"))
 
 link_rtr2_bus = sst.Link("link_rtr2_bus")
-link_rtr2_bus.connect((router2, "port1", "0ps"), (bus_evConv_rtrIFace, "port", "0ps"),)
+link_rtr2_bus.connect((router2, "port1", "0ps"), (bus_evConv_rtr_iFace, "port", "0ps"),)
 
 link_bus_evConv = sst.Link("link_bus_evConv")
 link_bus_evConv.connect((bus, "high_network_0", "0ps"),(bus_evConv, "memPort", "0ps"))
