@@ -117,7 +117,7 @@ router2.addParams({
   "flit_size" : "512B",
   "input_buf_size" : "512B",
   "output_buf_size" : "512B",
-  "link_bw" : "1B/s",
+  "link_bw" : "1GB/s",
   "num_ports" : 2,
   "mesh.local_ports" : 1,
   "mesh.shape" : "2x1",
