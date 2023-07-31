@@ -102,7 +102,7 @@ router1.addParams({
   "flit_size" : "512B",
   "input_buf_size" : "512B",
   "output_buf_size" : "512B",
-  "link_bw" : "100000000B/s",
+  "link_bw" : "1GB/s",
   "num_ports" : 2,
   "mesh.local_ports" : 1,
   "mesh.shape" : "2x1",
@@ -112,12 +112,12 @@ router1.addParams({
 router2 = sst.Component("router2", "merlin.hr_router")
 router2.setSubComponent("topology", "merlin.mesh")
 router2.addParams({
-  "id" : 0,
+  "id" : 1,
   "xbar_bw" : "10GB/s",
   "flit_size" : "512B",
   "input_buf_size" : "512B",
   "output_buf_size" : "512B",
-  "link_bw" : "100000000B/s",
+  "link_bw" : "1B/s",
   "num_ports" : 2,
   "mesh.local_ports" : 1,
   "mesh.shape" : "2x1",
