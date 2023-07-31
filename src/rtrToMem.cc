@@ -49,7 +49,7 @@ bool rtrToMem::handleEvent(int vn){
         adjacentSubComp->send(mev->clone()); // use memToRtr's send method to hand off the memory event
     }
     delete netReq;
-    
+
     return true;
 }
 
