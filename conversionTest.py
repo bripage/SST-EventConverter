@@ -152,8 +152,10 @@ link_cpu_evConv.connect((l1_cache, "low_network_0", "1ps"),(cpu_evConv_mem, "mem
 link_cpuConv_rtr1 = sst.Link("link_cpuConv_rtr1")
 link_cpuConv_rtr1.connect((cpu_evConv_rtr_iFace, "rtr_port", "1ps"),(router1, "port2", "1ps"))
 
-link_routers = sst.Link("link_routers")
-link_routers.connect((router1, "port0", "100ps"),(router2, "port0", "100ps"))
+link_routers1 = sst.Link("link_routers1")
+link_routers1.connect((router1, "port0", "100ps"),(router2, "port1", "100ps"))
+link_routers2 = sst.Link("link_routers2")
+link_routers2.connect((router2, "port0", "100ps"),(router1, "port1", "100ps"))
 
 link_rtr2_busConv = sst.Link("link_rtr2_busConv")
 link_rtr2_busConv.connect((router2, "port2", "1ps"), (bus_evConv_rtr_iFace, "rtr_port", "1ps"))
