@@ -2,7 +2,6 @@
 # conversionTest.py
 #
 
-import os
 import sst
 from sst.merlin import *
 from sst.memHierarchy import *
@@ -42,7 +41,7 @@ iface = cpu.setSubComponent("memory", "memHierarchy.standardInterface")
 #
 # Create MemHierarchy Components
 #
-l1_cache = sst.Component("l1_cache", "memHiearchy.Cache")
+l1_cache = sst.Component("l1_cache", "memHierarchy.Cache")
 l1_cache.addParams({
   "access_latency_cycles" : "2",
   "cache_frequency" : "2GHz",
