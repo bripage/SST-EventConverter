@@ -84,12 +84,25 @@ memory.addParams({
 cpu_evConv = sst.Component("cpu_evConv", "eventConverter.memRtrConverter")
 cpu_evConv_mem = cpu_evConv.setSubComponent("memory", "eventConverter.memToRtr")
 cpu_evConv_rtr = cpu_evConv.setSubComponent("router", "eventConverter.rtrToMem")
+
 cpu_evConv_rtr_iFace = cpu_evConv_rtr.setSubComponent("iface", "merlin.linkcontrol")
+cpu_evConv_rtr_iFace.addParams({
+  "input_buf_size" : "512B",
+  "output_buf_size" : "512B",
+  "link_bw" : "1GB/s"
+})
 
 bus_evConv = sst.Component("bus_evConv", "eventConverter.memRtrConverter")
 bus_evConv_mem = bus_evConv.setSubComponent("memory", "eventConverter.memToRtr")
 bus_evConv_rtr = bus_evConv.setSubComponent("router", "eventConverter.rtrToMem")
+
 bus_evConv_rtr_iFace = bus_evConv_rtr.setSubComponent("iface", "merlin.linkcontrol")
+bus_evConv_rtr_iFace.addParams({
+  "input_buf_size" : "512B",
+  "output_buf_size" : "512B",
+  "link_bw" : "1GB/s"
+})
+
 
 #
 # Create  Routers
@@ -102,7 +115,7 @@ router1.addParams({
   "flit_size" : "512B",
   "input_buf_size" : "512B",
   "output_buf_size" : "512B",
-  "link_bw" : "1000000B/s",
+  "link_bw" : "1GB/s",
   "num_ports" : 2,
   "mesh.local_ports" : 1,
   "mesh.shape" : "2x1",
@@ -117,7 +130,7 @@ router2.addParams({
   "flit_size" : "512B",
   "input_buf_size" : "512B",
   "output_buf_size" : "512B",
-  "link_bw" : "1000000B/s",
+  "link_bw" : "1GB/s",
   "num_ports" : 2,
   "mesh.local_ports" : 1,
   "mesh.shape" : "2x1",
