@@ -10,7 +10,8 @@ using namespace SST::eventConverter;
 memToRtr::memToRtr(ComponentId_t id, Params& params)
   : baseSubComponent(id, params) {
     out = new Output("", 1, 0, Output::STDOUT);
-    memLink = configureLink("memPort", "1 ps", new Event::Handler<memToRtr>(this, &memToRtr::handleEvent));
+    //memLink = configureLink("memPort", "1 ps", new Event::Handler<memToRtr>(this, &memToRtr::handleEvent));
+    memLink = configureLink("memPort", new Event::Handler<memToRtr>(this, &memToRtr::handleEvent));
 }
 
 // memToRtr destructor
@@ -29,10 +30,9 @@ void memToRtr::send(SST::Event* ev){
 }
 
 // memToRtr event handler
-bool memToRtr::handleEvent(SST::Event* ev){
+void memToRtr::handleEvent(SST::Event* ev){
     SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
     adjacentSubComp->send(mev->clone()); // use rtrToMem's send method to hand off the memory event
-    return true;
 }
 
 

@@ -21,7 +21,7 @@ namespace SST {
                     : SubComponent(id) { }
 
             virtual ~baseSubComponent() { }
-            virtual void send(){ };
+            virtual void send(SST::Event *){ };
             void setAdjacentSubComp(baseSubComponent* comp){adjacentSubComp = comp;}
 
             baseSubComponent* adjacentSubComp;

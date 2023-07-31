@@ -10,6 +10,7 @@ endif
 CXX=$(shell sst-config --CXX)
 CXXFLAGS=$(shell sst-config --ELEMENT_CXXFLAGS)
 LDFLAGS=$(shell sst-config --ELEMENT_LDFLAGS)
+ELEMENT_HEADERS=$(shell sst-config SST_ELEMENT_LIBRARY SST_ELEMENT_LIBRARY_HOME)/include
 CPPFLAGS= -I/scratch/shared/apps/sst/13.0.0/elements/include -I./
 OPTIMIZE_FLAGS=-O2
 
@@ -29,7 +30,7 @@ debug: $(COMPONENT_LIB)
 $(COMPONENT_LIB): $(EVENTCONVERTER_OBJS)
 	$(CXX) $(OPTIMIZE_FLAGS) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o $@ *.o
 %.o:%.cc $(SIMPLEEXAMPLE_HEADERS)
-	$(CXX) $(OPTIMIZE_FLAGS) $(CXXFLAGS) $(CPPFLAGS) -c $<
+	$(CXX) $(OPTIMIZE_FLAGS) $(CXXFLAGS) $(CPPFLAGS) -I$(ELEMENT_HEADERS) -c $<
 install: $(COMPONENT_LIB)
 	sst-register eventConverter eventConverter_LIBDIR=$(CURDIR)
 clean:

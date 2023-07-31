@@ -37,7 +37,7 @@ class memToRtr : public baseSubComponent {
         memToRtr(ComponentId_t id, Params& params);
         ~memToRtr();
         void send(SST::Event*);
-        bool handleEvent(SST::Event*);
+        void handleEvent(SST::Event*);
 
     private:
         // Params
