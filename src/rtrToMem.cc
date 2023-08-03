@@ -57,8 +57,8 @@ void rtrToMem::init(unsigned int phase){
     iFace->init(phase);
 
     if( iFace->isNetworkInitialized() ){
-        if( !initBroadcastSent) {
-            initBroadcastSent = true;
+        //if( !initBroadcastSent) {
+        //    initBroadcastSent = true;
 
             SST::Interfaces::SimpleNetwork::Request * req = new SST::Interfaces::SimpleNetwork::Request();
             req->dest = SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR;
@@ -69,19 +69,19 @@ void rtrToMem::init(unsigned int phase){
 
             req->givePayload(ev);
             iFace->sendInitData(req);
-        }
+        //}
     }
 
     while( SST::Interfaces::SimpleNetwork::Request* req = iFace->recvInitData() ) {
         endpointDiscoveryEvent *ev = dynamic_cast<endpointDiscoveryEvent*>(req->takePayload());
 
         if (ev) {
-            output->verbose(CALL_INFO, 1, 0, "%s received init message from %s\n", getName().c_str(),
-                            ev->getSrc().c_str());
+            out->verbose(CALL_INFO, 1, 0, "%s received init message from %d\n", getName().c_str(),
+                            ev->getSrc());
 
             bool remoteEndpointType = ev->getPayload();
             if (remoteEndpointType) {
-                memContCompID = req->getSrc();
+                memContCompID = ev->getSrc();
             }
         }
     }
