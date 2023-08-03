@@ -26,7 +26,9 @@ class memToRtr : public baseSubComponent {
             SST::eventConverter::baseSubComponent
         )
 
-        SST_ELI_DOCUMENT_PARAMS()
+        SST_ELI_DOCUMENT_PARAMS(
+                {"type", "MemHiearchy endpoint type: 0 = cache, 1 = memory controller","0"}
+        )
 
         SST_ELI_DOCUMENT_PORTS(
             {"memPort", "Link to another component which uses memory events.", {"memHierarchy.MemEventBase"} }
@@ -38,11 +40,13 @@ class memToRtr : public baseSubComponent {
         ~memToRtr();
         void send(SST::Event*);
         void handleEvent(SST::Event*);
+        bool getEndpointType(){return endpointType;}
 
     private:
         // Params
         SST::Output* out;           // SST Output object for printing, messaging, etc
         SST::Link* memLink;
+        bool endpointType = 0;
 };
 
 #endif

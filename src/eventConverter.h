@@ -13,6 +13,39 @@
 namespace SST {
     namespace eventConverter {
 
+        // ---------------------------------------------------------------------------------------------------
+        //  endpointDiscoveryEvent Event handler
+        //
+        //  Note: This event type is ONLY used during the initialization phase of model execution. It allows
+        //  for the conversion components to send the discovery events to all other converter's. This allows
+        //  converts connected to MemHiearchy components such as memHierarchy.Cache to know what the
+        //  component id for memHierarchy.MemController, etc., for routing purposes.
+        //
+        // ---------------------------------------------------------------------------------------------------
+        class endpointDiscoveryEvent : public SST::Event {
+        public:
+            // Basic Constructor : inherits SST::Event()
+            endpointDiscoveryEvent() : SST::Event() { }
+            // Overloaded Constructor
+            endpointDiscoveryEvent(bool endpointType) : SST::Event(), payload(endpointType) { }
+
+            void serialize_order(SST::Core::Serialization::serializer &ser)
+            override {
+                Event::serialize_order(ser);
+                ser & payload;
+            }
+
+            bool getPayload() { return payload; }
+            ImplementSerializable(SST::eventConverter::endpointDiscoveryEvent);
+
+        private:
+            // Message payload
+            bool payload;
+        };
+
+        // ----------------------------------------------------------
+        // Base Sub-Component Definition for various endpoint types
+        // ----------------------------------------------------------
         class baseSubComponent : public SST::SubComponent {
         public:
             SST_ELI_REGISTER_SUBCOMPONENT_API(SST::eventConverter::baseSubComponent)
@@ -22,11 +55,21 @@ namespace SST {
 
             virtual ~baseSubComponent() { }
             virtual void send(SST::Event *){ };
+            virtual void init(unsigned int);
             void setAdjacentSubComp(baseSubComponent* comp){adjacentSubComp = comp;}
 
             baseSubComponent* adjacentSubComp;
         };
 
+        // ---------------------------------------------------------------------------------------------------
+        // Top Level Event Conversion Component Class Definition
+        //
+        //  Note: The top level component has no ports or parameters of its own as all functionality
+        //  with respect to specialized component type interaction is handled by specialized subcomponents.
+        //  Currently there are only 2 subcomponents however, this could be expanded to allow for different
+        //  endpoint types, and or multiple endpoint connections.
+        //
+        // ---------------------------------------------------------------------------------------------------
         class memRtrConverter : public SST::Component {
             public:
                 // Register the component with the SST element library
@@ -49,24 +92,16 @@ namespace SST {
                         {"router", "Handles router event traffic",
                          "SST::eventConverter::rtrToMem"}
                 )
-                // Class members
 
-                // Constructor: Components receive a unique ID and the set of parameters
-                //              that were assigned in the simulation configuration script
                 memRtrConverter(SST::ComponentId_t id, SST::Params& params);
-
-                // Destructor
                 ~memRtrConverter();
 
             private:
-                // Params
                 SST::Output* out;       // SST Output object for printing, messaging, etc
 
-                // Subcomponents
                 baseSubComponent* memSubComp; // baseSubComponent
                 baseSubComponent* rtrSubComp; // baseSubComponent
-
-        };  // class eventConverter
+        };  // class memRtrConverter
     }   // namespace BasicEventConverter
 }   // namespace SST
 

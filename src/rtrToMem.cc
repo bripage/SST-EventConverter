@@ -29,7 +29,7 @@ void rtrToMem::send(SST::Event* ev){
     SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
 
     SST::Interfaces::SimpleNetwork::nid_t src = iFace->getEndpointID();
-    SST::Interfaces::SimpleNetwork::nid_t dest = 1337;  // this needs to be learned during router network initialization
+    SST::Interfaces::SimpleNetwork::nid_t dest = memContCompID;  // this needs to be learned during router network initialization
     size_t size_in_bits = mev->getEventSize();
 
     SST::Interfaces::SimpleNetwork::Request netReq = SST::Interfaces::SimpleNetwork::Request(dest, src, size_in_bits, 0, 0, mev);
@@ -53,7 +53,35 @@ bool rtrToMem::handleEvent(int vn){
     return true;
 }
 
+void rtrToMem::init(unsigned int phase){
+    iFace->init(phase);
 
+    if( iFace->isNetworkInitialized() ){
+        if( !initBroadcastSent) {
+            initBroadcastSent = true;
+            endpointDiscoveryEvent *ev = new endpointDiscoveryEvent(adjacentSubComp->getEndpointType());
 
+            SST::Interfaces::SimpleNetwork::Request * req = new SST::Interfaces::SimpleNetwork::Request();
+            req->dest = SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR;
+            req->src = iFace->getEndpointID();
+            req->givePayload(ev);
+            iFace->sendInitData(req);
+        }
+    }
+
+    while( SST::Interfaces::SimpleNetwork::Request* req = iFace->recvInitData() ) {
+        endpointDiscoveryEvent *ev = dynamic_cast<endpointDiscoveryEvent*>(req->takePayload());
+
+        if (edev) {
+            output->verbose(CALL_INFO, 1, 0, "%s received init message from %s\n", getName().c_str(),
+                            ev->getSource().c_str());
+
+            bool remoteEndpointType = ev->getPayload();
+            if (remoteEndpointType) {
+                memContCompID = req->getSrc();
+            }
+        }
+    }
+}
 
 

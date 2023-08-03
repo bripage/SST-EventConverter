@@ -10,8 +10,8 @@ using namespace SST::eventConverter;
 memToRtr::memToRtr(ComponentId_t id, Params& params)
   : baseSubComponent(id, params) {
     out = new Output("", 1, 0, Output::STDOUT);
-    //memLink = configureLink("memPort", "1 ps", new Event::Handler<memToRtr>(this, &memToRtr::handleEvent));
     memLink = configureLink("memPort", new Event::Handler<memToRtr>(this, &memToRtr::handleEvent));
+    endpointType = params.find<bool>("type", 0);
 }
 
 // memToRtr destructor

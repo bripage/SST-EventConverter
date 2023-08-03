@@ -41,11 +41,13 @@ class rtrToMem : public baseSubComponent {
         ~rtrToMem();
         void send(SST::Event*);
         bool handleEvent(int vn);
+        void init(unsigned int phase) = 0;
 
     private:
         // Params
         SST::Output* out;           // SST Output object for printing, messaging, etc
         SST::Interfaces::SimpleNetwork* iFace; // SST network interface
+        SST::nid_t memContCompID;
 };
 
 #endif
