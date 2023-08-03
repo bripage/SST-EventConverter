@@ -32,14 +32,18 @@ namespace SST {
             void serialize_order(SST::Core::Serialization::serializer &ser)
             override {
                 Event::serialize_order(ser);
+                ser & src;
                 ser & payload;
             }
 
+            void setSrc(uint32_t id){src = id;}
+            uint32_t getSrc(){return src;}
             bool getPayload() { return payload; }
             ImplementSerializable(SST::eventConverter::endpointDiscoveryEvent);
 
         private:
             // Message payload
+            uint32_t src;
             bool payload;
         };
 

@@ -47,7 +47,7 @@ class rtrToMem : public baseSubComponent {
         // Params
         SST::Output* out;           // SST Output object for printing, messaging, etc
         SST::Interfaces::SimpleNetwork* iFace; // SST network interface
-        SST::nid_t memContCompID;
+        SSST::Interfaces::SimpleNetwork::nid_t memContCompID;
 };
 
 #endif
