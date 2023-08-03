@@ -57,19 +57,15 @@ void rtrToMem::init(unsigned int phase){
     iFace->init(phase);
 
     if( iFace->isNetworkInitialized() ){
-        //if( !initBroadcastSent) {
-        //    initBroadcastSent = true;
+        SST::Interfaces::SimpleNetwork::Request * req = new SST::Interfaces::SimpleNetwork::Request();
+        req->dest = SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR;
+        req->src = iFace->getEndpointID();
 
-            SST::Interfaces::SimpleNetwork::Request * req = new SST::Interfaces::SimpleNetwork::Request();
-            req->dest = SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR;
-            req->src = iFace->getEndpointID();
+        endpointDiscoveryEvent *ev = new endpointDiscoveryEvent(adjacentSubComp->getEndpointType());
+        ev->setSrc(iFace->getEndpointID());
 
-            endpointDiscoveryEvent *ev = new endpointDiscoveryEvent(adjacentSubComp->getEndpointType());
-            ev->setSrc(iFace->getEndpointID());
-
-            req->givePayload(ev);
-            iFace->sendInitData(req);
-        //}
+        req->givePayload(ev);
+        iFace->sendInitData(req);
     }
 
     while( SST::Interfaces::SimpleNetwork::Request* req = iFace->recvInitData() ) {
