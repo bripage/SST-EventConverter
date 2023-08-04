@@ -41,7 +41,7 @@ class rtrToMem : public baseSubComponent {
         ~rtrToMem();
         void send(SST::Event*);
         bool handleEvent(int vn);
-        void init(unsigned int phase) = 0;
+        void init(unsigned int phase);
 
     private:
         // Params
