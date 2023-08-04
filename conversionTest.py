@@ -17,7 +17,6 @@ sst.setProgramOption("timebase", "1 ps")
 #-- set the `stop-at` option
 sst.setProgramOption("stop-at", "10s")
 
-
 #
 # Create CPU and Memory Traffic Generator
 #
@@ -36,7 +35,6 @@ gen.addParams({
 })
 
 iface = cpu.setSubComponent("memory", "memHierarchy.standardInterface")
-
 
 #
 # Create MemHierarchy Components
@@ -102,7 +100,6 @@ bus_evConv_rtr_iFace.addParams({
   "output_buf_size" : "512B",
   "link_bw" : "1GB/s"
 })
-
 
 #
 # Create  Routers
