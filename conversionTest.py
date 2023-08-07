@@ -161,8 +161,11 @@ link_routers1.connect((router1, "port0", "100ps"),(router2, "port0", "100ps"))
 link_rtr2_busConv = sst.Link("link_rtr2_busConv")
 link_rtr2_busConv.connect((router2, "port4", "1ps"), (bus_evConv_rtr_iFace, "rtr_port", "1ps"))
 
-link_bus_evConv = sst.Link("link_bus_evConv")
-link_bus_evConv.connect((bus, "high_network_0", "1ps"),(bus_evConv_mem, "memPort", "1ps"))
+#link_bus_evConv = sst.Link("link_bus_evConv")
+#link_bus_evConv.connect((bus, "high_network_0", "1ps"),(bus_evConv_mem, "memPort", "1ps"))
 
-link_bus_memctrl = sst.Link("link_bus_memctrl")
-link_bus_memctrl.connect((bus, "low_network_0", "10ps"),(memctrl, "direct_link", "50ps"))
+#link_bus_memctrl = sst.Link("link_bus_memctrl")
+#link_bus_memctrl.connect((bus, "low_network_0", "10ps"),(memctrl, "direct_link", "50ps"))
+
+link_mem_evConv = sst.Link("link_mem_evConv")
+link_mem_evConv.connect((memctrl, "direct_link", "1ps"),(bus_evConv_mem, "memPort", "1ps"))
