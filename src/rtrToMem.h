@@ -38,10 +38,10 @@ class rtrToMem : public baseSubComponent {
         )
 
         rtrToMem(ComponentId_t id, Params& params);
-        ~rtrToMem();
-        void send(SST::Event*);
+        ~rtrToMem() override;
+        void send(SST::Event*) override;
+        void init(unsigned int phase) override;
         bool handleEvent(int vn);
-        void init(unsigned int phase);
 
     private:
         // Params

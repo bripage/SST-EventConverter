@@ -37,16 +37,17 @@ class memToRtr : public baseSubComponent {
         SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS()
 
         memToRtr(ComponentId_t id, Params& params);
-        ~memToRtr();
-        void send(SST::Event*);
+        ~memToRtr() override;
+        void send(SST::Event*) override;
+        void init(unsigned int) override;
         void handleEvent(SST::Event*);
-        bool getEndpointType(){return endpointType;}
+        //bool getEndpointType(){return endpointType;}
 
     private:
         // Params
         SST::Output* out;           // SST Output object for printing, messaging, etc
         SST::Link* memLink;
-        bool endpointType = 0;
+        //bool endpointType = 0;  // this comes from the base class, baseSubComponent
 };
 
 #endif

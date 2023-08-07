@@ -19,6 +19,10 @@ memToRtr::~memToRtr(){
     delete out;
 }
 
+// handle the init calls
+void memToRtr::init(unsigned int phase){
+}
+
 // receive memory event from router side
 void memToRtr::send(SST::Event* ev){
     SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);

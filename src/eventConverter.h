@@ -55,15 +55,19 @@ namespace SST {
             SST_ELI_REGISTER_SUBCOMPONENT_API(SST::eventConverter::baseSubComponent)
 
             baseSubComponent(SST::ComponentId_t id, SST::Params& params)
-                    : SubComponent(id) { }
+                    : SubComponent(id),adjacentSubComp(nullptr),endpointType(0) { }
 
+            // virtual methods
             virtual ~baseSubComponent() { }
-            virtual void send(SST::Event *){ };
-            virtual void init(unsigned int);
-            bool getEndpointType();
+            virtual void send(SST::Event *) = 0;
+            virtual void init(unsigned int) = 0 ;
+
+            // base methods
+            bool getEndpointType() { return endpointType; }
             void setAdjacentSubComp(baseSubComponent* comp){adjacentSubComp = comp;}
 
             baseSubComponent* adjacentSubComp;
+            bool endpointType;
         };
 
         // ---------------------------------------------------------------------------------------------------

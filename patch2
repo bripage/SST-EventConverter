@@ -1,0 +1,94 @@
+diff --git a/src/eventConverter.h b/src/eventConverter.h
+index 6132537..69c2f0c 100644
+--- a/src/eventConverter.h
++++ b/src/eventConverter.h
+@@ -55,15 +55,19 @@ namespace SST {
+             SST_ELI_REGISTER_SUBCOMPONENT_API(SST::eventConverter::baseSubComponent)
+ 
+             baseSubComponent(SST::ComponentId_t id, SST::Params& params)
+-                    : SubComponent(id) { }
++                    : SubComponent(id),adjacentSubComp(nullptr),endpointType(0) { }
+ 
++            // virtual methods
+             virtual ~baseSubComponent() { }
+-            virtual void send(SST::Event *){ };
+-            virtual void init(unsigned int);
+-            bool getEndpointType();
++            virtual void send(SST::Event *) = 0;
++            virtual void init(unsigned int) = 0 ;
++
++            // base methods
++            bool getEndpointType() { return endpointType; }
+             void setAdjacentSubComp(baseSubComponent* comp){adjacentSubComp = comp;}
+ 
+             baseSubComponent* adjacentSubComp;
++            bool endpointType;
+         };
+ 
+         // ---------------------------------------------------------------------------------------------------
+diff --git a/src/memToRtr.cc b/src/memToRtr.cc
+index 5c4cda6..9fc73cc 100644
+--- a/src/memToRtr.cc
++++ b/src/memToRtr.cc
+@@ -19,6 +19,10 @@ memToRtr::~memToRtr(){
+     delete out;
+ }
+ 
++// handle the init calls
++void memToRtr::init(unsigned int phase){
++}
++
+ // receive memory event from router side
+ void memToRtr::send(SST::Event* ev){
+     SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
+diff --git a/src/memToRtr.h b/src/memToRtr.h
+index 8a974f2..e1e123e 100644
+--- a/src/memToRtr.h
++++ b/src/memToRtr.h
+@@ -37,16 +37,17 @@ class memToRtr : public baseSubComponent {
+         SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS()
+ 
+         memToRtr(ComponentId_t id, Params& params);
+-        ~memToRtr();
+-        void send(SST::Event*);
++        ~memToRtr() override;
++        void send(SST::Event*) override;
++        void init(unsigned int) override;
+         void handleEvent(SST::Event*);
+-        bool getEndpointType(){return endpointType;}
++        //bool getEndpointType(){return endpointType;}
+ 
+     private:
+         // Params
+         SST::Output* out;           // SST Output object for printing, messaging, etc
+         SST::Link* memLink;
+-        bool endpointType = 0;
++        //bool endpointType = 0;  // this comes from the base class, baseSubComponent
+ };
+ 
+ #endif
+diff --git a/src/rtrToMem.h b/src/rtrToMem.h
+index 66ea3ef..43e8163 100644
+--- a/src/rtrToMem.h
++++ b/src/rtrToMem.h
+@@ -38,10 +38,10 @@ class rtrToMem : public baseSubComponent {
+         )
+ 
+         rtrToMem(ComponentId_t id, Params& params);
+-        ~rtrToMem();
+-        void send(SST::Event*);
++        ~rtrToMem() override;
++        void send(SST::Event*) override;
++        void init(unsigned int phase) override;
+         bool handleEvent(int vn);
+-        void init(unsigned int phase);
+ 
+     private:
+         // Params
+@@ -50,4 +50,4 @@ class rtrToMem : public baseSubComponent {
+         SST::Interfaces::SimpleNetwork::nid_t memContCompID;
+ };
+ 
+-#endif
+\ No newline at end of file
++#endif
