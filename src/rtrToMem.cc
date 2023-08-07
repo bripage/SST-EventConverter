@@ -58,6 +58,8 @@ bool rtrToMem::handleEvent(int vn){
 void rtrToMem::init(unsigned int phase){
     iFace->init(phase);
 
+    out->output("%s begining init phase %d\n", getName().c_str(), phase);
+
     if( iFace->isNetworkInitialized() ){
         SST::Interfaces::SimpleNetwork::Request * req = new SST::Interfaces::SimpleNetwork::Request();
         req->dest = SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR;
@@ -78,14 +80,18 @@ void rtrToMem::init(unsigned int phase){
 
         if (ev) {
             //out->verbose(CALL_INFO, 1, 0, "%s received init message from %d\n", getName().c_str(), ev->getSrc());
-            out->output("%s received init message from %d\n", getName().c_str(), ev->getSrc());
 
             bool remoteEndpointType = ev->getPayload();
+            out->output("%s received init message from %d (endpointType = %d)\n", getName().c_str(), ev->getSrc(),
+                        remoteEndpointType);
+
             if (remoteEndpointType) {
                 memContCompID = ev->getSrc();
             }
         }
     }
+
+    out->output("%s ending init phase %d\n", getName().c_str(), phase);
 }
 
 
