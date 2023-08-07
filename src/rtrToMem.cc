@@ -12,7 +12,7 @@ using namespace SST::eventConverter;
 
 rtrToMem::rtrToMem(ComponentId_t id, Params& params)
   : baseSubComponent(id, params) {
-    printf("getName().c_str() Created!\n");
+    printf("%s Created!\n", getName().c_str());
     const int Verbosity = params.find<int>("verbose", 0);
     out = new Output("", Verbosity, 0, Output::STDOUT);
 
