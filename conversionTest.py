@@ -9,7 +9,7 @@ from sst.merlin import *
 DEBUG_L1 = 0
 DEBUG_MEM = 0
 DEBUG_LEVEL = 10
-VERBOSE = 2
+VERBOSE = 10
 MEM_SIZE = 1024*1024*1024-1
 
 sst.setProgramOption("timebase", "1 ps")
