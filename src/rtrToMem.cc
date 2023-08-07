@@ -56,10 +56,7 @@ bool rtrToMem::handleEvent(int vn){
 
 void rtrToMem::init(unsigned int phase){
     iFace->init(phase);
-    //printf("%s begining init phase %d\n", getName().c_str(), phase);
-
-    //out->output("%s begining init phase %d\n", getName().c_str(), phase);
-    out->verbose(CALL_INFO, 1, 0, "%s begining init phase %d\n", getName().c_str(), phase);
+    out->verbose(CALL_INFO, 9, 0, "%s begining init phase %d\n", getName().c_str(), phase);
 
     if( iFace->isNetworkInitialized() ){
         SST::Interfaces::SimpleNetwork::Request * req = new SST::Interfaces::SimpleNetwork::Request();
@@ -71,8 +68,11 @@ void rtrToMem::init(unsigned int phase){
 
         req->givePayload(ev);
 
-        out->output("%s (endpointType=%d) sending init message to %d\n", getName().c_str(),
-                    adjacentSubComp->getEndpointType(), req->dest);
+        #out->output("%s (endpointType=%d) sending init message to %d\n", getName().c_str(),
+        #               adjacentSubComp->getEndpointType(), req->dest);
+        out->verbose(CALL_INFO, 2, 0, "%s (endpointType=%d) sending init message to %d\n", getName().c_str(),
+                        adjacentSubComp->getEndpointType(), req->dest);
+
         iFace->sendInitData(req);
     }
 
@@ -92,9 +92,7 @@ void rtrToMem::init(unsigned int phase){
         }
     }
 
-    //printf("%s ending init phase %d\n", getName().c_str(), phase);
-    //out->output("%s ending init phase %d\n", getName().c_str(), phase);
-    out->verbose(CALL_INFO, 1, 0, "%s ending init phase %d\n", getName().c_str(), phase);
+    out->verbose(CALL_INFO, 9, 0, "%s ending init phase %d\n", getName().c_str(), phase);
 }
 
 
