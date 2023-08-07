@@ -18,6 +18,8 @@ rtrToMem::rtrToMem(ComponentId_t id, Params& params)
 
     iFace = loadUserSubComponent<SST::Interfaces::SimpleNetwork>("iface", ComponentInfo::SHARE_NONE, 1);
     iFace->setNotifyOnReceive(new SST::Interfaces::SimpleNetwork::Handler<rtrToMem>(this, &rtrToMem::handleEvent));
+
+    initBroadcastSent = false;
 }
 
 // memToRtr destructor
@@ -59,18 +61,21 @@ void rtrToMem::init(unsigned int phase){
     out->verbose(CALL_INFO, 9, 0, "%s begining init phase %d\n", getName().c_str(), phase);
 
     if( iFace->isNetworkInitialized() ){
-        SST::Interfaces::SimpleNetwork::Request * req = new SST::Interfaces::SimpleNetwork::Request();
-        req->dest = SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR;
-        req->src = iFace->getEndpointID();
+        if(!initBroadcastSent) {
+            initBroadcastSent = true;
+            SST::Interfaces::SimpleNetwork::Request *req = new SST::Interfaces::SimpleNetwork::Request();
+            req->dest = SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR;
+            req->src = iFace->getEndpointID();
 
-        endpointDiscoveryEvent *ev = new endpointDiscoveryEvent(adjacentSubComp->getEndpointType());
-        ev->setSrc(iFace->getEndpointID());
+            endpointDiscoveryEvent *ev = new endpointDiscoveryEvent(adjacentSubComp->getEndpointType());
+            ev->setSrc(iFace->getEndpointID());
 
-        req->givePayload(ev);
-        out->verbose(CALL_INFO, 2, 0, "%s (endpointType=%d) sending init message to %d\n", getName().c_str(),
-                        adjacentSubComp->getEndpointType(), req->dest);
+            req->givePayload(ev);
+            out->verbose(CALL_INFO, 2, 0, "%s (endpointType=%d) sending init message to %d\n", getName().c_str(),
+                         adjacentSubComp->getEndpointType(), req->dest);
 
-        iFace->sendInitData(req);
+            iFace->sendInitData(req);
+        }
     }
 
     while( SST::Interfaces::SimpleNetwork::Request* req = iFace->recvInitData() ) {
