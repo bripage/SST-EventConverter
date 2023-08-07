@@ -13,7 +13,9 @@ using namespace SST::eventConverter;
 rtrToMem::rtrToMem(ComponentId_t id, Params& params)
   : baseSubComponent(id, params) {
 
-    out = new Output("", 1, 0, Output::STDOUT);
+    //out = new Output("", 1, 0, Output::STDOUT);
+    const int Verbosity = params.find<int>("verbose", 0);
+    out = new Output("", Verbosity, 0, Output::STDOUT);
 
     iFace = loadUserSubComponent<SST::Interfaces::SimpleNetwork>("iface", ComponentInfo::SHARE_NONE, 1);
     iFace->setNotifyOnReceive(new SST::Interfaces::SimpleNetwork::Handler<rtrToMem>(this, &rtrToMem::handleEvent));
@@ -65,6 +67,9 @@ void rtrToMem::init(unsigned int phase){
         ev->setSrc(iFace->getEndpointID());
 
         req->givePayload(ev);
+
+        out->output("%s (endpointType=%d) sending init message to %d\n", getName().c_str(),
+                    adjacentSubComp->getEndpointType(), req->dest);
         iFace->sendInitData(req);
     }
 

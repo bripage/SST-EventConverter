@@ -55,7 +55,7 @@ namespace SST {
             SST_ELI_REGISTER_SUBCOMPONENT_API(SST::eventConverter::baseSubComponent)
 
             baseSubComponent(SST::ComponentId_t id, SST::Params& params)
-                    : SubComponent(id),adjacentSubComp(nullptr),endpointType(0) { }
+                    : SubComponent(id),adjacentSubComp(nullptr),endpointType(0), verbose(0) { }
 
             // virtual methods
             virtual ~baseSubComponent() { }
@@ -68,6 +68,7 @@ namespace SST {
 
             baseSubComponent* adjacentSubComp;
             bool endpointType;
+            uint32_t verbose;
         };
 
         // ---------------------------------------------------------------------------------------------------

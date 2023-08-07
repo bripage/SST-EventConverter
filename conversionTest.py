@@ -82,7 +82,8 @@ memory.addParams({
 cpu_evConv = sst.Component("cpu_evConv", "eventConverter.memRtrConverter")
 cpu_evConv_mem = cpu_evConv.setSubComponent("memory", "eventConverter.memToRtr")
 cpu_evConv_mem.addParams({
-  "type" : 0
+  "type" : 0,
+  "verbose": 10
 })
 cpu_evConv_rtr = cpu_evConv.setSubComponent("router", "eventConverter.rtrToMem")
 
@@ -96,7 +97,8 @@ cpu_evConv_rtr_iFace.addParams({
 bus_evConv = sst.Component("bus_evConv", "eventConverter.memRtrConverter")
 bus_evConv_mem = bus_evConv.setSubComponent("memory", "eventConverter.memToRtr")
 bus_evConv_mem.addParams({
-  "type" : 1
+  "type" : 1,
+  "verbose": 10
 })
 bus_evConv_rtr = bus_evConv.setSubComponent("router", "eventConverter.rtrToMem")
 
