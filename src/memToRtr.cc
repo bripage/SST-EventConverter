@@ -9,7 +9,7 @@ using namespace SST::eventConverter;
 
 memToRtr::memToRtr(ComponentId_t id, Params& params)
   : baseSubComponent(id, params) {
-
+    printf("getName().c_str() Created!\n");
     const int Verbosity = params.find<int>("verbose", 0);
     out = new Output("", Verbosity, 0, Output::STDOUT);
 
@@ -26,7 +26,9 @@ memToRtr::~memToRtr(){
 void memToRtr::init(unsigned int phase){
     out->output("%s begining init phase %d\n", getName().c_str(), phase);
     out->verbose(CALL_INFO, 1, 0, "%s begining init phase %d\n", getName().c_str(), phase);
+    printf("%s begining init phase %d\n", getName().c_str(), phase);
 
+    printf("%s ending init phase %d\n", getName().c_str(), phase);
     out->output("%s ending init phase %d\n", getName().c_str(), phase);
     out->verbose(CALL_INFO, 1, 0, "%s ending init phase %d\n", getName().c_str(), phase);
 }

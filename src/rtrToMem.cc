@@ -12,7 +12,7 @@ using namespace SST::eventConverter;
 
 rtrToMem::rtrToMem(ComponentId_t id, Params& params)
   : baseSubComponent(id, params) {
-    printf("Does printf() work?\n");
+    printf("getName().c_str() Created!\n");
     const int Verbosity = params.find<int>("verbose", 0);
     out = new Output("", Verbosity, 0, Output::STDOUT);
 
@@ -56,8 +56,7 @@ bool rtrToMem::handleEvent(int vn){
 
 void rtrToMem::init(unsigned int phase){
     iFace->init(phase);
-    std::cout << "I am a message" << std::endl;
-    printf("Does printf() work?\n");
+    printf("%s begining init phase %d\n", getName().c_str(), phase);
 
     out->output("%s begining init phase %d\n", getName().c_str(), phase);
     out->verbose(CALL_INFO, 1, 0, "%s begining init phase %d\n", getName().c_str(), phase);
@@ -93,6 +92,7 @@ void rtrToMem::init(unsigned int phase){
         }
     }
 
+    printf("%s ending init phase %d\n", getName().c_str(), phase);
     out->output("%s ending init phase %d\n", getName().c_str(), phase);
     out->verbose(CALL_INFO, 1, 0, "%s ending init phase %d\n", getName().c_str(), phase);
 }
