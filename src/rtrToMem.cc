@@ -56,7 +56,8 @@ bool rtrToMem::handleEvent(int vn){
 
 void rtrToMem::init(unsigned int phase){
     iFace->init(phase);
-
+    std::cout << "I am a message" << std::endl;
+    
     out->output("%s begining init phase %d\n", getName().c_str(), phase);
     out->verbose(CALL_INFO, 1, 0, "%s begining init phase %d\n", getName().c_str(), phase);
 
