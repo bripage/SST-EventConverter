@@ -54,10 +54,10 @@ l1_cache.addParams({
 })
 l1_cache.enableAllStatistics({"type":"sst.AccumulatorStatistic"})
 
-bus = sst.Component("bus", "memHierarchy.Bus")
-bus.addParams({
-  "bus_frequency" : "2GHz"
-})
+#bus = sst.Component("bus", "memHierarchy.Bus")
+#bus.addParams({
+#  "bus_frequency" : "2GHz"
+#})
 
 memctrl = sst.Component("memory", "memHierarchy.MemController")
 memctrl.addParams({
