@@ -39,6 +39,10 @@ namespace SST {
             void setSrc(uint32_t id){src = id;}
             uint32_t getSrc(){return src;}
             bool getPayload() { return payload; }
+            virtual endpointDiscoveryEvent* clone(void) override {
+                return new endpointDiscoveryEvent(*this);
+            }
+
             ImplementSerializable(SST::eventConverter::endpointDiscoveryEvent);
 
         private:
