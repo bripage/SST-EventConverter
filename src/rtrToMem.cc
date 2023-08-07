@@ -72,8 +72,8 @@ void rtrToMem::init(unsigned int phase){
         endpointDiscoveryEvent *ev = dynamic_cast<endpointDiscoveryEvent*>(req->takePayload());
 
         if (ev) {
-            out->verbose(CALL_INFO, 1, 0, "%s received init message from %d\n", getName().c_str(),
-                            ev->getSrc());
+            //out->verbose(CALL_INFO, 1, 0, "%s received init message from %d\n", getName().c_str(), ev->getSrc());
+            out->output("%s received init message from %d\n", getName().c_str(), ev->getSrc());
 
             bool remoteEndpointType = ev->getPayload();
             if (remoteEndpointType) {
