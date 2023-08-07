@@ -28,6 +28,7 @@ class memToRtr : public baseSubComponent {
 
         SST_ELI_DOCUMENT_PARAMS(
                 {"type", "MemHiearchy endpoint type: 0 = cache, 1 = memory controller","0"}
+                {"verbose", "Verbosity level","0"}
         )
 
         SST_ELI_DOCUMENT_PORTS(

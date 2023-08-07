@@ -27,7 +27,9 @@ class rtrToMem : public baseSubComponent {
             SST::eventConverter::baseSubComponent
         )
 
-        SST_ELI_DOCUMENT_PARAMS()
+        SST_ELI_DOCUMENT_PARAMS({
+            {"verbose", "Verbosity level","0"}
+        })
 
         SST_ELI_DOCUMENT_PORTS(
             {"rtrPort", "Link to another component which uses SST::Interfaces::SimpleNetwork.", {"simpleNetworkExample.nicEvent"} }
