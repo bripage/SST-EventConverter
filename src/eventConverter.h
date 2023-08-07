@@ -105,6 +105,7 @@ namespace SST {
 
                 memRtrConverter(SST::ComponentId_t id, SST::Params& params);
                 ~memRtrConverter();
+                void init(unsigned int phase);
 
             private:
                 SST::Output* out;       // SST Output object for printing, messaging, etc
