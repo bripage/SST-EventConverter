@@ -68,8 +68,8 @@ void rtrToMem::init(unsigned int phase){
 
         req->givePayload(ev);
 
-        #out->output("%s (endpointType=%d) sending init message to %d\n", getName().c_str(),
-        #               adjacentSubComp->getEndpointType(), req->dest);
+        //out->output("%s (endpointType=%d) sending init message to %d\n", getName().c_str(),
+        //               adjacentSubComp->getEndpointType(), req->dest);
         out->verbose(CALL_INFO, 2, 0, "%s (endpointType=%d) sending init message to %d\n", getName().c_str(),
                         adjacentSubComp->getEndpointType(), req->dest);
 
