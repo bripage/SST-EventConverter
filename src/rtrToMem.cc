@@ -72,7 +72,7 @@ void rtrToMem::init(unsigned int phase){
 
             req->givePayload(ev);
             out->verbose(CALL_INFO, 2, 0, "%s (endpointType=%d) sending init message to %d\n", getName().c_str(),
-                         adjacentSubComp->getEndpointType(), req->dest);
+                         adjacentSubComp->getEndpointType(), SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR);
 
             iFace->sendInitData(req);
         }

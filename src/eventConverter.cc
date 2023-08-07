@@ -25,6 +25,5 @@ memRtrConverter::~memRtrConverter(){
 }
 
 void memRtrConverter::init(unsigned int phase){
-    memSubComp->init(phase);
     rtrSubComp->init(phase);
 }
