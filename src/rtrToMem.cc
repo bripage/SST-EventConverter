@@ -86,7 +86,7 @@ void rtrToMem::init(unsigned int phase){
                         remoteEndpointType);
 
             if (remoteEndpointType) {
-                memContCompID = ev->getSrc();
+                memContCompID = static_cast<SST::Interfaces::SimpleNetwork::nid_t>(ev->getSrc());
             }
         }
     }
