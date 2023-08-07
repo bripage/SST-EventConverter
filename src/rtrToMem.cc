@@ -56,9 +56,9 @@ bool rtrToMem::handleEvent(int vn){
 
 void rtrToMem::init(unsigned int phase){
     iFace->init(phase);
-    printf("%s begining init phase %d\n", getName().c_str(), phase);
+    //printf("%s begining init phase %d\n", getName().c_str(), phase);
 
-    out->output("%s begining init phase %d\n", getName().c_str(), phase);
+    //out->output("%s begining init phase %d\n", getName().c_str(), phase);
     out->verbose(CALL_INFO, 1, 0, "%s begining init phase %d\n", getName().c_str(), phase);
 
     if( iFace->isNetworkInitialized() ){
@@ -92,8 +92,8 @@ void rtrToMem::init(unsigned int phase){
         }
     }
 
-    printf("%s ending init phase %d\n", getName().c_str(), phase);
-    out->output("%s ending init phase %d\n", getName().c_str(), phase);
+    //printf("%s ending init phase %d\n", getName().c_str(), phase);
+    //out->output("%s ending init phase %d\n", getName().c_str(), phase);
     out->verbose(CALL_INFO, 1, 0, "%s ending init phase %d\n", getName().c_str(), phase);
 }
 

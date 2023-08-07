@@ -24,12 +24,12 @@ memToRtr::~memToRtr(){
 
 // handle the init calls
 void memToRtr::init(unsigned int phase){
-    out->output("%s begining init phase %d\n", getName().c_str(), phase);
+    //out->output("%s begining init phase %d\n", getName().c_str(), phase);
     out->verbose(CALL_INFO, 1, 0, "%s begining init phase %d\n", getName().c_str(), phase);
-    printf("%s begining init phase %d\n", getName().c_str(), phase);
+    //printf("%s begining init phase %d\n", getName().c_str(), phase);
 
-    printf("%s ending init phase %d\n", getName().c_str(), phase);
-    out->output("%s ending init phase %d\n", getName().c_str(), phase);
+    //printf("%s ending init phase %d\n", getName().c_str(), phase);
+    //out->output("%s ending init phase %d\n", getName().c_str(), phase);
     out->verbose(CALL_INFO, 1, 0, "%s ending init phase %d\n", getName().c_str(), phase);
 }
 
