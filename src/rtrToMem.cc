@@ -13,7 +13,6 @@ using namespace SST::eventConverter;
 rtrToMem::rtrToMem(ComponentId_t id, Params& params)
   : baseSubComponent(id, params) {
 
-    //out = new Output("", 1, 0, Output::STDOUT);
     const int Verbosity = params.find<int>("verbose", 0);
     out = new Output("", Verbosity, 0, Output::STDOUT);
 
@@ -59,6 +58,7 @@ void rtrToMem::init(unsigned int phase){
     iFace->init(phase);
 
     out->output("%s begining init phase %d\n", getName().c_str(), phase);
+    out->verbose(CALL_INFO, 1, 0, "%s begining init phase %d\n", getName().c_str(), phase);
 
     if( iFace->isNetworkInitialized() ){
         SST::Interfaces::SimpleNetwork::Request * req = new SST::Interfaces::SimpleNetwork::Request();
@@ -79,7 +79,7 @@ void rtrToMem::init(unsigned int phase){
         endpointDiscoveryEvent *ev = dynamic_cast<endpointDiscoveryEvent*>(req->takePayload());
 
         if (ev) {
-            //out->verbose(CALL_INFO, 1, 0, "%s received init message from %d\n", getName().c_str(), ev->getSrc());
+            out->verbose(CALL_INFO, 1, 0, "%s received init message from %d\n", getName().c_str(), ev->getSrc());
 
             bool remoteEndpointType = ev->getPayload();
             out->output("%s received init message from %d (endpointType = %d)\n", getName().c_str(), ev->getSrc(),
@@ -92,6 +92,7 @@ void rtrToMem::init(unsigned int phase){
     }
 
     out->output("%s ending init phase %d\n", getName().c_str(), phase);
+    out->verbose(CALL_INFO, 1, 0, "%s ending init phase %d\n", getName().c_str(), phase);
 }
 
 

@@ -83,11 +83,11 @@ cpu_evConv = sst.Component("cpu_evConv", "eventConverter.memRtrConverter")
 cpu_evConv_mem = cpu_evConv.setSubComponent("memory", "eventConverter.memToRtr")
 cpu_evConv_mem.addParams({
   "type" : 0,
-  "verbose": 0
+  "verbose": VERBOSE
 })
 cpu_evConv_rtr = cpu_evConv.setSubComponent("router", "eventConverter.rtrToMem")
 cpu_evConv_rtr.addParams({
-  "verbose": 0
+  "verbose": VERBOSE
 })
 
 cpu_evConv_rtr_iFace = cpu_evConv_rtr.setSubComponent("iface", "merlin.linkcontrol")
@@ -101,11 +101,11 @@ bus_evConv = sst.Component("bus_evConv", "eventConverter.memRtrConverter")
 bus_evConv_mem = bus_evConv.setSubComponent("memory", "eventConverter.memToRtr")
 bus_evConv_mem.addParams({
   "type" : 1,
-  "verbose": 10
+  "verbose": 0
 })
 bus_evConv_rtr = bus_evConv.setSubComponent("router", "eventConverter.rtrToMem")
 bus_evConv_rtr.addParams({
-  "verbose": 10
+  "verbose": 0
 })
 
 bus_evConv_rtr_iFace = bus_evConv_rtr.setSubComponent("iface", "merlin.linkcontrol")

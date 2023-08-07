@@ -42,13 +42,11 @@ class memToRtr : public baseSubComponent {
         void send(SST::Event*) override;
         void init(unsigned int) override;
         void handleEvent(SST::Event*);
-        //bool getEndpointType(){return endpointType;}
 
     private:
         // Params
         SST::Output* out;           // SST Output object for printing, messaging, etc
         SST::Link* memLink;
-        //bool endpointType = 0;  // this comes from the base class, baseSubComponent
 };
 
 #endif
