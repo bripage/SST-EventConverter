@@ -9,7 +9,11 @@ using namespace SST::eventConverter;
 
 memToRtr::memToRtr(ComponentId_t id, Params& params)
   : baseSubComponent(id, params) {
-    out = new Output("", 1, 0, Output::STDOUT);
+
+    //out = new Output("", 1, 0, Output::STDOUT);
+    const int Verbosity = params.find<int>("verbose", 0);
+    out = new Output("", Verbosity, 0, Output::STDOUT);
+
     memLink = configureLink("memPort", new Event::Handler<memToRtr>(this, &memToRtr::handleEvent));
     endpointType = params.find<bool>("type", 0);
 }
@@ -21,6 +25,9 @@ memToRtr::~memToRtr(){
 
 // handle the init calls
 void memToRtr::init(unsigned int phase){
+    out->output("%s begining init phase %d\n", getName().c_str(), phase);
+
+    out->output("%s ending init phase %d\n", getName().c_str(), phase);
 }
 
 // receive memory event from router side
