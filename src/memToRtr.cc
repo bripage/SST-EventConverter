@@ -13,7 +13,13 @@ memToRtr::memToRtr(ComponentId_t id, Params& params)
     const int Verbosity = params.find<int>("verbose", 0);
     out = new Output("", Verbosity, 0, Output::STDOUT);
 
-    memLink = configureLink("memPort", new Event::Handler<memToRtr>(this, &memToRtr::handleEvent));
+    memIface = loadUserSubComponent<Interfaces::StandardMem>(
+            "memIface", ComponentInfo::SHARE_NONE, , new StandardMem::Handler<memToRtr>(this, &memToRtr::handleEvent));
+
+    if( !memIface ){
+        output->fatal(CALL_INFO, -1, "Error : memory interface is null\n");
+    }
+
     endpointType = params.find<bool>("type", 0);
 }
 
@@ -25,7 +31,7 @@ memToRtr::~memToRtr(){
 // receive memory event from router side
 void memToRtr::send(SST::Event* ev){
     SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
-    memLink->send(mev->clone());
+    memIface->send(mev->clone());
     delete mev;
     delete ev;
 }
@@ -40,7 +46,7 @@ void memToRtr::init(unsigned int phase){
     out->verbose(CALL_INFO, 9, 0, "%s begining init phase %d\n", getName().c_str(), phase);
     SST::Event *ev;
 
-    while ((ev = memLink->recvUntimedData())) {
+    while (ev = memIface->recvUntimedData()) {
         cloneableEvent* cev = dynamic_cast<cloneableEvent*>(ev);
         if (cev) {
             out->verbose(CALL_INFO, 9, 0, "%s sending init events to router side %d\n", getName().c_str(), phase);
@@ -54,7 +60,7 @@ void memToRtr::init(unsigned int phase){
 void memToRtr::passOffInitEvents(SST::Event* ev){
     cloneableEvent* cev = dynamic_cast<cloneableEvent*>(ev);
     if (cev) {
-        memLink->send(cev->clone());
+        memIface->send(cev->clone());
     }
     delete cev;
 }

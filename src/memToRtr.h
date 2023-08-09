@@ -31,11 +31,11 @@ class memToRtr : public baseSubComponent {
                 {"verbose", "Verbosity level","0"}
         )
 
-        SST_ELI_DOCUMENT_PORTS(
-            {"memPort", "Link to another component which uses memory events.", {"memHierarchy.MemEventBase"} }
-        )
+        SST_ELI_DOCUMENT_PORTS()
 
-        SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS()
+        SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS(
+            { "memIface", "Set the interface to memory", "SST::Interfaces::StandardMem" }
+        )
 
         memToRtr(ComponentId_t id, Params& params);
         ~memToRtr() override;
@@ -48,6 +48,7 @@ class memToRtr : public baseSubComponent {
         // Params
         SST::Output* out;           // SST Output object for printing, messaging, etc
         SST::Link* memLink;
+        StandardMem* memIface;                  ///< StandardMem memory interface
 };
 
 #endif
