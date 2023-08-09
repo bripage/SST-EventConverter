@@ -48,7 +48,8 @@ void memToRtr::init(unsigned int phase){
     out->verbose(CALL_INFO, 9, 0, "%s ending init phase %d\n", getName().c_str(), phase);
 }
 
-void memToRtr::passOffInitEvents(clonableEvent* ev){
-    memLink->send(ev->clone());
+void memToRtr::passOffInitEvents(SST::Event* ev){
+    eventConverter::clonableEvent* cev = dynamic_cast<eventConverter::clonableEvent*>(ev);
+    memLink->send(cev->clone());
     delete ev;
 }
