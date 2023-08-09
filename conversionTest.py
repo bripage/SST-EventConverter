@@ -130,7 +130,8 @@ router1.addParams({
   "num_ports" : 3,
   "mesh.local_ports" : 1,
   "mesh.shape" : "2",
-  "mesh.width" : "1"
+  "mesh.width" : "1",
+  "debug" : 1
 })
 
 router2 = sst.Component("router2", "merlin.hr_router")
@@ -145,7 +146,8 @@ router2.addParams({
   "num_ports" : 3,
   "mesh.local_ports" : 1,
   "mesh.shape" : "2",
-  "mesh.width" : "1"
+  "mesh.width" : "1",
+  "debug" : 1
 })
 
 
