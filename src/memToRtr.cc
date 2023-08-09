@@ -13,11 +13,11 @@ memToRtr::memToRtr(ComponentId_t id, Params& params)
     const int Verbosity = params.find<int>("verbose", 0);
     out = new Output("", Verbosity, 0, Output::STDOUT);
 
-    memIFace = loadUserSubComponent<Interfaces::StandardMem>(
-            "memIFace", ComponentInfo::SHARE_NONE, , new StandardMem::Handler<memToRtr>(this, &memToRtr::handleEvent));
+    memIFace = loadUserSubComponent<SST::Interfaces::StandardMem>(
+            "memIFace", ComponentInfo::SHARE_NONE, getTimeConverter("1GHz"), new SST::Interfaces::StandardMem::Handler<memToRtr>(this, &memToRtr::handleEvent));
 
     if( !memIFace ){
-        output->fatal(CALL_INFO, -1, "Error : memory interface is null\n");
+        out->fatal(CALL_INFO, -1, "Error : memory interface is null\n");
     }
 
     endpointType = params.find<bool>("type", 0);
@@ -43,6 +43,8 @@ void memToRtr::handleEvent(SST::Event* ev){
 }
 
 void memToRtr::init(unsigned int phase){
+    memIFace->init(phase)
+    /*
     out->verbose(CALL_INFO, 9, 0, "%s begining init phase %d\n", getName().c_str(), phase);
     SST::Event *ev;
 
@@ -53,7 +55,7 @@ void memToRtr::init(unsigned int phase){
             adjacentSubComp->passOffInitEvents(cev->clone());
         }
     }
-
+    */
     out->verbose(CALL_INFO, 9, 0, "%s ending init phase %d\n", getName().c_str(), phase);
 }
 
