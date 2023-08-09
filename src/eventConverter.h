@@ -20,7 +20,6 @@ namespace SST {
             // Basic Constructor : inherits SST::Event()
             clonableEvent() : SST::Event() { }
             // Overloaded Constructor
-            clonableEvent() : SST::Event(), payload() { }
 
             void serialize_order(SST::Core::Serialization::serializer &ser)
             override {
