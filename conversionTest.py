@@ -101,11 +101,11 @@ bus_evConv = sst.Component("bus_evConv", "eventConverter.memRtrConverter")
 bus_evConv_mem = bus_evConv.setSubComponent("memory", "eventConverter.memToRtr")
 bus_evConv_mem.addParams({
   "type" : 1,
-  "verbose": 0
+  "verbose": VERBOSE
 })
 bus_evConv_rtr = bus_evConv.setSubComponent("router", "eventConverter.rtrToMem")
 bus_evConv_rtr.addParams({
-  "verbose": 0
+  "verbose": VERBOSE
 })
 
 bus_evConv_rtr_iFace = bus_evConv_rtr.setSubComponent("iface", "merlin.linkcontrol")
