@@ -13,6 +13,28 @@
 namespace SST {
     namespace eventConverter {
 
+        // This is literally an SST::Event but with the ability to clone it like nearly all other events
+        // P.S. I cant understand why this isnt a thing
+        class clonableEvent : public SST::Event {
+        public:
+            // Basic Constructor : inherits SST::Event()
+            clonableEvent() : SST::Event() { }
+            // Overloaded Constructor
+            clonableEvent() : SST::Event(), payload() { }
+
+
+            virtual clonableEvent* clone(void) override {
+                return new clonableEvent(*this);
+            }
+
+        ImplementSerializable(SST::eventConverter::endpointDiscoveryEvent);
+
+        private:
+            // Message payload
+            uint32_t src;
+            bool payload;
+        };
+
         // ---------------------------------------------------------------------------------------------------
         //  endpointDiscoveryEvent Event handler
         //
