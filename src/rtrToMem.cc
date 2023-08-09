@@ -83,7 +83,7 @@ void rtrToMem::init(unsigned int phase){
         out->verbose(CALL_INFO, 1, 0, "%s iFace has request waiting\n", getName().c_str());
     }
 
-    while( SST::Interfaces::SimpleNetwork::Request* req = iFace->recvInitData() ) {
+    while( SST::Interfaces::SimpleNetwork::Request* req = iFace->recvUnlimitedData() ) {
         out->verbose(CALL_INFO, 1, 0, "%s received a request during init()\n", getName().c_str());
         endpointDiscoveryEvent *ev = dynamic_cast<endpointDiscoveryEvent*>(req->takePayload());
 
