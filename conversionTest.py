@@ -90,12 +90,12 @@ cpu_evConv_rtr.addParams({
   "verbose": VERBOSE
 })
 
-#cpu_evConv_rtr_iFace = cpu_evConv_rtr.setSubComponent("iface", "merlin.linkcontrol")
-#cpu_evConv_rtr_iFace.addParams({
-#  "input_buf_size" : "512B",
-#  "output_buf_size" : "512B",
-#  "link_bw" : "1GB/s"
-#})
+cpu_evConv_rtr_iFace = cpu_evConv_rtr.setSubComponent("iface", "merlin.linkcontrol")
+cpu_evConv_rtr_iFace.addParams({
+  "input_buf_size" : "512B",
+  "output_buf_size" : "512B",
+  "link_bw" : "1GB/s"
+})
 
 bus_evConv = sst.Component("bus_evConv", "eventConverter.memRtrConverter")
 bus_evConv_mem = bus_evConv.setSubComponent("memory", "eventConverter.memToRtr")
@@ -108,12 +108,12 @@ bus_evConv_rtr.addParams({
   "verbose": VERBOSE
 })
 
-#bus_evConv_rtr_iFace = bus_evConv_rtr.setSubComponent("iface", "merlin.linkcontrol")
-#bus_evConv_rtr_iFace.addParams({
-#  "input_buf_size" : "512B",
-#  "output_buf_size" : "512B",
-#  "link_bw" : "1GB/s"
-#})
+bus_evConv_rtr_iFace = bus_evConv_rtr.setSubComponent("iface", "merlin.linkcontrol")
+bus_evConv_rtr_iFace.addParams({
+  "input_buf_size" : "512B",
+  "output_buf_size" : "512B",
+  "link_bw" : "1GB/s"
+})
 
 #
 # Create  Routers
@@ -175,7 +175,7 @@ bus_evConv_rtr.addParams({
 #link_mem_evConv.connect((memctrl, "direct_link", "1ps"),(bus_evConv_mem, "memPort", "1ps"))
 
 conv_to_conv = sst.Link("conv_to_conv")
-conv_to_conv.connect((cpu_evConv_rtr, "rtr_port", "1ps"), (bus_evConv_rtr, "rtr_port", "1ps"))
+conv_to_conv.connect((cpu_evConv_rtr_iFace, "rtr_port", "1ps"), (bus_evConv_rtr_iFace, "rtr_port", "1ps"))
 
 sst.setStatisticLoadLevel(10)
 sst.setStatisticOutput("sst.statOutputConsole")
