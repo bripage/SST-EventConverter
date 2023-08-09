@@ -113,8 +113,8 @@ bus_evConv_rtr.addParams({
   "verbose": VERBOSE
 })
 
-bus_evConv_mem = bus_evConv.setSubComponent("memIface", "memHierarchy.standardInterface")
-bus_evConv_mem.addParams({
+bus_evConv_mem_iFace = bus_evConv.setSubComponent("memIface", "memHierarchy.standardInterface")
+bus_evConv_mem_iFace.addParams({
   "verbose" : VERBOSE
 })
 bus_evConv_rtr_iFace = bus_evConv_rtr.setSubComponent("iface", "merlin.linkcontrol")
