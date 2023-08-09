@@ -74,8 +74,8 @@ void rtrToMem::init(unsigned int phase){
             out->verbose(CALL_INFO, 2, 0, "%s (endpointType=%d) sending init message to %zu\n", getName().c_str(),
                          adjacentSubComp->getEndpointType(), SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR);
 
-            //iFace->sendInitData(req);
-            iFace->sendUntimedData(req);
+            iFace->sendInitData(req);
+            //iFace->sendUntimedData(req);
         }
     }
 
@@ -83,7 +83,7 @@ void rtrToMem::init(unsigned int phase){
         out->verbose(CALL_INFO, 1, 0, "%s iFace has request waiting\n", getName().c_str());
     }
 
-    while( SST::Interfaces::SimpleNetwork::Request* req = iFace->recvUntimedData() ) {
+    while( SST::Interfaces::SimpleNetwork::Request* req = iFace->recvInitData() ) {
         out->verbose(CALL_INFO, 1, 0, "%s received a request during init()\n", getName().c_str());
         endpointDiscoveryEvent *ev = dynamic_cast<endpointDiscoveryEvent*>(req->takePayload());
 

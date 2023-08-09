@@ -20,61 +20,61 @@ sst.setProgramOption("stop-at", "10s")
 #
 # Create CPU and Memory Traffic Generator
 #
-cpu = sst.Component("cpu", "miranda.BaseCPU")
-cpu.addParams({
-  "verbose" : 0,
-  "clock" : "1GHz",
-  "printStats" : 1
-})
-gen = cpu.setSubComponent("generator", "miranda.Stencil3DBenchGenerator")
-gen.addParams({
-  "verbose" : 0,
-  "nx" : 30,
-  "ny" : 20,
-  "nz" : 10
-})
+#cpu = sst.Component("cpu", "miranda.BaseCPU")
+#cpu.addParams({
+#  "verbose" : 0,
+#  "clock" : "1GHz",
+#  "printStats" : 1
+#})
+#gen = cpu.setSubComponent("generator", "miranda.Stencil3DBenchGenerator")
+#gen.addParams({
+#  "verbose" : 0,
+#  "nx" : 30,
+#  "ny" : 20,
+#  "nz" : 10
+#})
 
-iface = cpu.setSubComponent("memory", "memHierarchy.standardInterface")
+#iface = cpu.setSubComponent("memory", "memHierarchy.standardInterface")
 
 #
 # Create MemHierarchy Components
 #
-l1_cache = sst.Component("l1_cache", "memHierarchy.Cache")
-l1_cache.addParams({
-  "access_latency_cycles" : "2",
-  "cache_frequency" : "2GHz",
-  "replacement_policy" : "lru",
-  "coherence_protocol" : "MESI",
-  "associativity" : "4",
-  "cache_line_size" : "64",
-  "prefetcher" : "cassini.StridePrefetcher",
-  "debug" : "1",
-  "l1" : "1",
-  "cache_size" : "16KB"
-})
-l1_cache.enableAllStatistics({"type":"sst.AccumulatorStatistic"})
+#l1_cache = sst.Component("l1_cache", "memHierarchy.Cache")
+#l1_cache.addParams({
+#  "access_latency_cycles" : "2",
+#  "cache_frequency" : "2GHz",
+#  "replacement_policy" : "lru",
+#  "coherence_protocol" : "MESI",
+#  "associativity" : "4",
+#  "cache_line_size" : "64",
+#  "prefetcher" : "cassini.StridePrefetcher",
+#  "debug" : "1",
+#  "l1" : "1",
+#  "cache_size" : "16KB"
+#})
+#l1_cache.enableAllStatistics({"type":"sst.AccumulatorStatistic"})
 
 #bus = sst.Component("bus", "memHierarchy.Bus")
 #bus.addParams({
 #  "bus_frequency" : "2GHz"
 #})
 
-memctrl = sst.Component("memory", "memHierarchy.MemController")
-memctrl.addParams({
-  "debug" : DEBUG_MEM,
-  "debug_level" : DEBUG_LEVEL,
-  "clock" : "2GHz",
-  "verbose" : VERBOSE,
-  "addr_range_start" : 0,
-  "addr_range_end" : MEM_SIZE,
-  "backing" : "malloc"
-})
+#memctrl = sst.Component("memory", "memHierarchy.MemController")
+#memctrl.addParams({
+#  "debug" : DEBUG_MEM,
+#  "debug_level" : DEBUG_LEVEL,
+#  "clock" : "2GHz",
+#  "verbose" : VERBOSE,
+#  "addr_range_start" : 0,
+#  "addr_range_end" : MEM_SIZE,
+#  "backing" : "malloc"
+#})
 
-memory = memctrl.setSubComponent("backend", "memHierarchy.simpleMem")
-memory.addParams({
-  "access_time" : "100ns",
-  "mem_size" : "8GB"
-})
+#memory = memctrl.setSubComponent("backend", "memHierarchy.simpleMem")
+#memory.addParams({
+#  "access_time" : "100ns",
+#  "mem_size" : "8GB"
+#})
 
 #
 # Create Event Converters
@@ -156,8 +156,8 @@ router2.addParams({
 #
 # CPU --- L1Cache --- Converter --- Rtr1 --- Rtr2 --- Converter --- Bus --- MemCtrl
 #
-cpu_l1_link = sst.Link("cpu_l1_link")
-cpu_l1_link.connect((iface,"port", "10ps"),(l1_cache, "high_network_0", "10ps"))
+#cpu_l1_link = sst.Link("cpu_l1_link")
+#cpu_l1_link.connect((iface,"port", "10ps"),(l1_cache, "high_network_0", "10ps"))
 
 link_cpu_evConv = sst.Link("link_cpu_evConv")
 link_cpu_evConv.connect((l1_cache, "low_network_0", "1ps"),(cpu_evConv_mem, "memPort", "1ps"))
@@ -171,11 +171,5 @@ link_routers1.connect((router1, "port0", "100ps"),(router2, "port0", "100ps"))
 link_rtr2_busConv = sst.Link("link_rtr2_busConv")
 link_rtr2_busConv.connect((router2, "port2", "1ps"), (bus_evConv_rtr_iFace, "rtr_port", "1ps"))
 
-#link_bus_evConv = sst.Link("link_bus_evConv")
-#link_bus_evConv.connect((bus, "high_network_0", "1ps"),(bus_evConv_mem, "memPort", "1ps"))
-
-#link_bus_memctrl = sst.Link("link_bus_memctrl")
-#link_bus_memctrl.connect((bus, "low_network_0", "10ps"),(memctrl, "direct_link", "50ps"))
-
-link_mem_evConv = sst.Link("link_mem_evConv")
-link_mem_evConv.connect((memctrl, "direct_link", "1ps"),(bus_evConv_mem, "memPort", "1ps"))
+#link_mem_evConv = sst.Link("link_mem_evConv")
+#link_mem_evConv.connect((memctrl, "direct_link", "1ps"),(bus_evConv_mem, "memPort", "1ps"))
