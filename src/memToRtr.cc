@@ -51,6 +51,8 @@ void memToRtr::init(unsigned int phase){
 
 void memToRtr::passOffInitEvents(SST::Event* ev){
     cloneableEvent* cev = dynamic_cast<cloneableEvent*>(ev);
-    memLink->send(cev->clone());
-    delete ev;
+    if (cev) {
+        memLink->send(cev->clone());
+    }
+    delete cev;
 }

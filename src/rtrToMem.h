@@ -42,7 +42,7 @@ class rtrToMem : public baseSubComponent {
         void send(SST::Event*) override;
         void init(unsigned int phase) override;
         bool handleEvent(int vn);
-        void passOffInitEvents(cloneableEvent* ev);
+        void passOffInitEvents(SST::Event* ev);
 
     private:
         // Params
