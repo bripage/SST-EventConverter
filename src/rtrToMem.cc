@@ -96,7 +96,7 @@ void rtrToMem::init(unsigned int phase){
                 memContCompID = static_cast<SST::Interfaces::SimpleNetwork::nid_t>(epde->getSrc());
             }
         } else {
-            adjacentSubComp->passOffInitEvents(cev->clone);
+            adjacentSubComp->passOffInitEvents(cev->clone());
         }
     }
 
