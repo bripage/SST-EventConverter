@@ -32,7 +32,7 @@ class rtrToMem : public baseSubComponent {
         })
 
         SST_ELI_DOCUMENT_PORTS(
-            {"rtrPort", "Link to another component which uses SST::Interfaces::SimpleNetwork.", {"simpleNetworkExample.nicEvent"} }
+            {"rtrPort", "Link to another component which uses SST::Interfaces::SimpleNetwork.", {} }
         )
 
         SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS(
