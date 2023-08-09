@@ -159,8 +159,8 @@ router2.addParams({
 #cpu_l1_link = sst.Link("cpu_l1_link")
 #cpu_l1_link.connect((iface,"port", "10ps"),(l1_cache, "high_network_0", "10ps"))
 
-link_cpu_evConv = sst.Link("link_cpu_evConv")
-link_cpu_evConv.connect((l1_cache, "low_network_0", "1ps"),(cpu_evConv_mem, "memPort", "1ps"))
+#link_cpu_evConv = sst.Link("link_cpu_evConv")
+#link_cpu_evConv.connect((l1_cache, "low_network_0", "1ps"),(cpu_evConv_mem, "memPort", "1ps"))
 
 link_cpuConv_rtr1 = sst.Link("link_cpuConv_rtr1")
 link_cpuConv_rtr1.connect((cpu_evConv_rtr_iFace, "rtr_port", "1ps"),(router1, "port2", "1ps"))
