@@ -22,13 +22,13 @@ sst.setProgramOption("stop-at", "10s")
 #
 cpu = sst.Component("cpu", "miranda.BaseCPU")
 cpu.addParams({
-  "verbose" : VERBOSE,
+  "verbose" : 0,
   "clock" : "1GHz",
   "printStats" : 1
 })
 gen = cpu.setSubComponent("generator", "miranda.Stencil3DBenchGenerator")
 gen.addParams({
-  "verbose" : VERBOSE,
+  "verbose" : 0,
   "nx" : 30,
   "ny" : 20,
   "nz" : 10
