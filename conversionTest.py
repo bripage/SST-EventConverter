@@ -168,7 +168,7 @@ link_routers = sst.Link("link_routers")
 link_routers.connect((router1, "port0", "100ps"),(router2, "port0", "100ps"))
 
 link_rtr2_busConv = sst.Link("link_rtr1_busConv")
-link_rtr2_busConv.connect((router1, "port2", "1ps"), (bus_evConv_rtr_iFace, "rtr_port", "1ps"))
+link_rtr2_busConv.connect((router2, "port2", "1ps"), (bus_evConv_rtr_iFace, "rtr_port", "1ps"))
 
 link_mem_evConv = sst.Link("link_mem_evConv")
 link_mem_evConv.connect((memctrl, "direct_link", "1ps"),(bus_evConv_mem, "memPort", "1ps"))
