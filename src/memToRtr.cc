@@ -32,7 +32,7 @@ memToRtr::~memToRtr(){
 // receive memory event from router side
 void memToRtr::send(SST::Event* ev){
     SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
-    memIFace->send(mev->clone());
+    //memIFace->send(mev->clone());
     delete mev;
     delete ev;
 }
@@ -62,7 +62,7 @@ void memToRtr::init(unsigned int phase){
 void memToRtr::passOffInitEvents(SST::Event* ev){
     cloneableEvent* cev = dynamic_cast<cloneableEvent*>(ev);
     if (cev) {
-        memIFace->send(cev->clone());
+        //memIFace->send(cev->clone());
     }
     delete cev;
 }
