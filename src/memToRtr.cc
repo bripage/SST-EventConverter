@@ -14,7 +14,8 @@ memToRtr::memToRtr(ComponentId_t id, Params& params)
     out = new Output("", Verbosity, 0, Output::STDOUT);
 
     memIFace = loadUserSubComponent<SST::Interfaces::StandardMem>(
-            "memIFace", ComponentInfo::SHARE_NONE, getTimeConverter("1GHz"), new SST::Interfaces::StandardMem::Handler<memToRtr>(this, &memToRtr::handleEvent));
+            "memIFace", ComponentInfo::SHARE_NONE, getTimeConverter("1GHz"),
+                new SST::Interfaces::StandardMem::Handler<memToRtr>(this, &memToRtr::handleEvent));
 
     if( !memIFace ){
         out->fatal(CALL_INFO, -1, "Error : memory interface is null\n");
@@ -37,9 +38,8 @@ void memToRtr::send(SST::Event* ev){
 }
 
 // memToRtr event handler
-void memToRtr::handleEvent(SST::Event* ev){
-    SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
-    adjacentSubComp->send(mev->clone()); // use rtrToMem's send method to hand off the memory event
+void memToRtr::handleEvent(StandardMem::Request* req){
+    //adjacentSubComp->send(mev->clone()); // use rtrToMem's send method to hand off the memory event
 }
 
 void memToRtr::init(unsigned int phase){
