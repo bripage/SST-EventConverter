@@ -39,7 +39,8 @@ void memToRtr::send(SST::Event* ev){
 
 // memToRtr event handler
 void memToRtr::handleEvent(SST::Interfaces::StandardMem::Request* req){
-    //adjacentSubComp->send(mev->clone()); // use rtrToMem's send method to hand off the memory event
+    cloneableEvent* mev = req->convert();
+    adjacentSubComp->send(mev->clone()); // use rtrToMem's send method to hand off the memory event
 }
 
 void memToRtr::init(unsigned int phase){
