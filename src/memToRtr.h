@@ -42,7 +42,7 @@ class memToRtr : public baseSubComponent {
         ~memToRtr() override;
         void send(SST::Event*) override;
         void init(unsigned int) override;
-        void handleEvent(StandardMem::Request* ev);
+        void handleEvent(SST::Interfaces::StandardMem::Request* req);
         void passOffInitEvents(SST::Event* ev);
 
     private:

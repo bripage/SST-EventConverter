@@ -38,12 +38,12 @@ void memToRtr::send(SST::Event* ev){
 }
 
 // memToRtr event handler
-void memToRtr::handleEvent(StandardMem::Request* req){
+void memToRtr::handleEvent(SST::Interfaces::StandardMem::Request* req){
     //adjacentSubComp->send(mev->clone()); // use rtrToMem's send method to hand off the memory event
 }
 
 void memToRtr::init(unsigned int phase){
-    memIFace->init(phase)
+    memIFace->init(phase);
     /*
     out->verbose(CALL_INFO, 9, 0, "%s begining init phase %d\n", getName().c_str(), phase);
     SST::Event *ev;
