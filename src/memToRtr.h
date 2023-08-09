@@ -35,7 +35,7 @@ class memToRtr : public baseSubComponent {
         SST_ELI_DOCUMENT_PORTS()
 
         SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS(
-            { "memIface", "Set the interface to memory", "SST::Interfaces::StandardMem" }
+            { "memIFace", "Set the interface to memory", "SST::Interfaces::StandardMem" }
         )
 
         memToRtr(ComponentId_t id, Params& params);

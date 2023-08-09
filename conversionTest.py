@@ -89,12 +89,18 @@ cpu_evConv_rtr.addParams({
   "verbose": VERBOSE
 })
 
+cpu_evConv_mem_iFace = cpu_evConv.setSubComponent("memIface", "memHierarchy.standardInterface")
+cpu_evConv_mem_iFace.addParams({
+  "verbose" : VERBOSE
+})
 cpu_evConv_rtr_iFace = cpu_evConv_rtr.setSubComponent("iface", "merlin.linkcontrol")
 cpu_evConv_rtr_iFace.addParams({
   "input_buf_size" : "512B",
   "output_buf_size" : "512B",
   "link_bw" : "1GB/s"
 })
+
+
 
 bus_evConv = sst.Component("bus_evConv", "eventConverter.memRtrConverter")
 bus_evConv_mem = bus_evConv.setSubComponent("memory", "eventConverter.memToRtr")
@@ -107,6 +113,10 @@ bus_evConv_rtr.addParams({
   "verbose": VERBOSE
 })
 
+bus_evConv_mem = bus_evConv.setSubComponent("memIface", "memHierarchy.standardInterface")
+bus_evConv_mem.addParams({
+  "verbose" : VERBOSE
+})
 bus_evConv_rtr_iFace = bus_evConv_rtr.setSubComponent("iface", "merlin.linkcontrol")
 bus_evConv_rtr_iFace.addParams({
   "input_buf_size" : "512B",
@@ -159,7 +169,7 @@ cpu_l1_link = sst.Link("cpu_l1_link")
 cpu_l1_link.connect((iface,"port", "10ps"),(l1_cache, "high_network_0", "10ps"))
 
 link_cpu_evConv = sst.Link("link_cpu_evConv")
-link_cpu_evConv.connect((l1_cache, "low_network_0", "1ps"),(cpu_evConv_mem, "memPort", "1ps"))
+link_cpu_evConv.connect((l1_cache, "low_network_0", "1ps"),(cpu_evConv_mem_iFace, "memlink", "1ps"))
 
 link_cpuConv_rtr1 = sst.Link("link_cpuConv_rtr1")
 link_cpuConv_rtr1.connect((cpu_evConv_rtr_iFace, "rtr_port", "1ps"),(router1, "port3", "1ps"))
@@ -171,7 +181,7 @@ link_rtr2_busConv = sst.Link("link_rtr1_busConv")
 link_rtr2_busConv.connect((router2, "port3", "1ps"), (bus_evConv_rtr_iFace, "rtr_port", "1ps"))
 
 link_mem_evConv = sst.Link("link_mem_evConv")
-link_mem_evConv.connect((memctrl, "direct_link", "1ps"),(bus_evConv_mem, "memPort", "1ps"))
+link_mem_evConv.connect((memctrl, "direct_link", "1ps"),(bus_evConv_mem_iFace, "memlink", "1ps"))
 
 
 sst.setStatisticLoadLevel(10)
