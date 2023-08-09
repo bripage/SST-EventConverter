@@ -41,16 +41,16 @@ void memToRtr::init(unsigned int phase){
     SST::Event *ev;
 
     while ((ev = memLink->recvUntimedData())) {
-        eventConverter::cloneableEvent* cev = dynamic_cast<eventConverter::cloneableEvent*>(ev);
+        cloneableEvent* cev = dynamic_cast<cloneableEvent*>(ev);
         out->verbose(CALL_INFO, 9, 0, "%s sending init events to router side %d\n", getName().c_str(), phase);
-        adjacentSubComp->passOffInitEvents(cev->clone());
+        //adjacentSubComp->passOffInitEvents(cev->clone());
     }
 
     out->verbose(CALL_INFO, 9, 0, "%s ending init phase %d\n", getName().c_str(), phase);
 }
 
 void memToRtr::passOffInitEvents(SST::Event* ev){
-    eventConverter::cloneableEvent* cev = dynamic_cast<eventConverter::cloneableEvent*>(ev);
+    cloneableEvent* cev = dynamic_cast<cloneableEvent*>(ev);
     memLink->send(cev->clone());
     delete ev;
 }
