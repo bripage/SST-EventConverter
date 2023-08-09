@@ -11,6 +11,7 @@
 #include <sst/core/link.h>
 #include <sst/elements/memHierarchy/memEvent.h>
 #include <sst/elements/memHierarchy/memEventBase.h>
+#include <sst/core/interfaces/stdMem.h>
 
 using namespace SST;
 using namespace SST::eventConverter;
@@ -48,7 +49,7 @@ class memToRtr : public baseSubComponent {
         // Params
         SST::Output* out;           // SST Output object for printing, messaging, etc
         SST::Link* memLink;
-        SST::Interfaces::StandardMem* memIface;                  ///< StandardMem memory interface
+        SST::Interfaces::StandardMem* memIFace;                  ///< StandardMem memory interface
 };
 
 #endif
