@@ -65,10 +65,12 @@ namespace SST {
             virtual ~baseSubComponent() { }
             virtual void send(SST::Event *) = 0;
             virtual void init(unsigned int) = 0 ;
+            virtual void passOffInitEvents(SST::Event* ev) = 0;
 
             // base methods
             bool getEndpointType() { return endpointType; }
             void setAdjacentSubComp(baseSubComponent* comp){adjacentSubComp = comp;}
+
 
             baseSubComponent* adjacentSubComp;
             bool endpointType;

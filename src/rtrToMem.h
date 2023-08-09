@@ -31,9 +31,7 @@ class rtrToMem : public baseSubComponent {
             {"verbose", "Verbosity level","0"}
         })
 
-        SST_ELI_DOCUMENT_PORTS(
-            {"rtrPort", "Link to another component which uses SST::Interfaces::SimpleNetwork.", {} }
-        )
+        SST_ELI_DOCUMENT_PORTS()
 
         SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS(
             {"iface", "SimpleNetwork interface to a network", "SST::Interfaces::SimpleNetwork"}
@@ -44,6 +42,7 @@ class rtrToMem : public baseSubComponent {
         void send(SST::Event*) override;
         void init(unsigned int phase) override;
         bool handleEvent(int vn);
+        void passOffInitEvents(SST::Event* ev);
 
     private:
         // Params

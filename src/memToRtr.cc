@@ -22,17 +22,10 @@ memToRtr::~memToRtr(){
     delete out;
 }
 
-// handle the init calls
-void memToRtr::init(unsigned int phase){
-
-}
-
 // receive memory event from router side
 void memToRtr::send(SST::Event* ev){
     SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
-
     memLink->send(mev->clone());
-
     delete mev;
     delete ev;
 }
@@ -43,6 +36,19 @@ void memToRtr::handleEvent(SST::Event* ev){
     adjacentSubComp->send(mev->clone()); // use rtrToMem's send method to hand off the memory event
 }
 
+void memToRtr::init(unsigned int phase){
+    out->verbose(CALL_INFO, 9, 0, "%s begining init phase %d\n", getName().c_str(), phase);
+    SST::Event *ev;
 
+    while ((ev = memLink->recvUntimedData())) {
+        out->verbose(CALL_INFO, 9, 0, "%s sending init events to router side %d\n", getName().c_str(), phase);
+        adjacentSubComp->passOffInitEvents(ev->clone());
+    }
 
+    out->verbose(CALL_INFO, 9, 0, "%s ending init phase %d\n", getName().c_str(), phase);
+}
 
+void memToRtr::passOffInitEvents(SST::Event* ev){
+    memLink->send(ev->clone());
+    delete ev;
+}

@@ -30,11 +30,9 @@ rtrToMem::~rtrToMem(){
 // receive memory event data to make a RtrEvent
 void rtrToMem::send(SST::Event* ev){
     SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
-
     SST::Interfaces::SimpleNetwork::nid_t src = iFace->getEndpointID();
     SST::Interfaces::SimpleNetwork::nid_t dest = memContCompID;  // this needs to be learned during router network initialization
     size_t size_in_bits = mev->getEventSize();
-
     SST::Interfaces::SimpleNetwork::Request netReq = SST::Interfaces::SimpleNetwork::Request(dest, src, size_in_bits, 0, 0, mev);
 
     iFace->send(netReq.clone(), 0);
@@ -80,26 +78,37 @@ void rtrToMem::init(unsigned int phase){
         }
     }
 
-    if (iFace->requestToReceive(0)){
-        out->verbose(CALL_INFO, 1, 0, "%s iFace has request waiting\n", getName().c_str());
-    }
-
     while( SST::Interfaces::SimpleNetwork::Request* req = iFace->recvUntimedData() ) {
+        SST::Event* ev;
         out->verbose(CALL_INFO, 1, 0, "%s received a request during init()\n", getName().c_str());
-        endpointDiscoveryEvent *ev = dynamic_cast<endpointDiscoveryEvent*>(req->takePayload());
+        endpointDiscoveryEvent *epde = dynamic_cast<endpointDiscoveryEvent*>(req->takePayload());
 
-        if (ev) {
-            out->verbose(CALL_INFO, 1, 0, "%s received init message from %zu\n", getName().c_str(), ev->getSrc());
+        if (epde) {
+            out->verbose(CALL_INFO, 1, 0, "%s received init message from %zu\n", getName().c_str(), epde->getSrc());
 
-            bool remoteEndpointType = ev->getPayload();
-            out->output("%s received init message from %d (endpointType = %d)\n", getName().c_str(), ev->getSrc(),
+            bool remoteEndpointType = epde->getPayload();
+            out->output("%s received init message from %d (endpointType = %d)\n", getName().c_str(), epde->getSrc(),
                         remoteEndpointType);
 
             if (remoteEndpointType) {
-                memContCompID = static_cast<SST::Interfaces::SimpleNetwork::nid_t>(ev->getSrc());
+                memContCompID = static_cast<SST::Interfaces::SimpleNetwork::nid_t>(epde->getSrc());
             }
+        } else {
+            adjacentSubComp->passOffInitEvents(ev->clone);
         }
     }
 
     out->verbose(CALL_INFO, 9, 0, "%s ending init phase %d\n", getName().c_str(), phase);
+}
+
+void rtrToMem::passOffInitEvents(SST::Event* ev){
+    SST::Interfaces::SimpleNetwork::Request *req = new SST::Interfaces::SimpleNetwork::Request();
+    req->dest = SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR;
+    req->src = iFace->getEndpointID();
+    req->givePayload(ev);
+
+    out->verbose(CALL_INFO, 2, 0, "%s (endpointType=%d) sending init message to %zu\n", getName().c_str(),
+                 adjacentSubComp->getEndpointType(), SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR);
+
+    iFace->sendUntimedData(req);
 }
