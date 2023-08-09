@@ -81,8 +81,8 @@ void rtrToMem::init(unsigned int phase){
     while( SST::Interfaces::SimpleNetwork::Request* req = iFace->recvUntimedData() ) {
         SST::Event* ev;
         out->verbose(CALL_INFO, 1, 0, "%s received a request during init()\n", getName().c_str());
-        ev = static_cast<eventConverter::clonableEvent*>(req->takePayload());
-        endpointDiscoveryEvent *epde = dynamic_cast<endpointDiscoveryEvent*>(ev);
+        eventConverter::clonableEvent* cev = static_cast<eventConverter::clonableEvent*>(req->takePayload());
+        endpointDiscoveryEvent *epde = dynamic_cast<endpointDiscoveryEvent*>(cev);
 
         if (epde) {
             out->verbose(CALL_INFO, 1, 0, "%s received init message from %zu\n", getName().c_str(), epde->getSrc());
@@ -95,7 +95,7 @@ void rtrToMem::init(unsigned int phase){
                 memContCompID = static_cast<SST::Interfaces::SimpleNetwork::nid_t>(epde->getSrc());
             }
         } else {
-            adjacentSubComp->passOffInitEvents(ev->clone);
+            adjacentSubComp->passOffInitEvents(cev->clone);
         }
     }
 
