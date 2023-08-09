@@ -42,7 +42,7 @@ class memToRtr : public baseSubComponent {
         void send(SST::Event*) override;
         void init(unsigned int) override;
         void handleEvent(SST::Event*);
-        void passOffInitEvents(SST::Event* ev);
+        void passOffInitEvents(cloneableEvent* ev);
 
     private:
         // Params
