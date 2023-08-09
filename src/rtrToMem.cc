@@ -45,6 +45,7 @@ void rtrToMem::send(SST::Event* ev){
 
 // memToRtr event handler
 bool rtrToMem::handleEvent(int vn){
+    out->verbose(CALL_INFO, 9, 0, "%s event handler was called!\n", getName().c_str());
     SST::Interfaces::SimpleNetwork::Request* netReq = iFace->recv(0);
     if( netReq != nullptr ){
         SST::Event* ev = dynamic_cast<SST::Event*>(netReq->takePayload());
@@ -102,5 +103,3 @@ void rtrToMem::init(unsigned int phase){
 
     out->verbose(CALL_INFO, 9, 0, "%s ending init phase %d\n", getName().c_str(), phase);
 }
-
-
