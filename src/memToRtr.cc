@@ -49,7 +49,7 @@ void memToRtr::init(unsigned int phase){
 }
 
 void memToRtr::passOffInitEvents(SST::Event* ev){
-    eventConverter::clonableEvent* cev = dynamic_cast<eventConverter::clonableEvent*>(ev);
+    eventConverter::cloneableEvent* cev = dynamic_cast<eventConverter::cloneableEvent*>(ev);
     memLink->send(cev->clone());
     delete ev;
 }

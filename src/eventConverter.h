@@ -15,10 +15,10 @@ namespace SST {
 
         // This is literally an SST::Event but with the ability to clone it like nearly all other events
         // P.S. I cant understand why this isnt a thing
-        class clonableEvent : public SST::Event {
+        class cloneableEvent : public SST::Event {
         public:
             // Basic Constructor : inherits SST::Event()
-            clonableEvent() : SST::Event() { }
+            cloneableEvent() : SST::Event() { }
             // Overloaded Constructor
 
             void serialize_order(SST::Core::Serialization::serializer &ser)
@@ -26,11 +26,11 @@ namespace SST {
                 Event::serialize_order(ser);
                 ser & payload;
             }
-            virtual clonableEvent* clone(void) override {
-                return new clonableEvent(*this);
+            virtual cloneableEvent* clone(void) override {
+                return new cloneableEvent(*this);
             }
 
-            ImplementSerializable(SST::eventConverter::clonableEvent);
+            ImplementSerializable(SST::eventConverter::cloneableEvent);
 
         private:
             // Message payload

@@ -81,7 +81,8 @@ void rtrToMem::init(unsigned int phase){
     while( SST::Interfaces::SimpleNetwork::Request* req = iFace->recvUntimedData() ) {
         SST::Event* ev;
         out->verbose(CALL_INFO, 1, 0, "%s received a request during init()\n", getName().c_str());
-        eventConverter::clonableEvent* cev = static_cast<eventConverter::clonableEvent*>(req->takePayload());
+        ev = req->takePayload();
+        eventConverter::cloneableEvent* cev = dynamic_cast<eventConverter::cloneableEvent*>(ev);
         endpointDiscoveryEvent *epde = dynamic_cast<endpointDiscoveryEvent*>(cev);
 
         if (epde) {
