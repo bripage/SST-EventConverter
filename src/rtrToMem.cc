@@ -104,6 +104,7 @@ void rtrToMem::init(unsigned int phase){
 }
 
 void rtrToMem::passOffInitEvents(SST::Event* ev){
+    out->verbose(CALL_INFO, 9, 0, "%s inside rtrToMem::passOffInitEvents()\n", getName().c_str());
     SST::Interfaces::SimpleNetwork::Request *req = new SST::Interfaces::SimpleNetwork::Request();
     req->dest = SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR;
     req->src = iFace->getEndpointID();
