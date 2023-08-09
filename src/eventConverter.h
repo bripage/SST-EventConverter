@@ -22,12 +22,16 @@ namespace SST {
             // Overloaded Constructor
             clonableEvent() : SST::Event(), payload() { }
 
-
+            void serialize_order(SST::Core::Serialization::serializer &ser)
+            override {
+                Event::serialize_order(ser);
+                ser & payload;
+            }
             virtual clonableEvent* clone(void) override {
                 return new clonableEvent(*this);
             }
 
-        ImplementSerializable(SST::eventConverter::endpointDiscoveryEvent);
+            ImplementSerializable(SST::eventConverter::clonableEvent);
 
         private:
             // Message payload
