@@ -12,10 +12,10 @@ memToRtr::memToRtr(ComponentId_t id, Params& params)
     printf("%s Created!\n", getName().c_str());
     const int Verbosity = params.find<int>("verbose", 0);
     out = new Output("", Verbosity, 0, Output::STDOUT);
-    
+
     memIFace = loadUserSubComponent<SST::Interfaces::StandardMem>(
             "memIFace", ComponentInfo::SHARE_NONE,//*/ComponentInfo::SHARE_PORTS | ComponentInfo::INSERT_STATS,
-            getTimeConverter("1GHz"), new StandardMem::Handler<SST::eventConverter::baseSubComponent>(
+            getTimeConverter("1GHz"), new SST::Interfaces::StandardMem::Handler<SST::eventConverter::baseSubComponent>(
                     this, &memToRtr::handleEvent));
 
     if( !memIFace ){
