@@ -22,9 +22,9 @@ memToRtr::memToRtr(ComponentId_t id, Params& params)
     //                                                    new StandardMem::Handler<SST::Vanadis::VANADIS_COMPONENT>(this,
     //                                                        &VANADIS_COMPONENT::handleIncomingInstCacheEvent));
 
-    if(nullptr == memIFace ){
-        out->fatal(CALL_INFO, -1, "Error : memory interface is null\n");
-    }
+    //if(nullptr == memIFace ){
+    //    out->fatal(CALL_INFO, -1, "Error : memory interface is null\n");
+    //}
 
     endpointType = params.find<bool>("type", 0);
 }
