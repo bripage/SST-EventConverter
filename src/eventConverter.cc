@@ -29,18 +29,6 @@ eventConverter::eventConverter(ComponentId_t id, SST::Params& params)
     }
 
     initBroadcastSent = false;
-
-    // configure ports
-    linkprefix = "port;
-    linkname = linkprefix + "0";
-    while (isPortConnected(linkname)) {
-        link = configureLink(linkname, "1 ps",
-                             new SST::Interfaces::StandardMem::Handler<memToRtr>(this, &eventConverter::memToRtr));
-        if (!link)
-            dbg_.fatal(CALL_INFO, -1, "%s, Error: unable to configure link on port '%s'\n", getName().c_str(), linkname.c_str());
-        lowNetPorts_.push_back(link);
-        numLowNetPorts_++;
-        linkname = linkprefix + std::to_string(numLowNetPorts_);
 }
 
 eventConverter::~eventConverter(){
