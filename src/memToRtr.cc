@@ -39,7 +39,7 @@ void memToRtr::send(SST::Event* ev){
 }
 
 // memToRtr event handler
-void memToRtr::handleEvent(StandardMem::Request* ev){
+void memToRtr::handleEvent(SST::Interfaces::StandardMem::Request* ev){
     //cloneableEvent* mev = req->convert();
     //adjacentSubComp->send(mev->clone()); // use rtrToMem's send method to hand off the memory event
 }
