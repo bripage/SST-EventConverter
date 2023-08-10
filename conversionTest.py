@@ -78,47 +78,25 @@ memory.addParams({
 #
 # Create Event Converters
 #
-cpu_evConv = sst.Component("cpu_evConv", "eventConverter.memRtrConverter")
-cpu_evConv_mem = cpu_evConv.setSubComponent("memory", "eventConverter.memToRtr")
-cpu_evConv_mem.addParams({
-  "type" : 0,
+eventConverter1 = sst.Component("eventConverter1", "eventConverter.memRtrConverter")
+eventConverter1_memif = eventConverter1.setSubComponent("memiface", "memHierarchy.standardInterface")
+eventConverter1.addParams({
   "verbose": VERBOSE
 })
-cpu_evConv_rtr = cpu_evConv.setSubComponent("router", "eventConverter.rtrToMem")
-cpu_evConv_rtr.addParams({
-  "verbose": VERBOSE
-})
-
-cpu_evConv_mem_iFace = cpu_evConv_mem.setSubComponent("memIface", "memHierarchy.standardInterface")
-cpu_evConv_mem_iFace.addParams({
-  "verbose" : VERBOSE
-})
-cpu_evConv_rtr_iFace = cpu_evConv_rtr.setSubComponent("iface", "merlin.linkcontrol")
-cpu_evConv_rtr_iFace.addParams({
+eventConverter1_rtrif = eventConverter1.setSubComponent("rtriface", "merlin.linkcontrol")
+eventConverter1_rtrif.addParams({
   "input_buf_size" : "512B",
   "output_buf_size" : "512B",
   "link_bw" : "1GB/s"
 })
 
-
-
-bus_evConv = sst.Component("bus_evConv", "eventConverter.memRtrConverter")
-bus_evConv_mem = bus_evConv.setSubComponent("memory", "eventConverter.memToRtr")
-bus_evConv_mem.addParams({
-  "type" : 1,
+eventConverter2 = sst.Component("eventConverter2", "eventConverter.memRtrConverter")
+eventConverter2_memif = eventConverter2.setSubComponent("memiface", "memHierarchy.standardInterface")
+eventConverter2.addParams({
   "verbose": VERBOSE
 })
-bus_evConv_rtr = bus_evConv.setSubComponent("router", "eventConverter.rtrToMem")
-bus_evConv_rtr.addParams({
-  "verbose": VERBOSE
-})
-
-bus_evConv_mem_iFace = bus_evConv_mem.setSubComponent("memIface", "memHierarchy.standardInterface")
-bus_evConv_mem_iFace.addParams({
-  "verbose" : VERBOSE
-})
-bus_evConv_rtr_iFace = bus_evConv_rtr.setSubComponent("iface", "merlin.linkcontrol")
-bus_evConv_rtr_iFace.addParams({
+eventConverter2_rtrif = eventConverter2.setSubComponent("rtriface", "merlin.linkcontrol")
+eventConverter2_rtrif.addParams({
   "input_buf_size" : "512B",
   "output_buf_size" : "512B",
   "link_bw" : "1GB/s"
@@ -168,21 +146,20 @@ router2.addParams({
 cpu_l1_link = sst.Link("cpu_l1_link")
 cpu_l1_link.connect((iface,"port", "10ps"),(l1_cache, "high_network_0", "10ps"))
 
-link_cpu_evConv = sst.Link("link_cpu_evConv")
-link_cpu_evConv.connect((l1_cache, "low_network_0", "1ps"),(cpu_evConv_mem_iFace, "port", "1ps"))
+eventConverter1 = sst.Link("link_cpu_evConv")
+eventConverter1.connect((l1_cache, "low_network_0", "1ps"),(eventConverter1_memif, "port", "1ps"))
 
-link_cpuConv_rtr1 = sst.Link("link_cpuConv_rtr1")
-link_cpuConv_rtr1.connect((cpu_evConv_rtr_iFace, "rtr_port", "1ps"),(router1, "port3", "1ps"))
+link_eConv_rtr1 = sst.Link("link_eConv_rtr1")
+link_eConv_rtr1.connect((eventConverter1_rtrif, "rtr_port", "1ps"),(router1, "port3", "1ps"))
 
 link_routers = sst.Link("link_routers")
 link_routers.connect((router1, "port0", "100ps"),(router2, "port0", "100ps"))
 
-link_rtr2_busConv = sst.Link("link_rtr1_busConv")
-link_rtr2_busConv.connect((router2, "port3", "1ps"), (bus_evConv_rtr_iFace, "rtr_port", "1ps"))
+link_rtr2_eConv = sst.Link("link_rtr2_eConv")
+link_rtr2_eConv.connect((router2, "port3", "1ps"), (eventConverter2_rtrif, "rtr_port", "1ps"))
 
 link_mem_evConv = sst.Link("link_mem_evConv")
-link_mem_evConv.connect((memctrl, "direct_link", "1ps"),(bus_evConv_mem_iFace, "port", "1ps"))
-
+link_mem_evConv.connect((memctrl, "direct_link", "1ps"),(eventConverter2_memif, "port", "1ps"))
 
 sst.setStatisticLoadLevel(10)
 sst.setStatisticOutput("sst.statOutputConsole")
