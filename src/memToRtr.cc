@@ -14,9 +14,13 @@ memToRtr::memToRtr(ComponentId_t id, Params& params)
     out = new Output("", Verbosity, 0, Output::STDOUT);
 
     memIFace = loadUserSubComponent<SST::Interfaces::StandardMem>(
-            "memIFace", ComponentInfo::SHARE_NONE,//*/ComponentInfo::SHARE_PORTS | ComponentInfo::INSERT_STATS,
-            getTimeConverter("1GHz"), new SST::Interfaces::StandardMem::Handler<SST::eventConverter::memRtrConverter>(
-                    this, &memToRtr::handleEvent));
+            "memIFace", ComponentInfo::SHARE_NONE, getTimeConverter("1GHz"),
+                new SST::Interfaces::StandardMem::Handler<SST::eventConverter::memToRtr>(
+                        this, &memToRtr::handleEvent));
+
+    //memIFace = loadUserSubComponent<Interfaces::StandardMem>("memIFace", ComponentInfo::SHARE_NONE, cpuClockTC,
+    //                                                    new StandardMem::Handler<SST::Vanadis::VANADIS_COMPONENT>(this,
+    //                                                        &VANADIS_COMPONENT::handleIncomingInstCacheEvent));
 
     if( !memIFace ){
         out->fatal(CALL_INFO, -1, "Error : memory interface is null\n");
