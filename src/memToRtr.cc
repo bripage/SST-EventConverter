@@ -15,7 +15,7 @@ memToRtr::memToRtr(ComponentId_t id, Params& params)
 
     memIFace = loadUserSubComponent<SST::Interfaces::StandardMem>(
             "memIFace", ComponentInfo::SHARE_NONE,//*/ComponentInfo::SHARE_PORTS | ComponentInfo::INSERT_STATS,
-            getTimeConverter("1GHz"), new SST::Interfaces::StandardMem::Handler<SST::eventConverter::baseSubComponent>(
+            getTimeConverter("1GHz"), new SST::Interfaces::StandardMem::Handler<SST::eventConverter::memRtrConverter>(
                     this, &memToRtr::handleEvent));
 
     if( !memIFace ){
@@ -39,7 +39,7 @@ void memToRtr::send(SST::Event* ev){
 }
 
 // memToRtr event handler
-void memToRtr::handleEvent(SST::Interfaces::StandardMem::Request* req){
+void memToRtr::handleEvent(StandardMem::Request* ev){
     //cloneableEvent* mev = req->convert();
     //adjacentSubComp->send(mev->clone()); // use rtrToMem's send method to hand off the memory event
 }
