@@ -89,7 +89,7 @@ cpu_evConv_rtr.addParams({
   "verbose": VERBOSE
 })
 
-cpu_evConv_mem_iFace = cpu_evConv.setSubComponent("memIface", "memHierarchy.standardInterface")
+cpu_evConv_mem_iFace = cpu_evConv_mem.setSubComponent("memIface", "memHierarchy.standardInterface")
 cpu_evConv_mem_iFace.addParams({
   "verbose" : VERBOSE
 })
@@ -113,7 +113,7 @@ bus_evConv_rtr.addParams({
   "verbose": VERBOSE
 })
 
-bus_evConv_mem_iFace = bus_evConv.setSubComponent("memIface", "memHierarchy.standardInterface")
+bus_evConv_mem_iFace = bus_evConv_mem.setSubComponent("memIface", "memHierarchy.standardInterface")
 bus_evConv_mem_iFace.addParams({
   "verbose" : VERBOSE
 })
