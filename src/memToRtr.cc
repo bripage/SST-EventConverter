@@ -15,7 +15,7 @@ memToRtr::memToRtr(ComponentId_t id, Params& params)
 
     memIFace = loadUserSubComponent<SST::Interfaces::StandardMem>(
             "memIFace", ComponentInfo::SHARE_NONE, getTimeConverter("1GHz"),
-                new SST::Interfaces::StandardMem::Handler<SST::eventConverter::memToRtr>(
+                new SST::Interfaces::StandardMem::Handler<memToRtr>(
                         this, &memToRtr::handleEvent));
 
     //memIFace = loadUserSubComponent<Interfaces::StandardMem>("memIFace", ComponentInfo::SHARE_NONE, cpuClockTC,
