@@ -78,7 +78,7 @@ memory.addParams({
 #
 # Create Event Converters
 #
-eventConverter1 = sst.Component("eventConverter1", "eventConverter.memRtrConverter")
+eventConverter1 = sst.Component("eventConverter1", "eventConverter.eventConverter")
 eventConverter1_memif = eventConverter1.setSubComponent("memiface", "memHierarchy.standardInterface")
 eventConverter1.addParams({
   "verbose": VERBOSE
@@ -90,7 +90,7 @@ eventConverter1_rtrif.addParams({
   "link_bw" : "1GB/s"
 })
 
-eventConverter2 = sst.Component("eventConverter2", "eventConverter.memRtrConverter")
+eventConverter2 = sst.Component("eventConverter2", "eventConverter.eventConverter")
 eventConverter2_memif = eventConverter2.setSubComponent("memiface", "memHierarchy.standardInterface")
 eventConverter2.addParams({
   "verbose": VERBOSE

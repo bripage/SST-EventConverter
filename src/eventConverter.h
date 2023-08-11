@@ -16,7 +16,7 @@
 #include <sst/elements/memHierarchy/memEventBase.h>
 
 namespace SST {
-    namespace eventConverter {
+    namespace Converter {
 
         // This is literally an SST::Event but with the ability to clone it like nearly all other events
         // P.S. I cant understand why this isnt a thing

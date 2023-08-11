@@ -5,7 +5,7 @@
 #include "eventConverter.h"
 
 using namespace SST;
-using namespace SST::eventConverter;
+using namespace SST::Converter;
 
 eventConverter::eventConverter(ComponentId_t id, SST::Params& params)
 : Component(id) {
