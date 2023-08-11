@@ -17,6 +17,8 @@ eventConverter::eventConverter(ComponentId_t id, SST::Params& params)
 
     if(nullptr == rtriface){
         out->fatal(CALL_INFO, -1, "Error : memory interface is null\n");
+    } else {
+        out->verbose(CALL_INFO, 9, 0, "%s successfully created rtriface\n", getName().c_str());
     }
 
     memiface = loadUserSubComponent<SST::Interfaces::StandardMem>(
@@ -26,6 +28,8 @@ eventConverter::eventConverter(ComponentId_t id, SST::Params& params)
 
     if(nullptr == memiface){
         out->fatal(CALL_INFO, -1, "Error : memory interface is null\n");
+    } else {
+        out->verbose(CALL_INFO, 9, 0, "%s successfully created memiface\n", getName().c_str());
     }
 
     initBroadcastSent = false;

@@ -144,7 +144,7 @@ router2.addParams({
 # CPU --- L1Cache --- Converter --- Rtr1 --- Rtr2 --- Converter --- Bus --- MemCtrl
 #
 cpu_l1_link = sst.Link("cpu_l1_link")
-cpu_l1_link.connect((iface,"port", "10ps"),(l1_cache, "high_network_0", "10ps"))
+cpu_l1_link.connect((iface, "port", "10ps"),(l1_cache, "high_network_0", "10ps"))
 
 eventConverter1 = sst.Link("link_cpu_evConv")
 eventConverter1.connect((l1_cache, "low_network_0", "1ps"),(eventConverter1_memif, "port", "1ps"))
