@@ -81,7 +81,7 @@ namespace SST {
                 eventConverter(SST::ComponentId_t id, SST::Params& params);
                 ~eventConverter();
                 void init(unsigned int phase);
-                bool memToRtr(SST::Interfaces::SimpleNetwork::Request* req);
+                void eventConverter::memToRtr(SST::Interfaces::StandardMem::Request* ev);
                 bool rtrToMem(int vn);
 
             private:

@@ -50,7 +50,7 @@ void eventConverter::init(unsigned int phase){
     out->verbose(CALL_INFO, 9, 0, "%s ending init phase %d\n", getName().c_str(), phase);
 }
 
-bool eventConverter::memToRtr(SST::Interfaces::SimpleNetwork::Request* req){
+void eventConverter::memToRtr(SST::Interfaces::StandardMem::Request* ev){
 
 }
 
