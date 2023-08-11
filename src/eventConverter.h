@@ -35,7 +35,7 @@ namespace SST {
                 return new cloneableEvent(*this);
             }
 
-            ImplementSerializable(SST::eventConverter::cloneableEvent);
+            ImplementSerializable(SST::Converter::cloneableEvent);
 
         private:
             // Message payload
@@ -81,6 +81,8 @@ namespace SST {
                 eventConverter(SST::ComponentId_t id, SST::Params& params);
                 ~eventConverter();
                 void init(unsigned int phase);
+                bool eventConverter::memToRtr(SST::Interfaces::SimpleNetwork::Request* req);
+                bool eventConverter::rtrToMem(int vn);
 
             private:
                 SST::Output* out;       // SST Output object for printing, messaging, etc
