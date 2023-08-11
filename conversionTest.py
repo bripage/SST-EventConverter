@@ -54,26 +54,6 @@ l1_cache.addParams({
 })
 l1_cache.enableAllStatistics({"type":"sst.AccumulatorStatistic"})
 
-#bus = sst.Component("bus", "memHierarchy.Bus")
-#bus.addParams({
-#  "bus_frequency" : "2GHz"
-#})
-
-memctrl = sst.Component("memory", "memHierarchy.MemController")
-memctrl.addParams({
-  "debug" : DEBUG_MEM,
-  "debug_level" : DEBUG_LEVEL,
-  "clock" : "2GHz",
-  "verbose" : VERBOSE,
-  "addr_range_start" : 0,
-  "addr_range_end" : MEM_SIZE,
-  "backing" : "malloc"
-})
-memory = memctrl.setSubComponent("backend", "memHierarchy.simpleMem")
-memory.addParams({
-  "access_time" : "100ns",
-  "mem_size" : "8GB"
-})
 
 #
 # Create Event Converters
@@ -85,18 +65,6 @@ eventConverter1.addParams({
 })
 eventConverter1_rtrif = eventConverter1.setSubComponent("rtriface", "merlin.linkcontrol")
 eventConverter1_rtrif.addParams({
-  "input_buf_size" : "512B",
-  "output_buf_size" : "512B",
-  "link_bw" : "1GB/s"
-})
-
-eventConverter2 = sst.Component("eventConverter2", "eventConverter.eventConverter")
-eventConverter2_memif = eventConverter2.setSubComponent("memiface", "memHierarchy.standardInterface")
-eventConverter2.addParams({
-  "verbose": VERBOSE
-})
-eventConverter2_rtrif = eventConverter2.setSubComponent("rtriface", "merlin.linkcontrol")
-eventConverter2_rtrif.addParams({
   "input_buf_size" : "512B",
   "output_buf_size" : "512B",
   "link_bw" : "1GB/s"
@@ -121,22 +89,6 @@ router1.addParams({
   "debug" : 1
 })
 
-router2 = sst.Component("router2", "merlin.hr_router")
-router2.setSubComponent("topology", "merlin.mesh")
-router2.addParams({
-  "id" : 1,
-  "xbar_bw" : "10GB/s",
-  "flit_size" : "512B",
-  "input_buf_size" : "512B",
-  "output_buf_size" : "512B",
-  "link_bw" : "1GB/s",
-  "num_ports" : 4,
-  "mesh.local_ports" : 1,
-  "mesh.shape" : "2",
-  "mesh.width" : "1",
-  "debug" : 1
-})
-
 
 #
 # Create Links
@@ -152,14 +104,6 @@ eventConverter1.connect((l1_cache, "low_network_0", "1ps"),(eventConverter1_memi
 link_eConv_rtr1 = sst.Link("link_eConv_rtr1")
 link_eConv_rtr1.connect((eventConverter1_rtrif, "rtr_port", "1ps"),(router1, "port3", "1ps"))
 
-link_routers = sst.Link("link_routers")
-link_routers.connect((router1, "port0", "100ps"),(router2, "port0", "100ps"))
-
-link_rtr2_eConv = sst.Link("link_rtr2_eConv")
-link_rtr2_eConv.connect((router2, "port3", "1ps"), (eventConverter2_rtrif, "rtr_port", "1ps"))
-
-link_mem_evConv = sst.Link("link_mem_evConv")
-link_mem_evConv.connect((memctrl, "direct_link", "1ps"),(eventConverter2_memif, "port", "1ps"))
 
 sst.setStatisticLoadLevel(10)
 sst.setStatisticOutput("sst.statOutputConsole")
