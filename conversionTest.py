@@ -63,31 +63,12 @@ eventConverter1_memif = eventConverter1.setSubComponent("memiface", "memHierarch
 eventConverter1.addParams({
   "verbose": VERBOSE
 })
-eventConverter1_rtrif = eventConverter1.setSubComponent("rtriface", "merlin.linkcontrol")
-eventConverter1_rtrif.addParams({
-  "input_buf_size" : "512B",
-  "output_buf_size" : "512B",
-  "link_bw" : "1GB/s"
-})
+
 
 #
 # Create  Routers
 #
-router1 = sst.Component("router1", "merlin.hr_router")
-router1.setSubComponent("topology", "merlin.mesh")
-router1.addParams({
-  "id" : 0,
-  "xbar_bw" : "10GB/s",
-  "flit_size" : "512B",
-  "input_buf_size" : "512B",
-  "output_buf_size" : "512B",
-  "link_bw" : "1GB/s",
-  "num_ports" : 4,
-  "mesh.local_ports" : 2,
-  "mesh.shape" : "1",
-  "mesh.width" : "1",
-  "debug" : 1
-})
+
 
 
 #
@@ -101,10 +82,3 @@ cpu_l1_link.connect((iface, "port", "10ps"),(l1_cache, "high_network_0", "10ps")
 eventConverter1 = sst.Link("link_cpu_evConv")
 eventConverter1.connect((l1_cache, "low_network_0", "1ps"),(eventConverter1_memif, "port", "1ps"))
 
-link_eConv_rtr1 = sst.Link("link_eConv_rtr1")
-link_eConv_rtr1.connect((eventConverter1_rtrif, "rtr_port", "1ps"),(router1, "port3", "1ps"))
-
-
-sst.setStatisticLoadLevel(10)
-sst.setStatisticOutput("sst.statOutputConsole")
-sst.enableAllStatisticsForComponentType("merlin.hr_router")
