@@ -19,7 +19,7 @@ eventConverter::eventConverter(ComponentId_t id, SST::Params& params)
         out->fatal(CALL_INFO, -1, "Error : memory interface is null\n");
     }
 
-    memiface = loadUserSubComponent<SST::Interfaces::memiface>(
+    memiface = loadUserSubComponent<SST::Interfaces::StandardMem>(
             "memiface", ComponentInfo::SHARE_NONE, getTimeConverter("1GHz"),
             new SST::Interfaces::StandardMem::Handler<memToRtr>(
                     this, &eventConverter::memToRtr));
@@ -40,11 +40,11 @@ void eventConverter::init(unsigned int phase){
 
     memiface->init(phase);
 
-    if( iFace->isNetworkInitialized() ){
+    if( rtriface->isNetworkInitialized() ){
         if( rtriface->isNetworkInitialized() ) {
             rtriface->init(phase);
         }
-        iFace->sendUntimedData(req);
+        //rtriface->sendUntimedData(req);
     }
 
     out->verbose(CALL_INFO, 9, 0, "%s ending init phase %d\n", getName().c_str(), phase);
