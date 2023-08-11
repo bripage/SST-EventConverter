@@ -13,7 +13,7 @@ eventConverter::eventConverter(ComponentId_t id, SST::Params& params)
     out = new Output("", 1, 0, Output::STDOUT);
 
     rtriface = loadUserSubComponent<SST::Interfaces::SimpleNetwork>("inFromRtr", ComponentInfo::SHARE_NONE, 1);
-    rtriface->setNotifyOnReceive(new SST::Interfaces::SimpleNetwork::Handler<rtrToMem>(this, &eventConverter::rtrToMem));
+    rtriface->setNotifyOnReceive(new SST::Interfaces::SimpleNetwork::Handler<eventConverter>(this, &eventConverter::rtrToMem));
 
     if(nullptr == rtriface){
         out->fatal(CALL_INFO, -1, "Error : memory interface is null\n");
@@ -21,7 +21,7 @@ eventConverter::eventConverter(ComponentId_t id, SST::Params& params)
 
     memiface = loadUserSubComponent<SST::Interfaces::StandardMem>(
             "memiface", ComponentInfo::SHARE_NONE, getTimeConverter("1GHz"),
-            new SST::Interfaces::StandardMem::Handler<memToRtr>(
+            new SST::Interfaces::StandardMem::Handler<eventConverter>(
                     this, &eventConverter::memToRtr));
 
     if(nullptr == memiface){
