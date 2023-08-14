@@ -21,16 +21,16 @@ memctrls = []
 links = []
 link_counter = 0
 
-for N in NODES:
-  for S in SOCKETS_PER_NODE:
-    for T in TILES_PER_SOCKET:
+for N in range(NODES):
+  for S in range(SOCKETS_PER_NODE):
+    for T in range(TILES_PER_SOCKET):
       bus = sst.Component("bus_n" + N + "s" + S + "t" + T, "memHierarchy.Bus")
       bus.addParams({
         "bus_frequency" : "2GHz"
       })
       buses.append(bus)
 
-      for C in CORES_PER_TILE:
+      for C in range(CORES_PER_TILE):
         core = sst.Component("cpu_n" + N + "s" + S + "t" + T + "c" + C, "revcpu.RevCPU")
         core.addParams({
           "verbose" : 6,                                # Verbosity
