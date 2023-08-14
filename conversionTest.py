@@ -68,7 +68,7 @@ for N in range(NODES):
           "verbose" : VERBOSE
         })
 
-        l1cache = sst.Component("l1cache", "memHierarchy.Cache")
+        l1cache = sst.Component("l1cache_n" + str(N) + "s" + str(S) + "t" + str(T) + "c" + str(C), "memHierarchy.Cache")
         l1cache.addParams({
           "access_latency_cycles" : "4",
           "cache_frequency" : "2 Ghz",
