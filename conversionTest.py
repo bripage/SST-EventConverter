@@ -24,14 +24,14 @@ link_counter = 0
 for N in range(NODES):
   for S in range(SOCKETS_PER_NODE):
     for T in range(TILES_PER_SOCKET):
-      bus = sst.Component("bus_n" + N + "s" + S + "t" + T, "memHierarchy.Bus")
+      bus = sst.Component("bus_n" + str(N) + "s" + str(S) + "t" + str(T), "memHierarchy.Bus")
       bus.addParams({
         "bus_frequency" : "2GHz"
       })
       buses.append(bus)
 
       for C in range(CORES_PER_TILE):
-        core = sst.Component("cpu_n" + N + "s" + S + "t" + T + "c" + C, "revcpu.RevCPU")
+        core = sst.Component("cpu_n" + str(N) + "s" + str(S) + "t" + str(T) + "c" + str(C), "revcpu.RevCPU")
         core.addParams({
           "verbose" : 6,                                # Verbosity
           "numCores" : 1,                               # Number of cores
@@ -84,12 +84,12 @@ for N in range(NODES):
         })
         l1caches.append(l1cache)
 
-        link = sst.Link("link_L1_" + "cpun" + N + "s" + S + "t" + T + "c" + C)
+        link = sst.Link("link_L1_" + "cpun" + str(N) + "s" + str(S) + "t" + str(T) + "c" + str(C))
         link.connect( (iface, "port", "1ns"), (l1cache, "high_network_0", "1ns") )
         links.append(link)
 
-        link = sst.Link("link_cpun" + N + "s" + S + "t" + T + "c" + C + "_L1_" + "busn" + N + "s" + S + "t" + T)
-        link.connect( (l1cache, "low_network_0", "1ns"), (bus, "high_network_" + C, "1ns") )
+        link = sst.Link("link_cpun" + str(N) + "s" + str(S) + "t" + str(T) + "c" + str(C) + "_L1_" + "busn" + str(N) + "s" + str(S) + "t" + str(T))
+        link.connect( (l1cache, "low_network_0", "1ns"), (bus, "high_network_" + str(C), "1ns") )
         links.append(link)
 
         cores.append(core)
@@ -97,7 +97,7 @@ for N in range(NODES):
       #end CORE loop
       buses.append(bus)
 
-      memctrl = sst.Component("memctrl_" + N + "s" + S + "t" + T, "memHierarchy.MemController")
+      memctrl = sst.Component("memctrl_" + str(N) + "s" + str(S) + "t" + str(T), "memHierarchy.MemController")
       memctrl.addParams({
         "debug" : DEBUG_MEM,
         "debug_level" : DEBUG_LEVEL,
@@ -114,7 +114,7 @@ for N in range(NODES):
         "mem_size" : "8GB"
       })
 
-      link = sst.Link("link_bus" + N + "s" + S + "t" + T + "_memctrl" + N + "s" + S + "t" + T)
+      link = sst.Link("link_bus" + str(N) + "s" + str(S) + "t" + str(T) + "_memctrl" + str(N) + "s" + str(S) + "t" + str(T))
       link.connect( (bus, "low_network_0", "1ns"), (memctrl, "direct_link", "1ns") )
       links.append(link)
 
