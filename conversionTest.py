@@ -1,16 +1,25 @@
 import os
 import sst
+import argparse
 
 DEBUG_L1 = 1
 DEBUG_MEM = 10
 DEBUG_LEVEL = 10
-VERBOSE = 10
 MEM_SIZE = 1024*1024*1024-1
 
-NODES = 1
-SOCKETS_PER_NODE = 1
-TILES_PER_SOCKET = 6
-CORES_PER_TILE = 64
+parser = argparse.ArgumentParser()
+parser.add_argument("-n", dest="nodes", type=int, help="display the square of a given number")
+parser.add_argument("-s", dest="sockets_per_node", type=int, help="display the square of a given number")
+parser.add_argument("-t", dest="tiles_per_socket", type=int, help="display the square of a given number")
+parser.add_argument("-c", dest="cores_per_tile",type=int, help="display the square of a given number")
+parser.add_argument("-v", dest="verbosity", type=int, help="increase output verbosity")
+args = parser.parse_args()
+
+VERBOSE = args.verbosity
+NODES = args.nodes
+SOCKETS_PER_NODE = args.sockets_per_node
+TILES_PER_SOCKET = args.tiles_per_socket
+CORES_PER_TILE = args.cores_per_title
 
 cores = []
 core_counter = 0
