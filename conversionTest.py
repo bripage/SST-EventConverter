@@ -8,11 +8,11 @@ DEBUG_LEVEL = 10
 MEM_SIZE = 1024*1024*1024-1
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-n", dest="nodes", type=int, help="display the square of a given number")
-parser.add_argument("-s", dest="sockets_per_node", type=int, help="display the square of a given number")
-parser.add_argument("-t", dest="tiles_per_socket", type=int, help="display the square of a given number")
-parser.add_argument("-c", dest="cores_per_tile",type=int, help="display the square of a given number")
-parser.add_argument("-v", dest="verbosity", type=int, help="increase output verbosity")
+parser.add_argument("-n", "--nodes", type=int, help="Number of nodes to simulate")
+parser.add_argument("-s", "--sockets_per_node", type=int, help="Number of CPU sockets per node")
+parser.add_argument("-t", "--tiles_per_socket", type=int, help="Number of tiles per node socket")
+parser.add_argument("-c", "--cores_per_tile",type=int, help="Number of inividual cores per tile")
+parser.add_argument("-v", "--verbosity", type=int, help="increase output verbosity")
 args = parser.parse_args()
 
 VERBOSE = args.verbosity
