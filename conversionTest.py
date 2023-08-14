@@ -19,7 +19,7 @@ VERBOSE = args.verbosity
 NODES = args.nodes
 SOCKETS_PER_NODE = args.sockets_per_node
 TILES_PER_SOCKET = args.tiles_per_socket
-CORES_PER_TILE = args.cores_per_title
+CORES_PER_TILE = args.cores_per_tile
 
 cores = []
 core_counter = 0
