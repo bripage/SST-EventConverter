@@ -91,13 +91,12 @@ namespace SST {
             virtual void setMsgHandler(Event::HandlerBase* handler) = 0;
             virtual void init(unsigned int phase) = 0;
             virtual void setup() { }
-            virtual void send(rtrEvent *ev, int dest) = 0;
-            virtual int getNumDestinations() = 0;
-            virtual SST::Interfaces::SimpleNetwork::nid_t getAddress() = 0;
+            virtual void send(SST::Event *ev, int dest) = 0;
+            //virtual int getNumDestinations() = 0;
+            //virtual SST::Interfaces::SimpleNetwork::nid_t getAddress() = 0;
 
             bool getEndpointType() { return endpointType; }
             void setAdjacentSubComp(baseSubComponent* comp){adjacentSubComp = comp;}
-
 
             baseSubComponent* adjacentSubComp;
             bool endpointType;
