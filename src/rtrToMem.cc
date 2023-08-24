@@ -58,7 +58,7 @@ bool rtrToMem::handleEvent(int vn){
 void rtrToMem::init(unsigned int phase){
     iFace->init(phase);
     out->verbose(CALL_INFO, 9, 0, "%s begining init phase %d\n", getName().c_str(), phase);
-
+/*
     if( iFace->isNetworkInitialized() ){
         if(!initBroadcastSent) {
             initBroadcastSent = true;
@@ -99,7 +99,7 @@ void rtrToMem::init(unsigned int phase){
             adjacentSubComp->passOffInitEvents(cev->clone());
         }
     }
-
+*/
     out->verbose(CALL_INFO, 9, 0, "%s ending init phase %d\n", getName().c_str(), phase);
 }
 
