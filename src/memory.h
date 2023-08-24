@@ -16,14 +16,14 @@
 using namespace SST;
 using namespace SST::eventConverter;
 
-class memToRtr : public baseSubComponent {
+class memory : public baseSubComponent {
 public:
     SST_ELI_REGISTER_SUBCOMPONENT(
-            memToRtr,
+            memory,
     "eventConverter",
-    "memToRtr",
+    "memory",
     SST_ELI_ELEMENT_VERSION(1,0,0),
-    "memToRtr : accepts StdMem events and sends them to the router subcomponent for conversion to RtrEvent",
+    "memory : accepts StdMem events and sends them to the router subcomponent for conversion to RtrEvent",
     SST::eventConverter::baseSubComponent
     )
 
@@ -35,11 +35,11 @@ public:
     SST_ELI_DOCUMENT_PORTS()
 
     SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS(
-    { "memIFace", "Set the interface to memory", "SST::Interfaces::StandardMem" }
+    { "iface", "Set the interface to memory", "SST::Interfaces::StandardMem" }
     )
 
-    memToRtr(ComponentId_t id, Params& params);
-    ~memToRtr() override;
+    memory(ComponentId_t id, Params& params);
+    ~memory() override;
     void send(SST::Event*) override;
     void init(unsigned int) override;
     void handleEvent(SST::Interfaces::StandardMem::Request* req);
@@ -49,7 +49,7 @@ private:
     // Params
     SST::Output* out;           // SST Output object for printing, messaging, etc
     SST::Link* memLink;
-    SST::Interfaces::StandardMem* memIFace;                  ///< StandardMem memory interface
+    SST::Interfaces::StandardMem* iface;                  ///< StandardMem memory interface
 };
 
 #endif

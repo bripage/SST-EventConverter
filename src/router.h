@@ -11,19 +11,19 @@
 #include <sst/core/interfaces/simpleNetwork.h>
 #include <sst/core/interfaces/stdMem.h>
 #include <sst/elements/merlin/router.h>
-#include "memToRtr.h"
+#include "memory.h"
 
 using namespace SST;
 using namespace SST::eventConverter;
 
-class rtrToMem : public baseSubComponent {
+class router : public baseSubComponent {
 public:
     SST_ELI_REGISTER_SUBCOMPONENT(
-            rtrToMem,
+            router,
     "eventConverter",
-    "rtrToMem",
+    "router",
     SST_ELI_ELEMENT_VERSION(1,0,0),
-    "rtrToMem : accepts router events and passes them to the memory subcomponent",
+    "router : accepts router events and passes them to the memory subcomponent",
     SST::eventConverter::baseSubComponent
     )
 
@@ -37,8 +37,8 @@ public:
     {"iface", "SimpleNetwork interface to a network", "SST::Interfaces::SimpleNetwork"}
     )
 
-    rtrToMem(ComponentId_t id, Params& params);
-    ~rtrToMem() override;
+    router(ComponentId_t id, Params& params);
+    ~router() override;
     void send(SST::Event*) override;
     void init(unsigned int phase) override;
     bool handleEvent(int vn);
@@ -47,7 +47,7 @@ public:
 private:
     // Params
     SST::Output* out;   // SST Output object for printing, messaging, etc
-    SST::Interfaces::SimpleNetwork* iFace; // SST network interface
+    SST::Interfaces::SimpleNetwork* iface; // SST network interface
     SST::Interfaces::SimpleNetwork::nid_t memContCompID;
     bool initBroadcastSent; // has the init bcast been sent?
 };

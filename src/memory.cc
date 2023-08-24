@@ -2,49 +2,49 @@
 // _basicComponent_cc_
 //
 
-#include "memToRtr.h"
+#include "memory.h"
 
 using namespace SST;
 using namespace SST::eventConverter;
 
-memToRtr::memToRtr(ComponentId_t id, Params& params)
+memory::memory(ComponentId_t id, Params& params)
         : baseSubComponent(id, params) {
     printf("%s Created!\n", getName().c_str());
     const int Verbosity = params.find<int>("verbose", 0);
     out = new Output("", Verbosity, 0, Output::STDOUT);
 
-    memIFace = loadUserSubComponent<SST::Interfaces::StandardMem>(
-            "memIFace", ComponentInfo::SHARE_NONE, getTimeConverter("1GHz"),
-            new SST::Interfaces::StandardMem::Handler<memToRtr>(this, &memToRtr::handleEvent));
+    iface = loadUserSubComponent<SST::Interfaces::StandardMem>(
+            "iface", ComponentInfo::SHARE_NONE, getTimeConverter("1GHz"),
+            new SST::Interfaces::StandardMem::Handler<memory>(this, &memory::handleEvent));
 
-    if( !memIFace ){
+    if( !iface ){
         out->fatal(CALL_INFO, -1, "Error : memory interface is null\n");
     }
 
     endpointType = params.find<bool>("type", 0);
 }
 
-// memToRtr destructor
-memToRtr::~memToRtr(){
+// memory destructor
+memory::~memory(){
     delete out;
 }
 
 // receive memory event from router side
-void memToRtr::send(SST::Event* ev){
+void memory::send(SST::Event* ev){
     SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
     //memIFace->send(mev->clone());
     delete mev;
     delete ev;
 }
 
-// memToRtr event handler
-void memToRtr::handleEvent(SST::Interfaces::StandardMem::Request* req){
+// memory event handler
+void memory::handleEvent(SST::Interfaces::StandardMem::Request* req){
     //cloneableEvent* mev = req->convert();
     //adjacentSubComp->send(mev->clone()); // use rtrToMem's send method to hand off the memory event
 }
 
-void memToRtr::init(unsigned int phase){
-    memIFace->init(phase);
+void memory::init(unsigned int phase){
+    iface->init(phase);
     /*
     out->verbose(CALL_INFO, 9, 0, "%s begining init phase %d\n", getName().c_str(), phase);
     SST::Event *ev;
@@ -60,7 +60,7 @@ void memToRtr::init(unsigned int phase){
     out->verbose(CALL_INFO, 9, 0, "%s ending init phase %d\n", getName().c_str(), phase);
 }
 
-void memToRtr::passOffInitEvents(SST::Event* ev){
+void memory::passOffInitEvents(SST::Event* ev){
     cloneableEvent* cev = dynamic_cast<cloneableEvent*>(ev);
     if (cev) {
         //memIFace->send(cev->clone());

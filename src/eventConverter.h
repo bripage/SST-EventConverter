@@ -129,9 +129,9 @@ namespace SST {
 
             SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS(
             {"memory", "Handles memory event traffic",
-                        "SST::eventConverter::memToRtr"},
+                        "SST::eventConverter::memory"},
             {"router", "Handles router event traffic",
-                        "SST::eventConverter::rtrToMem"}
+                        "SST::eventConverter::router"}
             )
 
             memRtrConverter(SST::ComponentId_t id, SST::Params& params);
