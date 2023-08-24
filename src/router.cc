@@ -11,15 +11,37 @@ using namespace SST;
 using namespace SST::memRouter;
 
 router::router(ComponentId_t id, Params& params)
-        : baseSubComponent(id, params) {
+        : nicAPI(id, params) {
     printf("%s Created!\n", getName().c_str());
+
     const int Verbosity = params.find<int>("verbose", 0);
     out = new Output("", Verbosity, 0, Output::STDOUT);
 
-    iface = loadUserSubComponent<SST::Interfaces::SimpleNetwork>("iface", ComponentInfo::SHARE_NONE, 1);
-    iface->setNotifyOnReceive(new SST::Interfaces::SimpleNetwork::Handler<router>(this, &router::handleEvent));
+    const std::string nicClock = params.find<std::string>("clock", "1GHz");
+    registerClock(nicClock, new Clock::Handler<router>(this,&router::clockTick));
 
+    // load the SimpleNetwork interfaces
+    iFace = loadUserSubComponent<SST::Interfaces::SimpleNetwork>("iface", ComponentInfo::SHARE_NONE, 1);
+    if( !iFace ){
+        // load the anonymous nic
+        Params netparams;
+        netparams.insert("port_name", params.find<std::string>("port", "network"));
+        netparams.insert("in_buf_size", "256B");
+        netparams.insert("out_buf_size", "256B");
+        netparams.insert("link_bw", "40GiB/s");
+        iFace = loadAnonymousSubComponent<SST::Interfaces::SimpleNetwork>("merlin.linkcontrol",
+                                                                          "iface",
+                                                                          0,
+                                                                          ComponentInfo::SHARE_PORTS | ComponentInfo::INSERT_STATS,
+                                                                          netparams,
+                                                                          1);
+    }
+
+    iFace->setNotifyOnReceive(new SST::Interfaces::SimpleNetwork::Handler<router>(this, &router::msgNotify));
+    msgHandler = new Event::Handler<router>(this, &router::handleMessage);
     initBroadcastSent = false;
+    numDest = 0;
+    //msgHandler = nullptr;
 }
 
 // memToRtr destructor
@@ -27,21 +49,84 @@ router::~router(){
     delete out;
 }
 
-// receive memory event data to make a RtrEvent
-void router::send(SST::Event* ev){
-    SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
-    SST::Interfaces::SimpleNetwork::nid_t src = iface->getEndpointID();
-    SST::Interfaces::SimpleNetwork::nid_t dest = memContCompID;  // this needs to be learned during router network initialization
-    size_t size_in_bits = mev->getEventSize();
-    SST::Interfaces::SimpleNetwork::Request netReq = SST::Interfaces::SimpleNetwork::Request(dest, src, size_in_bits, 0, 0, mev);
+void router::setMsgHandler(Event::HandlerBase* handler){
+    msgHandler = handler;
+}
 
-    iface->send(netReq.clone(), 0);
+void router::init(unsigned int phase){
+    iFace->init(phase);
 
-    delete mev;
-    delete ev;
+    if( iFace->isNetworkInitialized() ){
+        if( !initBroadcastSent) {
+            initBroadcastSent = true;
+            rtrEvent *ev = new rtrEvent(getName());
+
+            SST::Interfaces::SimpleNetwork::Request * req = new SST::Interfaces::SimpleNetwork::Request();
+            req->dest = SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR;
+            req->src = iFace->getEndpointID();
+            req->givePayload(ev);
+            iFace->sendInitData(req);
+        }
+    }
+
+    while( SST::Interfaces::SimpleNetwork::Request * req = iFace->recvInitData() ) {
+        rtrEvent *ev = static_cast<rtrEvent*>(req->takePayload());
+        numDest++;
+        output->verbose(CALL_INFO, 1, 0,
+                        "%s received init message from %s\n",
+                        getName().c_str(), ev->getSource().c_str());
+    }
+}
+
+void router::setup(){
+    if( msgHandler == nullptr ){
+        output->fatal(CALL_INFO, -1,
+                      "%s, Error: RevNIC implements a callback-based notification and parent has not registerd a callback function\n",
+                      getName().c_str());
+    }
+}
+
+bool router::msgNotify(int vn){
+    SST::Interfaces::SimpleNetwork::Request* req = iFace->recv(0);
+    if( req != nullptr ){
+        if( req != nullptr ){
+            rtrEvent *ev = static_cast<rtrEvent*>(req->takePayload());
+            delete req;
+            (*msgHandler)(ev);
+        }
+    }
+    return true;
+}
+
+void router::send(rtrEvent* event, int destination){
+    SST::Interfaces::SimpleNetwork::Request *req = new SST::Interfaces::SimpleNetwork::Request();
+    req->dest = destination;
+    req->src = iFace->getEndpointID();
+    req->givePayload(event);
+    sendQ.push(req);
+}
+
+int router::getNumDestinations(){
+    return numDest;
+}
+
+SST::Interfaces::SimpleNetwork::nid_t router::getAddress(){
+    return iFace->getEndpointID();
+}
+
+bool router::clockTick(Cycle_t cycle){
+    while( !sendQ.empty() ){
+        if( iFace->spaceToSend(0,512) && iFace->send(sendQ.front(),0)) {
+            sendQ.pop();
+        }else{
+            break;
+        }
+    }
+    return false;
 }
 
 // memToRtr event handler
+/*
 bool router::handleEvent(int vn){
     out->verbose(CALL_INFO, 9, 0, "%s event handler was called!\n", getName().c_str());
     SST::Interfaces::SimpleNetwork::Request* netReq = iface->recv(0);
@@ -54,64 +139,4 @@ bool router::handleEvent(int vn){
 
     return true;
 }
-
-void router::init(unsigned int phase){
-    iface->init(phase);
-    out->verbose(CALL_INFO, 9, 0, "%s begining init phase %d\n", getName().c_str(), phase);
-/*
-    if( iface->isNetworkInitialized() ){
-        if(!initBroadcastSent) {
-            initBroadcastSent = true;
-            SST::Interfaces::SimpleNetwork::Request *req = new SST::Interfaces::SimpleNetwork::Request();
-            req->dest = SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR;
-            req->src = iface->getEndpointID();
-
-            endpointDiscoveryEvent *ev = new endpointDiscoveryEvent(adjacentSubComp->getEndpointType());
-            ev->setSrc(iface->getEndpointID());
-
-            req->givePayload(ev);
-            out->verbose(CALL_INFO, 2, 0, "%s (endpointType=%d) sending init message to %zu\n", getName().c_str(),
-                         adjacentSubComp->getEndpointType(), SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR);
-
-            //iface->sendInitData(req);
-            iface->sendUntimedData(req);
-        }
-    }
-
-    while( SST::Interfaces::SimpleNetwork::Request* req = iface->recvUntimedData() ) {
-        SST::Event* ev;
-        out->verbose(CALL_INFO, 1, 0, "%s received a request during init()\n", getName().c_str());
-        ev = req->takePayload();
-        eventConverter::cloneableEvent* cev = dynamic_cast<eventConverter::cloneableEvent*>(ev);
-        endpointDiscoveryEvent *epde = dynamic_cast<endpointDiscoveryEvent*>(cev);
-
-        if (epde) {
-            out->verbose(CALL_INFO, 1, 0, "%s received init message from %zu\n", getName().c_str(), epde->getSrc());
-
-            bool remoteEndpointType = epde->getPayload();
-            out->output("%s received init message from %d (endpointType = %d)\n", getName().c_str(), epde->getSrc(),
-                        remoteEndpointType);
-
-            if (remoteEndpointType) {
-                memContCompID = static_cast<SST::Interfaces::SimpleNetwork::nid_t>(epde->getSrc());
-            }
-        } else {
-            adjacentSubComp->passOffInitEvents(cev->clone());
-        }
-    }
 */
-    out->verbose(CALL_INFO, 9, 0, "%s ending init phase %d\n", getName().c_str(), phase);
-}
-
-void router::passOffInitEvents(SST::Event* ev){
-    out->verbose(CALL_INFO, 9, 0, "%s inside router::passOffInitEvents()\n", getName().c_str());
-    SST::Interfaces::SimpleNetwork::Request *req = new SST::Interfaces::SimpleNetwork::Request();
-    req->dest = SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR;
-    req->src = iface->getEndpointID();
-    req->givePayload(ev);
-
-    out->verbose(CALL_INFO, 2, 0, "%s (endpointType=%d) sending init message to %zu\n", getName().c_str(),
-                 adjacentSubComp->getEndpointType(), SST::Interfaces::SimpleNetwork::INIT_BROADCAST_ADDR);
-
-    iface->sendUntimedData(req);
-}
