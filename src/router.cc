@@ -11,7 +11,7 @@ using namespace SST;
 using namespace SST::memRouter;
 
 router::router(ComponentId_t id, Params& params)
-        : routerAPI(id, params) {
+        : baseSubComponent(id, params) {
     printf("%s Created!\n", getName().c_str());
 
     const int Verbosity = params.find<int>("verbose", 0);

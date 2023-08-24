@@ -67,38 +67,6 @@ namespace SST {
         };  // end rtrEvent
 
 
-        /*
-        * routerAPI : Handles the subcomponent NIC API
-        */
-        class routerAPI : public SST::memRouter::baseSubComponent{
-        public:
-            SST_ELI_REGISTER_SUBCOMPONENT_API(SST::memRouter::routerAPI)
-
-            /// default constructor
-            routerAPI(ComponentId_t id, Params& params) : SubComponent(id) { }
-
-            /// default destructor
-            virtual ~routerAPI() { }
-
-            /// registers the event handler with the core
-            virtual void setMsgHandler(Event::HandlerBase* handler) = 0;
-
-            /// initializes the network
-            virtual void init(unsigned int phase) = 0;
-
-            /// setup the network
-            virtual void setup() { }
-
-            /// send a message on the network
-            virtual void send(rtrEvent *ev, int dest) = 0;
-
-            /// retrieve the number of potential destinations
-            virtual int getNumDestinations() = 0;
-
-            /// returns the NIC's network address
-            virtual SST::Interfaces::SimpleNetwork::nid_t getAddress() = 0;
-        }; /// end routerAPI
-
 
         /*
          * router: the router interface controller subcomponent
@@ -111,7 +79,7 @@ namespace SST {
             "router",
             SST_ELI_ELEMENT_VERSION(1,0,0),
             "router : accepts router events and passes them to the memory subcomponent",
-            SST::memRouter::routerAPI
+            SST::memRouter::baseSubComponent
             )
 
             SST_ELI_DOCUMENT_PARAMS({
@@ -133,28 +101,28 @@ namespace SST {
             ~router() override;
 
             // router: Callback to parent on received messages
-            virtual void setMsgHandler(Event::HandlerBase* handler);
+            void setMsgHandler(Event::HandlerBase* handler);
 
             /// router: initialization function
-            virtual void init(unsigned int phase);
+            void init(unsigned int phase);
 
             /// router: setup function
-            virtual void setup();
+            void setup();
 
             /// router: send event to the destination id
-            virtual void send(rtrEvent *ev, int dest);
+            void send(rtrEvent *ev, int dest);
 
             /// router: retrieve the number of destinations
-            virtual int getNumDestinations();
+            int getNumDestinations();
 
             /// router: get the endpoint's network address
-            virtual SST::Interfaces::SimpleNetwork::nid_t getAddress();
+            SST::Interfaces::SimpleNetwork::nid_t getAddress();
 
             /// router: callback function for the SimpleNetwork interface
             bool msgNotify(int virtualNetwork);
 
             /// router: clock function
-            virtual bool clockTick(Cycle_t cycle);
+            bool clockTick(Cycle_t cycle);
 
             bool handleMessage(int vn);
 

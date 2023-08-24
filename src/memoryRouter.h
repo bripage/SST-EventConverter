@@ -88,11 +88,13 @@ namespace SST {
 
             // virtual methods
             virtual ~baseSubComponent() { }
-            virtual void send(SST::Event *) = 0;
-            virtual void init(unsigned int) = 0 ;
-            virtual void passOffInitEvents(SST::Event* ev) = 0;
+            virtual void setMsgHandler(Event::HandlerBase* handler) = 0;
+            virtual void init(unsigned int phase) = 0;
+            virtual void setup() { }
+            virtual void send(rtrEvent *ev, int dest) = 0;
+            virtual int getNumDestinations() = 0;
+            virtual SST::Interfaces::SimpleNetwork::nid_t getAddress() = 0;
 
-            // base methods
             bool getEndpointType() { return endpointType; }
             void setAdjacentSubComp(baseSubComponent* comp){adjacentSubComp = comp;}
 

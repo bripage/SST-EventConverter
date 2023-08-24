@@ -43,7 +43,7 @@ public:
     void send(SST::Event*) override;
     void init(unsigned int) override;
     void handleEvent(SST::Interfaces::StandardMem::Request* req);
-    void passOffInitEvents(SST::Event* ev);
+
 
 private:
     // Params
