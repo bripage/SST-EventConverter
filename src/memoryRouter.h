@@ -1,9 +1,9 @@
 //
-// _eventConverter_h_
+// memoryRouter_h
 //
 
-#ifndef _EVENT_CONVERTER_H_
-#define _EVENT_CONVERTER_H_
+#ifndef _MEM_ROUTER_H_
+#define _MEM_ROUTER_H_
 
 #include <sst/core/sst_config.h>
 #include <sst/core/component.h>
@@ -30,7 +30,7 @@ namespace SST {
                 return new cloneableEvent(*this);
             }
 
-            ImplementSerializable(SST::eventConverter::cloneableEvent);
+            ImplementSerializable(SST::memoryRouter::cloneableEvent);
 
         private:
             // Message payload
@@ -68,7 +68,7 @@ namespace SST {
                 return new endpointDiscoveryEvent(*this);
             }
 
-            ImplementSerializable(SST::eventConverter::endpointDiscoveryEvent);
+            ImplementSerializable(SST::memoryRouter::endpointDiscoveryEvent);
 
         private:
             // Message payload
@@ -81,7 +81,7 @@ namespace SST {
         // ----------------------------------------------------------
         class baseSubComponent : public SST::SubComponent {
         public:
-            SST_ELI_REGISTER_SUBCOMPONENT_API(SST::eventConverter::baseSubComponent)
+            SST_ELI_REGISTER_SUBCOMPONENT_API(SST::memoryRouter::baseSubComponent)
 
             baseSubComponent(SST::ComponentId_t id, SST::Params& params)
                     : SubComponent(id),adjacentSubComp(nullptr),endpointType(0), verbose(0) { }
