@@ -11,7 +11,7 @@ using namespace SST;
 using namespace SST::memRouter;
 
 router::router(ComponentId_t id, Params& params)
-        : nicAPI(id, params) {
+        : routerAPI(id, params) {
     printf("%s Created!\n", getName().c_str());
 
     const int Verbosity = params.find<int>("verbose", 0);
@@ -72,7 +72,7 @@ void router::init(unsigned int phase){
     while( SST::Interfaces::SimpleNetwork::Request * req = iFace->recvInitData() ) {
         rtrEvent *ev = static_cast<rtrEvent*>(req->takePayload());
         numDest++;
-        output->verbose(CALL_INFO, 1, 0,
+        out->verbose(CALL_INFO, 1, 0,
                         "%s received init message from %s\n",
                         getName().c_str(), ev->getSource().c_str());
     }
@@ -80,8 +80,8 @@ void router::init(unsigned int phase){
 
 void router::setup(){
     if( msgHandler == nullptr ){
-        output->fatal(CALL_INFO, -1,
-                      "%s, Error: RevNIC implements a callback-based notification and parent has not registerd a callback function\n",
+        out->fatal(CALL_INFO, -1,
+                   "%s, Error: RevNIC implements a callback-based notification and parent has not registerd a callback function\n",
                       getName().c_str());
     }
 }
@@ -125,18 +125,7 @@ bool router::clockTick(Cycle_t cycle){
     return false;
 }
 
-// memToRtr event handler
-/*
-bool router::handleEvent(int vn){
-    out->verbose(CALL_INFO, 9, 0, "%s event handler was called!\n", getName().c_str());
-    SST::Interfaces::SimpleNetwork::Request* netReq = iface->recv(0);
-    if( netReq != nullptr ){
-        SST::Event* ev = dynamic_cast<SST::Event*>(netReq->takePayload());
-        SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
-        adjacentSubComp->send(mev->clone()); // use memToRtr's send method to hand off the memory event
-    }
-    delete netReq;
-
+bool router::handleMessage(int vn){
     return true;
 }
-*/
+

@@ -63,7 +63,7 @@ namespace SST {
             }
 
             /// rtrEvent: implements the NIC serialization
-            ImplementSerializable(SST::RevCPU::rtrEvent);
+            ImplementSerializable(SST::memRouter::rtrEvent);
         };  // end rtrEvent
 
 
