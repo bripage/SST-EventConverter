@@ -8,7 +8,7 @@
 #include "router.h"
 
 using namespace SST;
-using namespace SST::eventConverter;
+using namespace SST::memoryRouter;
 
 router::router(ComponentId_t id, Params& params)
         : baseSubComponent(id, params) {

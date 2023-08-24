@@ -5,7 +5,7 @@
 #ifndef _MEMEVENT_CONVERTER_H_
 #define _MEMEVENT_CONVERTER_H_
 
-#include "eventConverter.h"
+#include "memoryRouter.h"
 
 #include <sst/core/event.h>
 #include <sst/core/link.h>
@@ -14,13 +14,13 @@
 #include <sst/core/interfaces/stdMem.h>
 
 using namespace SST;
-using namespace SST::eventConverter;
+using namespace SST::memoryRouter;
 
 class memory : public baseSubComponent {
 public:
     SST_ELI_REGISTER_SUBCOMPONENT(
             memory,
-    "eventConverter",
+    "memoryRouter",
     "memory",
     SST_ELI_ELEMENT_VERSION(1,0,0),
     "memory : accepts StdMem events and sends them to the router subcomponent for conversion to RtrEvent",

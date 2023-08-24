@@ -5,7 +5,7 @@
 #ifndef _RTREVENT_CONVERTER_H_
 #define _RTREVENT_CONVERTER_H_
 
-#include "eventConverter.h"
+#include "memoryRouter.h"
 #include <sst/core/event.h>
 #include <sst/core/link.h>
 #include <sst/core/interfaces/simpleNetwork.h>
@@ -14,13 +14,13 @@
 #include "memory.h"
 
 using namespace SST;
-using namespace SST::eventConverter;
+using namespace SST::memoryRouter;
 
 class router : public baseSubComponent {
 public:
     SST_ELI_REGISTER_SUBCOMPONENT(
             router,
-    "eventConverter",
+    "memoryRouter",
     "router",
     SST_ELI_ELEMENT_VERSION(1,0,0),
     "router : accepts router events and passes them to the memory subcomponent",

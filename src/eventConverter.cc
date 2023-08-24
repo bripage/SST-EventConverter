@@ -2,12 +2,12 @@
 // _eventConverter_cc_
 //
 
-#include "eventConverter.h"
+#include "memoryRouter.h"
 
 using namespace SST;
-using namespace SST::eventConverter;
+using namespace SST::memoryRouter;
 
-memRtrConverter::memRtrConverter(ComponentId_t id, SST::Params& params)
+memoryRouter::memoryRouter(ComponentId_t id, SST::Params& params)
         : Component(id) {
     // Create a new SST output object
     out = new Output("", 1, 0, Output::STDOUT);
@@ -20,11 +20,11 @@ memRtrConverter::memRtrConverter(ComponentId_t id, SST::Params& params)
     rtrSubComp->setAdjacentSubComp(memSubComp);
 }
 
-memRtrConverter::~memRtrConverter(){
+memoryRouter::~memoryRouter(){
     delete out;
 }
 
-void memRtrConverter::init(unsigned int phase){
+void memoryRouter::init(unsigned int phase){
     memSubComp->init(phase);
     //rtrSubComp->init(phase);
 }
