@@ -8,18 +8,24 @@ DEBUG_LEVEL = 10
 MEM_SIZE = 1024*1024*1024-1
 
 parser = argparse.ArgumentParser()
+parser.add_argument("-b", "--binary", type=string, help="Binary to execute on the RISC-V cores")
 parser.add_argument("-n", "--nodes", type=int, help="Number of nodes to simulate")
 parser.add_argument("-s", "--sockets_per_node", type=int, help="Number of CPU sockets per node")
 parser.add_argument("-t", "--tiles_per_socket", type=int, help="Number of tiles per node socket")
 parser.add_argument("-c", "--cores_per_tile",type=int, help="Number of inividual cores per tile")
 parser.add_argument("-v", "--verbosity", type=int, help="increase output verbosity")
+parser.add_argument("-tl", "--tile_to_tile_latency", type=int, help="Set the latency  for tile-to-tile communication within a socket ")
+parser.add_argument("-sl", "--socket_to_socket_latency", type=int, help="Set the latency for socket-to-socket communication within a node")
 args = parser.parse_args()
 
+BINARY = args.binary
 VERBOSE = args.verbosity
 NODES = args.nodes
 SOCKETS_PER_NODE = args.sockets_per_node
 TILES_PER_SOCKET = args.tiles_per_socket
 CORES_PER_TILE = args.cores_per_tile
+TILE_TO_TILE_LATENCY = args.tile_to_tile_latency
+SOCKET_TO_SOCKET_LATENCY = args.socket_to_socket_latency
 
 cores = []
 core_counter = 0
@@ -49,7 +55,7 @@ for N in range(NODES):
           "machine" : "[0:RV64G]",                      # Core:Config; RV64G for core 0
           "startAddr" : "[0:0x00000000]",               # Starting address for core 0
           "memCost" : "[0:1:10]",                       # Memory loads required 1-10 cycles
-          "program" : os.getenv("REV_EXE", "cache_test2.exe"),  # Target executable
+          "program" : os.getenv("REV_EXE", BINARY),  # Target executable
           "enable_memH" : 1,                            # Enable memHierarchy support
           "splash" : 1                                  # Display the splash message
         })
