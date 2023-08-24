@@ -14,24 +14,24 @@ ELEMENT_HEADERS=$(shell sst-config SST_ELEMENT_LIBRARY SST_ELEMENT_LIBRARY_HOME)
 CPPFLAGS= -I/scratch/shared/apps/sst/13.0.0/elements/include -I./
 OPTIMIZE_FLAGS=-O2
 
-COMPONENT_LIB=libeventConverter.so
+COMPONENT_LIB=libmemoryRouter.so
 
-EVENTCONVERTER_SOURCES := $(wildcard *.cc)
+MEMORYROUTER_SOURCES := $(wildcard *.cc)
 
-EVENTCONVERTER_HEADERS := $(wildcard *.h)
+MEMORYROUTER_HEADERS := $(wildcard *.h)
 
-EVENTCONVERTER_OBJS := $(patsubst %.cc,%.o,$(wildcard *.cc))
+MEMORYROUTER_OBJS := $(patsubst %.cc,%.o,$(wildcard *.cc))
 
 all: $(COMPONENT_LIB)
 
 debug: CXXFLAGS += -DDEBUG -g
 debug: $(COMPONENT_LIB)
 
-$(COMPONENT_LIB): $(EVENTCONVERTER_OBJS)
+$(COMPONENT_LIB): $(MEMORYROUTER_OBJS)
 	$(CXX) $(OPTIMIZE_FLAGS) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o $@ *.o
 %.o:%.cc $(SIMPLEEXAMPLE_HEADERS)
 	$(CXX) $(OPTIMIZE_FLAGS) $(CXXFLAGS) $(CPPFLAGS) -I$(ELEMENT_HEADERS) -c $<
 install: $(COMPONENT_LIB)
-	sst-register eventConverter eventConverter_LIBDIR=$(CURDIR)
+	sst-register memoryRouter memoryRouter_LIBDIR=$(CURDIR)
 clean:
 	rm -Rf *.o $(COMPONENT_LIB)

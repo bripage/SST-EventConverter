@@ -14,7 +14,7 @@
 #include <sst/core/interfaces/stdMem.h>
 
 using namespace SST;
-using namespace SST::memoryRouter;
+using namespace SST::memRouter;
 
 class memory : public baseSubComponent {
 public:

@@ -5,7 +5,7 @@
 #include "memoryRouter.h"
 
 using namespace SST;
-using namespace SST::memoryRouter;
+using namespace SST::memRouter;
 
 memoryRouter::memoryRouter(ComponentId_t id, SST::Params& params)
         : Component(id) {

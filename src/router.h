@@ -14,7 +14,7 @@
 #include "memory.h"
 
 using namespace SST;
-using namespace SST::memoryRouter;
+using namespace SST::memRouter;
 
 class router : public baseSubComponent {
 public:

@@ -8,7 +8,7 @@
 #include "router.h"
 
 using namespace SST;
-using namespace SST::memoryRouter;
+using namespace SST::memRouter;
 
 router::router(ComponentId_t id, Params& params)
         : baseSubComponent(id, params) {

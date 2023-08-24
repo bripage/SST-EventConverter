@@ -11,7 +11,7 @@
 #include <sst/core/event.h>
 
 namespace SST {
-    namespace memoryRouter {
+    namespace memRouter {
 
         // This is literally an SST::Event but with the ability to clone it like nearly all other events
         // P.S. I cant understand why this isnt a thing
@@ -30,7 +30,7 @@ namespace SST {
                 return new cloneableEvent(*this);
             }
 
-            ImplementSerializable(SST::memoryRouter::cloneableEvent);
+            ImplementSerializable(SST::memRouter::cloneableEvent);
 
         private:
             // Message payload
@@ -68,7 +68,7 @@ namespace SST {
                 return new endpointDiscoveryEvent(*this);
             }
 
-            ImplementSerializable(SST::memoryRouter::endpointDiscoveryEvent);
+            ImplementSerializable(SST::memRouter::endpointDiscoveryEvent);
 
         private:
             // Message payload
@@ -81,7 +81,7 @@ namespace SST {
         // ----------------------------------------------------------
         class baseSubComponent : public SST::SubComponent {
         public:
-            SST_ELI_REGISTER_SUBCOMPONENT_API(SST::memoryRouter::baseSubComponent)
+            SST_ELI_REGISTER_SUBCOMPONENT_API(SST::memRouter::baseSubComponent)
 
             baseSubComponent(SST::ComponentId_t id, SST::Params& params)
                     : SubComponent(id),adjacentSubComp(nullptr),endpointType(0), verbose(0) { }
@@ -144,7 +144,7 @@ namespace SST {
             baseSubComponent* memSubComp; // baseSubComponent
             baseSubComponent* rtrSubComp; // baseSubComponent
         };  // class memoryRouter
-    }   // namespace BasicEventConverter
+    }   // namespace memRouter
 }   // namespace SST
 
 #endif
