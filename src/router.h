@@ -24,7 +24,7 @@ public:
     "router",
     SST_ELI_ELEMENT_VERSION(1,0,0),
     "router : accepts router events and passes them to the memory subcomponent",
-    SST::eventConverter::baseSubComponent
+    SST::memRouter::baseSubComponent
     )
 
     SST_ELI_DOCUMENT_PARAMS({

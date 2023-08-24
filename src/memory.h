@@ -24,7 +24,7 @@ public:
     "memory",
     SST_ELI_ELEMENT_VERSION(1,0,0),
     "memory : accepts StdMem events and sends them to the router subcomponent for conversion to RtrEvent",
-    SST::eventConverter::baseSubComponent
+    SST::memRouter::baseSubComponent
     )
 
     SST_ELI_DOCUMENT_PARAMS(
