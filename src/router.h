@@ -70,7 +70,7 @@ namespace SST {
         /*
         * routerAPI : Handles the subcomponent NIC API
         */
-        class routerAPI: public SST::SubComponent{
+        class routerAPI : public SST::memRouter::baseSubComponent{
         public:
             SST_ELI_REGISTER_SUBCOMPONENT_API(SST::memRouter::routerAPI)
 
@@ -155,6 +155,8 @@ namespace SST {
 
             /// router: clock function
             virtual bool clockTick(Cycle_t cycle);
+
+            bool handleMessage(int vn);
 
         private:
             // Params
