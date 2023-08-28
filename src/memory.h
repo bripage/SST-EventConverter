@@ -40,8 +40,8 @@ public:
 
     memory(ComponentId_t id, Params& params);
     ~memory() override;
-    virtual void send(SST::Event*);
-    virtual void init(unsigned int);
+    virtual void send(SST::Event* ev, int dest);
+    virtual void init(unsigned int phase);
     void handleEvent(SST::Interfaces::StandardMem::Request* req);
 
 
