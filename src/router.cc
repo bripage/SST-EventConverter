@@ -99,7 +99,7 @@ bool router::msgNotify(int vn){
 }
 
 void router::send(SST::Event* event, int destination){
-    SST::memRouter::router::rtrEvent* rev = dynamic_cast<SST::memRouter::router::rtrEvent*>(event);
+    rtrEvent* rev = dynamic_cast<rtrEvent*>(event);
     SST::Interfaces::SimpleNetwork::Request *req = new SST::Interfaces::SimpleNetwork::Request();
     req->dest = destination;
     req->src = iFace->getEndpointID();
