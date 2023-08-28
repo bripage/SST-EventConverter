@@ -30,7 +30,7 @@ memory::~memory(){
 }
 
 // receive memory event from router side
-void memory::send(SST::Event* ev){
+void memory::send(SST::Event* ev, int dest){
     SST::MemHierarchy::MemEventBase* mev = dynamic_cast<SST::MemHierarchy::MemEventBase*>(ev);
     //memIFace->send(mev->clone());
     delete mev;
