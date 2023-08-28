@@ -61,7 +61,7 @@ public:
     }
 
     /// rtrEvent: implements the NIC serialization
-    ImplementSerializable(SST::memRouter::rtrEvent);
+    ImplementSerializable(rtrEvent);
 };  // end rtrEvent
 
 
