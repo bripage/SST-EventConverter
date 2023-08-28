@@ -21,122 +21,120 @@
 #include <sst/core/timeConverter.h>
 #include <sst/core/interfaces/simpleNetwork.h>
 
-namespace SST {
-    namespace memRouter {
-        /*
-         * rtrEvent : inherited class to handle the individual network events for RevNIC
-         */
-        class rtrEvent : public SST::Event {
-        public:
-            /// rtrEvent: standard constructor
-            rtrEvent(std::string name) : Event(), SrcName(name) { }
+using namespace SST;
+using namespace SST::memRouter;
 
-            /// rtrEvent: extended constructor
-            rtrEvent(std::string name, std::vector<uint8_t> data)
-                    : Event(), SrcName(name), Data(data) { }
+/*
+ * rtrEvent : inherited class to handle the individual network events for RevNIC
+ */
+class rtrEvent : public SST::Event {
+public:
+    /// rtrEvent: standard constructor
+    rtrEvent(std::string name) : Event(), SrcName(name) { }
 
-            /// rtrEvent: retrieve the source name
-            std::string getSource() { return SrcName; }
+    /// rtrEvent: extended constructor
+    rtrEvent(std::string name, std::vector<uint8_t> data)
+            : Event(), SrcName(name), Data(data) { }
 
-            // rtrEvent: retrieve the data payload
-            std::vector<uint8_t> getData() { return Data; }
+    /// rtrEvent: retrieve the source name
+    std::string getSource() { return SrcName; }
 
-            /// rtrEvent: virtual function to clone an event
-            virtual Event* clone(void) override{
-                rtrEvent* ev = new rtrEvent(*this);
-                return ev;
-            }
+    // rtrEvent: retrieve the data payload
+    std::vector<uint8_t> getData() { return Data; }
 
-        private:
-            std::string SrcName;        ///< rtrEvent: Name of the sending device
-            std::vector<uint8_t> Data;  ///< rtrEvent: Data payload
+    /// rtrEvent: virtual function to clone an event
+    virtual Event* clone(void) override{
+        rtrEvent* ev = new rtrEvent(*this);
+        return ev;
+    }
 
-        public:
-            /// rtrEvent: secondary constructor
-            rtrEvent() : Event() {}
+private:
+    std::string SrcName;        ///< rtrEvent: Name of the sending device
+    std::vector<uint8_t> Data;  ///< rtrEvent: Data payload
 
-            /// rtrEvent: event serializer
-            void serialize_order(SST::Core::Serialization::serializer &ser) override{
-                Event::serialize_order(ser);
-                ser & SrcName;
-                ser & Data;
-            }
+public:
+    /// rtrEvent: secondary constructor
+    rtrEvent() : Event() {}
 
-            /// rtrEvent: implements the NIC serialization
-            ImplementSerializable(SST::memRouter::rtrEvent);
-        };  // end rtrEvent
+    /// rtrEvent: event serializer
+    void serialize_order(SST::Core::Serialization::serializer &ser) override{
+        Event::serialize_order(ser);
+        ser & SrcName;
+        ser & Data;
+    }
+
+    /// rtrEvent: implements the NIC serialization
+    ImplementSerializable(SST::memRouter::rtrEvent);
+};  // end rtrEvent
 
 
 
-        /*
-         * router: the router interface controller subcomponent
-         */
-        class router : public baseSubComponent {
-        public:
-            SST_ELI_REGISTER_SUBCOMPONENT(
-                    router,
-            "memoryRouter",
-            "router",
-            SST_ELI_ELEMENT_VERSION(1,0,0),
-            "router : accepts router events and passes them to the memory subcomponent",
-            SST::memRouter::baseSubComponent
-            )
+/*
+ * router: the router interface controller subcomponent
+ */
+class router : public baseSubComponent {
+public:
+    SST_ELI_REGISTER_SUBCOMPONENT(
+            router,
+    "memoryRouter",
+    "router",
+    SST_ELI_ELEMENT_VERSION(1,0,0),
+    "router : accepts router events and passes them to the memory subcomponent",
+    SST::memRouter::baseSubComponent
+    )
 
-            SST_ELI_DOCUMENT_PARAMS({
-                {"verbose", "Verbosity level", "0" },
-                {"clock", "Clock frequency of the NIC", "1Ghz"},
-                {"port", "Port to use, if loaded as an anonymous subcomponent", "network"}
-            })
+    SST_ELI_DOCUMENT_PARAMS({
+        {"verbose", "Verbosity level", "0" },
+        {"clock", "Clock frequency of the NIC", "1Ghz"},
+        {"port", "Port to use, if loaded as an anonymous subcomponent", "network"}
+    })
 
-            SST_ELI_DOCUMENT_PORTS(
-                {"network", "Port to network", {"simpleNetworkExample.rtrEvent"} }
-            )
+    SST_ELI_DOCUMENT_PORTS(
+        {"network", "Port to network", {"simpleNetworkExample.rtrEvent"} }
+    )
 
-            SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS(
-                { "iface", "SimpleNetwork interface to a network", "SST::Interfaces::SimpleNetwork" }
-            )
+    SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS(
+        { "iface", "SimpleNetwork interface to a network", "SST::Interfaces::SimpleNetwork" }
+    )
 
-            router(ComponentId_t id, Params &params);
+    router(ComponentId_t id, Params &params);
 
-            ~router() override;
+    ~router() override;
 
-            // router: Callback to parent on received messages
-            void setMsgHandler(Event::HandlerBase* handler);
+    // router: Callback to parent on received messages
+    void setMsgHandler(Event::HandlerBase* handler);
 
-            /// router: initialization function
-            void init(unsigned int phase);
+    /// router: initialization function
+    void init(unsigned int phase);
 
-            /// router: setup function
-            void setup();
+    /// router: setup function
+    void setup();
 
-            /// router: send event to the destination id
-            void send(rtrEvent *ev, int dest);
+    /// router: send event to the destination id
+    void send(SST::Event*ev, int dest);
 
-            /// router: retrieve the number of destinations
-            int getNumDestinations();
+    /// router: retrieve the number of destinations
+    int getNumDestinations();
 
-            /// router: get the endpoint's network address
-            SST::Interfaces::SimpleNetwork::nid_t getAddress();
+    /// router: get the endpoint's network address
+    SST::Interfaces::SimpleNetwork::nid_t getAddress();
 
-            /// router: callback function for the SimpleNetwork interface
-            bool msgNotify(int virtualNetwork);
+    /// router: callback function for the SimpleNetwork interface
+    bool msgNotify(int virtualNetwork);
 
-            /// router: clock function
-            bool clockTick(Cycle_t cycle);
+    /// router: clock function
+    bool clockTick(Cycle_t cycle);
 
-            bool handleMessage(int vn);
+    bool handleMessage(int vn);
 
-        private:
-            // Params
-            SST::Output *out;   // SST Output object for printing, messaging, etc
-            SST::Interfaces::SimpleNetwork *iFace; // SST network interface
-            SST::Interfaces::SimpleNetwork::nid_t memContCompID;
-            SST::Event::HandlerBase *msgHandler;
-            int numDest;
-            std::queue<SST::Interfaces::SimpleNetwork::Request*> sendQ;
-            bool initBroadcastSent; // has the init bcast been sent?
-        }; // end memoryRouter::router
-
-    } //namespace memRouter
-} // namespace SST
+private:
+    // Params
+    SST::Output *out;   // SST Output object for printing, messaging, etc
+    SST::Interfaces::SimpleNetwork *iFace; // SST network interface
+    SST::Interfaces::SimpleNetwork::nid_t memContCompID;
+    SST::Event::HandlerBase *msgHandler;
+    int numDest;
+    std::queue<SST::Interfaces::SimpleNetwork::Request*> sendQ;
+    bool initBroadcastSent; // has the init bcast been sent?
+}; // end memoryRouter::router
 #endif
