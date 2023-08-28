@@ -83,7 +83,7 @@ namespace SST {
             )
 
             SST_ELI_DOCUMENT_PARAMS({
-                { "verbose", "Verbosity level", "0" },
+                {"verbose", "Verbosity level", "0" },
                 {"clock", "Clock frequency of the NIC", "1Ghz"},
                 {"port", "Port to use, if loaded as an anonymous subcomponent", "network"}
             })
