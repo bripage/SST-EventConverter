@@ -13,43 +13,50 @@
 #include <sst/elements/memHierarchy/memEventBase.h>
 #include <sst/core/interfaces/stdMem.h>
 
-using namespace SST;
-using namespace SST::memRouter;
+namespace SST {
+    namespace memRouter {
+        namespace memory {
 
-class memory : public baseSubComponent {
-public:
-    SST_ELI_REGISTER_SUBCOMPONENT(
-            memory,
-    "memoryRouter",
-    "memory",
-    SST_ELI_ELEMENT_VERSION(1,0,0),
-    "memory : accepts StdMem events and sends them to the router subcomponent for conversion to RtrEvent",
-    SST::memRouter::baseSubComponent
-    )
+            class memory : public baseSubComponent {
+            public:
+                SST_ELI_REGISTER_SUBCOMPONENT(
+                        memory,
+                "memoryRouter",
+                "memory",
+                SST_ELI_ELEMENT_VERSION(1,0,0),
+                "memory : accepts StdMem events and sends them to the router subcomponent for conversion to RtrEvent",
+                SST::memRouter::baseSubComponent
+                )
 
-    SST_ELI_DOCUMENT_PARAMS(
-    {"type", "MemHiearchy endpoint type: 0 = cache, 1 = memory controller","0"},
-    {"verbose", "Verbosity level","0"}
-    )
+                SST_ELI_DOCUMENT_PARAMS(
+                { "type", "MemHiearchy endpoint type: 0 = cache, 1 = memory controller", "0" },
+                { "verbose", "Verbosity level", "0" }
+                )
 
-    SST_ELI_DOCUMENT_PORTS()
+                SST_ELI_DOCUMENT_PORTS()
 
-    SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS(
-    { "iface", "Set the interface to memory", "SST::Interfaces::StandardMem" }
-    )
+                SST_ELI_DOCUMENT_SUBCOMPONENT_SLOTS(
+                { "iface", "Set the interface to memory", "SST::Interfaces::StandardMem" }
+                )
 
-    memory(ComponentId_t id, Params& params);
-    ~memory() override;
-    void send(SST::Event* ev, int dest);
-    void init(unsigned int phase);
-    void handleEvent(SST::Interfaces::StandardMem::Request* req);
+                memory(ComponentId_t id, Params &params);
+
+                ~memory() override;
+
+                void send(SST::Event *ev, int dest);
+
+                void init(unsigned int phase);
+
+                void handleEvent(SST::Interfaces::StandardMem::Request *req);
 
 
-private:
-    // Params
-    SST::Output* out;           // SST Output object for printing, messaging, etc
-    SST::Link* memLink;
-    SST::Interfaces::StandardMem* iface;                  ///< StandardMem memory interface
-};
-
+            private:
+                // Params
+                SST::Output *out;           // SST Output object for printing, messaging, etc
+                SST::Link *memLink;
+                SST::Interfaces::StandardMem *iface;                  ///< StandardMem memory interface
+            };
+        }
+    }
+}
 #endif
