@@ -80,7 +80,7 @@ void router::init(unsigned int phase){
 
 void router::setup(){
     if( msgHandler == nullptr ){
-        output->fatal(CALL_INFO, -1,
+        out->fatal(CALL_INFO, -1,
                       "%s, Error: RevNIC implements a callback-based notification and parent has not registerd a callback function\n",
                       getName().c_str());
     }
@@ -126,7 +126,4 @@ bool router::clockTick(Cycle_t cycle){
     return false;
 }
 
-void router::handleEvent(SST::Interfaces::SimpleNetwork::Request* req){
-
-}
 
