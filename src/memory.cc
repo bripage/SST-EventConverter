@@ -48,5 +48,5 @@ void memory::init(unsigned int phase){
 }
 
 void memory::setMsgHandler(Event::HandlerBase* handler){
-    msgHandler = handler;
+    
 }
