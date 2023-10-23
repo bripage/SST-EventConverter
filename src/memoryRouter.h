@@ -88,7 +88,7 @@ namespace SST {
 
             // virtual methods
             virtual ~baseSubComponent() { }
-            virtual void setMsgHandler(Event::HandlerBase* handler);
+            virtual void setMsgHandler(Event::HandlerBase* handler) = 0;
             virtual void init(unsigned int phase) = 0;
             virtual void setup() { }
             virtual void send(SST::Event *ev, int dest) = 0;
