@@ -47,3 +47,6 @@ void memory::init(unsigned int phase){
     out->verbose(CALL_INFO, 9, 0, "%s ending init phase %d\n", getName().c_str(), phase);
 }
 
+void router::setMsgHandler(Event::HandlerBase* handler){
+    msgHandler = handler;
+}
