@@ -37,8 +37,8 @@ router::router(ComponentId_t id, Params& params)
                                                                           1);
     }
 
-    iFace->setNotifyOnReceive(new SST::Interfaces::SimpleNetwork::Handler<router>(this, &router::msgNotify));
-    msgHandler = new Event::Handler<router>(this, &router::handleEvent);
+    iFace->setNotifyOnReceive(new SST::Interfaces::SimpleNetwork::Handler<router>(this, &router::handleEvent));
+
     initBroadcastSent = false;
     numDest = 0;
     //msgHandler = nullptr;
@@ -47,10 +47,6 @@ router::router(ComponentId_t id, Params& params)
 // memToRtr destructor
 router::~router(){
     delete out;
-}
-
-void router::setMsgHandler(Event::HandlerBase* handler){
-    msgHandler = handler;
 }
 
 void router::init(unsigned int phase){
@@ -79,23 +75,11 @@ void router::init(unsigned int phase){
 }
 
 void router::setup(){
-    if( msgHandler == nullptr ){
-        out->fatal(CALL_INFO, -1,
-                   "%s, Error: RevNIC implements a callback-based notification and parent has not registerd a callback function\n",
-                      getName().c_str());
-    }
+
 }
 
 bool router::msgNotify(int vn){
-    SST::Interfaces::SimpleNetwork::Request* req = iFace->recv(0);
-    if( req != nullptr ){
-        if( req != nullptr ){
-            rtrEvent *ev = static_cast<rtrEvent*>(req->takePayload());
-            delete req;
-            (*msgHandler)(ev);
-        }
-    }
-    return true;
+
 }
 
 void router::send(SST::Event* event, int destination){
@@ -127,6 +111,6 @@ bool router::clockTick(Cycle_t cycle){
 }
 
 void router::handleEvent(SST::Interfaces::SimpleNetwork::Request* req){
-    return true;
+
 }
 

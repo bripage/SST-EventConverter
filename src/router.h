@@ -129,7 +129,6 @@ private:
     SST::Output *out;   // SST Output object for printing, messaging, etc
     SST::Interfaces::SimpleNetwork *iFace; // SST network interface
     SST::Interfaces::SimpleNetwork::nid_t memContCompID;
-    SST::Event::HandlerBase *msgHandler;
     int numDest;
     std::queue<SST::Interfaces::SimpleNetwork::Request*> sendQ;
     bool initBroadcastSent; // has the init bcast been sent?
