@@ -116,9 +116,6 @@ public:
     /// router: get the endpoint's network address
     SST::Interfaces::SimpleNetwork::nid_t getAddress();
 
-    /// router: callback function for the SimpleNetwork interface
-    bool msgNotify(int virtualNetwork);
-
     /// router: clock function
     bool clockTick(Cycle_t cycle);
 

@@ -37,7 +37,10 @@ router::router(ComponentId_t id, Params& params)
                                                                           1);
     }
 
-    iFace->setNotifyOnReceive(new SST::Interfaces::SimpleNetwork::Handler<router>(this, &router::handleEvent));
+    iface = loadUserSubComponent<SST::Interfaces::SimpleNetwork>(
+            "iface", ComponentInfo::SHARE_NONE,
+            new SST::Interfaces::StandardMem::Handler<memory>(this, &memory::handleEvent));
+    //iFace->setNotifyOnReceive(new SST::Interfaces::SimpleNetwork::Handler<router>(this, &router::handleEvent));
 
     initBroadcastSent = false;
     numDest = 0;
@@ -75,10 +78,6 @@ void router::init(unsigned int phase){
 }
 
 void router::setup(){
-
-}
-
-bool router::msgNotify(int vn){
 
 }
 
