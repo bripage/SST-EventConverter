@@ -43,6 +43,8 @@ public:
     void send(SST::Event* ev, int dest);
     void init(unsigned int phase);
     void handleEvent(SST::Interfaces::StandardMem::Request* req);
+    // router: Callback to parent on received messages
+    void setMsgHandler(Event::HandlerBase* handler);
 
 
 private:
