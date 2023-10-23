@@ -119,7 +119,7 @@ public:
     /// router: clock function
     bool clockTick(Cycle_t cycle);
 
-    void handleEvent(SST::Interfaces::SimpleNetwork::Request* req);
+    bool msgNotify(int virtualNetwork);
 
 private:
     // Params
@@ -127,6 +127,7 @@ private:
     SST::Interfaces::SimpleNetwork *iFace; // SST network interface
     SST::Interfaces::SimpleNetwork::nid_t memContCompID;
     int numDest;
+    SST::Event::HandlerBase *msgHandler;    // SST message handler
     std::queue<SST::Interfaces::SimpleNetwork::Request*> sendQ;
     bool initBroadcastSent; // has the init bcast been sent?
 }; // end memoryRouter::router

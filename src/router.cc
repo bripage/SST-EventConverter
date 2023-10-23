@@ -21,10 +21,7 @@ router::router(ComponentId_t id, Params& params)
     registerClock(nicClock, new Clock::Handler<router>(this,&router::clockTick));
 
     // load the SimpleNetwork interfaces
-    //iFace = loadUserSubComponent<SST::Interfaces::SimpleNetwork>("iface", ComponentInfo::SHARE_NONE, 1);
-    iFace = loadUserSubComponent<SST::Interfaces::SimpleNetwork>(
-            "iface", ComponentInfo::SHARE_NONE,
-            new SST::Interfaces::SimpleNetwork::Handler<router>(this, &router::handleEvent));
+    iFace = loadUserSubComponent<SST::Interfaces::SimpleNetwork>("iface", ComponentInfo::SHARE_NONE, 1);
     if( !iFace ){
         // load the anonymous nic
         Params netparams;
@@ -39,12 +36,17 @@ router::router(ComponentId_t id, Params& params)
                                                                           netparams,
                                                                           1);
     }
-    //iFace->setNotifyOnReceive(new SST::Interfaces::SimpleNetwork::Handler<router>(this, &router::handleEvent));
+    iFace->setNotifyOnReceive(new SST::Interfaces::SimpleNetwork::Handler<router>(this, &router::msgNotify));
 
     initBroadcastSent = false;
     numDest = 0;
-    //msgHandler = nullptr;
+    msgHandler = nullptr;
 }
+
+void router::setMsgHandler(Event::HandlerBase* handler){
+    msgHandler = handler;
+}
+
 
 // memToRtr destructor
 router::~router(){
@@ -77,7 +79,23 @@ void router::init(unsigned int phase){
 }
 
 void router::setup(){
+    if( msgHandler == nullptr ){
+        output->fatal(CALL_INFO, -1,
+                      "%s, Error: RevNIC implements a callback-based notification and parent has not registerd a callback function\n",
+                      getName().c_str());
+    }
+}
 
+bool router::msgNotify(int vn){
+    SST::Interfaces::SimpleNetwork::Request* req = iFace->recv(0);
+    if( req != nullptr ){
+        if( req != nullptr ){
+            SST::Event *ev = static_cast<SST::Event*>(req->takePayload());
+            delete req;
+            (*msgHandler)(ev);
+        }
+    }
+    return true;
 }
 
 void router::send(SST::Event* event, int destination){
