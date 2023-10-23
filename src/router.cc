@@ -126,7 +126,7 @@ bool router::clockTick(Cycle_t cycle){
     return false;
 }
 
-void router::handleMessage(){
+void router::handleEvent(SST::Interfaces::SimpleNetwork::Request* req){
     return true;
 }
 
