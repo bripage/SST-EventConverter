@@ -122,7 +122,7 @@ public:
     /// router: clock function
     bool clockTick(Cycle_t cycle);
 
-    bool handleMessage(int vn);
+    void handleEvent(SST::Interfaces::SimpleNetwork::Request* req);
 
 private:
     // Params

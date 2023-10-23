@@ -38,7 +38,7 @@ router::router(ComponentId_t id, Params& params)
     }
 
     iFace->setNotifyOnReceive(new SST::Interfaces::SimpleNetwork::Handler<router>(this, &router::msgNotify));
-    msgHandler = new Event::Handler<router>(this, &router::handleMessage);
+    msgHandler = new Event::Handler<router>(this, &router::handleEvent);
     initBroadcastSent = false;
     numDest = 0;
     //msgHandler = nullptr;
@@ -126,7 +126,7 @@ bool router::clockTick(Cycle_t cycle){
     return false;
 }
 
-bool router::handleMessage(int vn){
+void router::handleMessage(){
     return true;
 }
 
