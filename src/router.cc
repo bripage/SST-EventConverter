@@ -24,7 +24,7 @@ router::router(ComponentId_t id, Params& params)
     //iFace = loadUserSubComponent<SST::Interfaces::SimpleNetwork>("iface", ComponentInfo::SHARE_NONE, 1);
     iFace = loadUserSubComponent<SST::Interfaces::SimpleNetwork>(
             "iface", ComponentInfo::SHARE_NONE,
-            new SST::Interfaces::SimpleNetwork::Handler<memory>(this, &memory::handleEvent));
+            new SST::Interfaces::SimpleNetwork::Handler<router>(this, &router::handleEvent));
     if( !iFace ){
         // load the anonymous nic
         Params netparams;
