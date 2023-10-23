@@ -65,7 +65,6 @@ public:
 };  // end rtrEvent
 
 
-
 /*
  * router: the router interface controller subcomponent
  */

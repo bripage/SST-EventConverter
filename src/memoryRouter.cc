@@ -26,5 +26,5 @@ memoryRouter::~memoryRouter(){
 
 void memoryRouter::init(unsigned int phase){
     memSubComp->init(phase);
-    //rtrSubComp->init(phase);
+    rtrSubComp->init(phase);
 }
